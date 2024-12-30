@@ -2974,8 +2974,7 @@ small{
 
 .login-cont{
     border-radius:20px;
-    width:280px !important;
-    padding-right:15px;
+    width:100%!important;
 }
 
 
