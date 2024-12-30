@@ -1,0 +1,148 @@
+ <!-- Pledges -->
+
+ <!-- MM  -->
+ {% extends "base.html" %}
+ {% block content %}
+ 
+ <style>
+     .form-fields{
+         display:flex;
+         flex-direction:column;
+     }
+     section{ background-image:url(static/images/bg_service.png) }
+ </style>
+ <div class="flash-messages" id="">
+     {% with messages = get_flashed_messages(with_categories=true) %}
+         {% if messages %}
+             {% for  category, message in messages %}
+                 <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+             {% endfor %}
+         {% endif %}
+     {% endwith %}
+ </div>
+ <br><br><br>
+ <div class="user-info">
+     <div style="" class="img-cont">
+         <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+     </div><br>
+     <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+     <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+     <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+ </div><br>
+ 
+ 
+ {%if pocket and days_left >= 0 %}
+ <div style="flex-wrap:wrap !important;border:none;gap:15px;" class="container finish-sign">
+ 
+   
+     <div style="align-items: center;min-width: max-content;" class="announce-card general-flex-col">
+
+        <!-- Title  -->
+        <div id="" class="group">
+            <h2>{{pocket.title}}</h2> 
+        </div>
+
+         <!-- Dates  -->
+         <div id="" class="group">
+             <h4 style="color:coral">{{pocket.start_date.strftime("%d %b %y")}} - {{pocket.end_date.strftime("%d %b %y")}}</h4>
+             
+         </div>
+         
+         <!-- Information  -->
+         {% if pocket.information %}
+         <div id="payment_platform" class="group">
+             <p>{{pocket.information}}</p>
+         </div>
+         {% endif %}
+
+         {% if pocket.edited_by %}
+         <div id="payment_platform" class="group">
+             <small  style="color:coral" class="captions"><i>Edited by: {{usr.query.get(pocket.edited_by).name}} </i></small>
+                 <small  style="color:coral" class="captions"><i>Duties: {{usr.query.get(pocket.edited_by).committee_local_group}} {{usr.query.get(pocket.edited_by).committee_local_pos}}</i></small>
+                 <small  style="color:coral" class="captions"><i>Contact: {{usr.query.get(pocket.edited_by).contacts}} </i></small>
+         </div>
+         {%else%}
+         <div id="payment_platform" class="group">
+             <small class="captions"><i>By: {{usr.query.get(pocket.usr_id).name}} 
+                 - {{usr.query.get(pocket.usr_id).committee_local_group}} {{usr.query.get(pocket.usr_id).committee_local_pos}}</i></small>
+         </div>
+         {%endif%}
+         <br><br>
+    </div>
+   
+         
+ 
+         
+
+         <div id="contact-us" style="width:100%;margin:0px auto; padding:20px;border-radius: 20px;" class="border-spec">
+        
+            <h5 style="color:coral;margin:auto 0;text-align:center"><span style="font-size: 20px;">{{reg_details|length}}</span> Paid <span style="font-size: 20px;color:black">|</span>  
+                <span style="color:rgb(107, 107, 107);margin:auto 0;text-align:center"><span style="font-size: 20px;">{{user_no_base|length}}</span> Pledges</span></h5>
+
+                {%if pocket and days_left >= 0 %}
+                <h4>Pledegs are Open</h4>
+                {%else%}
+                <h4>Pledegs are Currently Closed {{days_left}}</h4>
+                {%endif%}
+                
+            <!-- <h5 style="color:rgb(107, 107, 107);margin:auto 0;text-align:center"><span style="font-size: 20px;">{{registered_children|length}}</span> Children </h5> -->
+
+        
+        <style type="text/css">
+            .analysis-table{background-color:#dfdfdf;width:max-content;margin:10px auto;border-radius: 10px;padding:10px}
+            .table-data{width:1200px;border-collapse: collapse;}
+            .table-data th{color: rgb(255, 255, 255);border-width: 2px;border-color: #dfdfdf;padding:8px 10px;font-weight:500;background-color:#0657b4;border-style: solid;font-size:14px;}
+            .table-data td {font-size:13px;font-weight:500;border-width: 1px;padding: 8px;border-style: solid;border-left-color: #dfdfdf;
+                border-bottom-color: rgb(255, 255, 255);border-right-color: #dfdfdf;border-left-style: solid;}
+            .tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: white;border-collapse: collapse;}
+            .tftable th {font-size:12px;background-color:#acc8cc;border-width: 2px;padding: 8px;border-style: solid;border-color: white;text-align:left;}
+            #children th {font-size:12px;background-color:#e9c5c5;border-width: 2px;padding: 8px;border-style: solid;border-color: white;text-align:left;}
+            .tftable tr {background-color:#d4e3e5;}
+            #children tr {background-color:#f3e4e4;}
+            .tftable td:first-child{width:75px}
+            .tftable td:nth-child(2){width:150px}
+            .tftable td:nth-child(3){width:75px}
+            .tftable td {font-size:12px;font-weight:500;border-width: 2px;padding: 8px;border-style: solid;border-color: white;}
+            .tftable tr:hover {background-color:#ffffff;}
+        </style>
+        <div style="display: flex;gap:5px;background-color:;">
+            <div style="width: 100%;background-color: ;overflow:auto">
+                <!-- <h3> Registered Members</h3> -->
+                <h3>Pledges</h3>
+                <table class="tftable" border="1">
+                    <tr><th>Date</th><th>Name</th><th>Age Group</th><th>Contacts</th><th>Pledge</th></tr>
+                    {% for pledge_entry in pledges %}
+                    {% set user_info = usr.query.get(pledge_entry.usr_id)%}
+                        <tr onclick="window.location='/view_member?id={{user_info.id}}'"><td>{{pledge_entry.timestamp}}</td><td>{{user_info.name}}</td><td>{{user_info.age_group}}</td><td>{{user_info.contacts}}</td><td>{{pledge_entry.amount}}</td>
+                            </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+</div>
+{%else%}
+<h1>No Pledges Pocket Open At The Moment</h1>
+{%endif%}
+ 
+ 
+ 
+
+ 
+ 
+     
+     
+ 
+ 
+ 
+ </div>
+ 
+ 
+ 
+ <!-- <h1 style="text-align:center">Sorry, There are No Upcoming Events Open at the Moment!</h1>
+ <h1 style="text-align:center">Check Again Later</h1>
+ <br> -->
+ 
+ 
+ <script>
+ </script>
+ {% endblock %}

@@ -1,0 +1,119 @@
+<!-- MM  -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;">{{church.location}}, {{church.country}}</div>
+</div><br>
+
+
+<div style="height:200hv !important;align-items:flex-start;border:none" class="container finish-sign">
+
+
+
+    <form style="background-color:;flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+        <div id="transaction_id" class="group">
+            <h1 style="text-align: left;">Edit Calender Event</h1>
+        </div>
+        {{calender_form.hidden_tag()}}
+
+        <!-- Title  -->
+        <div id="transaction_id" class="group">
+            {{ calender_form.title.label }}<br>
+            {{ calender_form.title(class="form-control finish-sign-fmcontrl",value=calender_obj.title) }}<br>
+            {% if calender_form.title.errors %}
+            {% for error in calender_form.title.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+        <!-- Venue  -->
+        <div id="payment_platform" class="group">
+            {{ calender_form.venue.label }}<br>
+            {{ calender_form.venue(class="form-control finish-sign-fmcontrl",value=calender_obj.venue) }}<br>
+            {% if calender_form.venue.errors %}
+            {% for error in calender_form.venue.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+        <!-- Start Date  -->
+        <div id="payment_platform" class="group">
+            {{ calender_form.start_date.label }}<br>
+            {{ calender_form.start_date(class="form-control finish-sign-fmcontrl",value=calender_obj.start_date) }}<br>
+            {% if calender_form.start_date.errors %}
+            {% for error in calender_form.start_date.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+         <!-- End Date  -->
+        <div id="compulsury-pop" style="position: relative;" class="group">
+            {{ calender_form.end_date.label }}<br>
+            {{ calender_form.end_date(class="form-control finish-sign-fmcontrl",value=calender_obj.end_date) }}<br>
+            {% if calender_form.end_date.errors %}
+                {% for error in calender_form.end_date.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Time  -->
+        <div class="group">
+            {{ calender_form.time.label }}<br>
+            {{ calender_form.time(class="form-control finish-sign-fmcontrl",value=calender_obj.end_date) }}<br>
+            {% if calender_form.time.errors %}
+            {% for error in calender_form.time.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Registration Details  -->
+        <div id="" class="group">
+            {{ calender_form.registrations.label }}<br>
+            {{ calender_form.registrations(class="form-control finish-sign-fmcontrl",value=calender_obj.registrations) }}<br>
+            {% if calender_form.registrations.errors %}
+            {% for error in calender_form.registrations.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+        <div style="" class="group">
+                <div>{{ calender_form.submit(class="btns") }}</div><br>
+                <!--<input class="btns" type="submit" value="Create Account" />-->
+                <!-- <div><a class="slinks-li" href="/login">Login</a></div> -->
+        </div>
+        <div style="" class="group">
+            <a href="/calender"> <div class="btns-outlined" >Calender</div></a><br>
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- <h1 style="text-align:center">Sorry, There are No Upcoming Events Open at the Moment!</h1>
+<h1 style="text-align:center">Check Again Later</h1>
+<br> -->
+
+
+<script>
+</script>
+{% endblock %}

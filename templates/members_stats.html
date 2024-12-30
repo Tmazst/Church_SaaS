@@ -1,0 +1,249 @@
+<!-- Statistics  -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+    .stats-card h4{
+        margin:5px auto;
+    }
+</style>
+<div class="flash-messages" id=""></div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<br><br>
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+</div><br>
+
+<h2>Church Statistics</h2>
+
+{% set total_count = members_stats | length %}
+<div class="stats-holder gen-flex-col" style="">
+    <h3>General Membership Statistics</h3>
+    <div class="line-sep"></div>
+    <div style="" class="stats-cont general-flex">
+        <a href="/local_members">
+            <div style="box-shadow: 0 3px 7px 3px rgba(28, 88, 218, 0.2);" class="stats-card general-flex">
+                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/members-icon.png" /></div>
+                    <div class="value">{{members_stats | length}}</div>
+                    <div class="value-desc">Members</div>
+                    {% set members_stats_count = members_stats | length %}
+                    {% set percentage_members_stats = (members_stats_count / total_count * 100) if total_count != 0 else 0 %}
+                    <h4>{{percentage_members_stats | round(2)}}%</h4>
+                    
+            </div>
+        </a>
+
+        <a href="/search?value=Female">
+            <div style="box-shadow: 0 3px 7px 3px rgba(218, 136, 28, 0.2);" class="stats-card general-flex">
+                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/females-icon.png" /></div>
+                    <div style="color:coral" class="value">{{females | length}}</div>
+                    <div style="color:coral" class="value-desc">Females</div>
+                    {% set females_count = females | length %}
+                    {% set percentage_females = (females_count / total_count * 100) if total_count != 0 else 0 %}
+                    <h4>{{percentage_females | round(2)}}%</h4>
+            </div>
+        </a>
+
+        <a href="/search?value=Male">
+            <div style="box-shadow: 0 3px 7px 3px rgba(60, 218, 28, 0.2);"  class="stats-card general-flex">
+                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/males-icon.png" /></div>
+                    <div style="color:rgb(35, 168, 57)" class="value">{{males | length}}</div>
+                    <div style="color:rgb(35, 168, 57)" class="value-desc">Males</div>
+                    {% set males_count = males | length %}
+                    {% set percentage_males = (males_count / total_count * 100) if total_count != 0 else 0 %}
+                    <h4>{{percentage_males | round(2)}}%</h4>
+            </div>
+        </a>
+
+        <a href="/search?value=Fathers">
+            <div style="box-shadow: 0 3px 7px 3px rgba(114, 74, 28, 0.2);"  class="stats-card general-flex">
+                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/fathers-icon.png" /></div>
+                    <div style="color:rgba(114, 74, 28)" class="value">{{fathers | length}}</div>
+                    <div style="color:rgba(114, 74, 28)" class="value-desc">Fathers</div>
+                    {% set fathers_count = fathers | length %}
+                    {% set percentage_fathers = (fathers_count / total_count * 100) if total_count != 0 else 0 %}
+                    <h4>{{percentage_fathers | round(2)}}%</h4>
+            </div>
+        </a>
+
+        <a href="/search?value=Mothers">
+            <div style="box-shadow: 0 3px 7px 3px rgba(194, 24, 67, 0.2);"  class="stats-card general-flex">
+                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/mothers-icon.png" /></div>
+                    <div style="color:rgba(194, 24, 67)" class="value">{{mothers | length}}</div>
+                    <div style="color:rgba(194, 24, 67)" class="value-desc">Mothers</div>
+                    {% set mothers_count = mothers | length %}
+                    {% set percentage_mothers = (mothers_count / total_count * 100) if total_count != 0 else 0 %}
+                    <h4>{{percentage_mothers | round(2)}}%</h4>
+            </div>
+        </a>
+
+        <a href="/search?value=Youth">
+        <div style="box-shadow: 0 3px 7px 3px rgba(21, 95, 54, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/youth-icon.png" /></div>
+                <div style="color:rgba(21, 95, 54)" class="value">{{youth | length}}</div>
+                <div style="color:rgba(21, 95, 54)" class="value-desc">Youth</div>
+                {% set youth_count = youth | length %}
+                {% set percentage_youth = (youth_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_youth | round(2)}}%</h4>
+        </div>
+        </a>
+
+        <a href="/search?value=Children">
+        <div style="box-shadow: 0 3px 7px 3px rgba(28, 88, 218, 0.2);"  class="stats-card general-flex">
+            <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/children-icon.png" /></div>
+                <div style="color:rgba(28, 88, 218)" class="value">{{children | length}}</div>
+                <div style="color:rgba(28, 88, 218)" class="value-desc">Children</div>
+                {% set children_count = children | length %}
+                {% set percentage_children = (children_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_children | round(2)}}%</h4>
+        </div>
+        </a>
+
+    </div><br><br>
+
+    <h3>Marital Status</h3>
+    <div class="line-sep"></div>
+    <div style="" class="stats-cont general-flex">
+
+        <a href="/search?value=Married">
+            <div style="box-shadow: 0 3px 7px 3px rgba(1, 99, 58, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/marriage-icon.png" /></div>
+                <div style="color:rgba(1, 99, 58)" class="value">{{married | length}}</div>
+                <div style="color:rgba(1, 99, 58)" class="value-desc">Married</div>
+                {% set married_count = married | length %}
+                {% set percentage_married = (married_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_married | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Single">
+            <div style="box-shadow: 0 3px 7px 3px rgba(209, 6, 74, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/single-icon.png" /></div>
+                <div style="color:rgba(209, 6, 74)" class="value">{{single | length}}</div>
+                <div style="color:rgba(209, 6, 74)" class="value-desc">Single</div>
+                {% set single_count = single | length %}
+                {% set percentage_single = (single_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_single | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Engaged">
+            <div style="box-shadow: 0 3px 7px 3px rgba(218, 88, 28, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/engaged-icon.png" /></div>
+                <div style="color:rgba(218, 88, 28)" class="value">{{single_engaged | length}}</div>
+                <div style="color:rgba(218, 88, 28)" class="value-desc">Single (Engaged)</div>
+                {% set engaged_count = single_engaged | length %}
+                {% set percentage_engaged = (engaged_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_engaged | round(2)}}%</h4>
+            </div>
+        </a>
+
+    </div><br><br>
+
+    <h3>Employment Analysis</h3>
+    <div class="line-sep"></div>
+    <div style="" class="stats-cont general-flex">
+
+        <a href="/search?value=Entreprenuer">
+        <div style="box-shadow: 0 3px 7px 3px rgba(158, 28, 218, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/ownboss-icon.png" /></div>
+                <div style="color:rgba(158, 28, 218)" class="value">{{own_bossess | length}}</div>
+                <div style="color:rgba(158, 28, 218)" class="value-desc">Self Employed</div>
+                {% set own_bossess_count = own_bossess | length %}
+                {% set percentage_own_bossess = (own_bossess_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_own_bossess | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Working">
+            <div style="box-shadow: 0 3px 7px 3px rgba(218, 190, 28, 0.2);"  class="stats-card general-flex">
+                <div style="" class="circle-icon general-flex"><img style="height:75px" src="static/icons/employed-icon.png" /></div>
+                <div style="color:rgba(218, 190, 28)" class="value">{{employed | length}}</div>
+                <div style="color:rgba(218, 190, 28)" class="value-desc">Employed</div>
+                {% set employed_count = employed | length %}
+                {% set percentage_employed = (employed_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_employed | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Un-employed">
+            <div style="box-shadow: 0 3px 7px 3px rgba(218, 88, 28, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/nojob-icon.png" /></div>
+                <div style="color:rgba(218, 88, 28)" class="value">{{no_job | length}}</div>
+                <div style="color:rgba(218, 88, 28)" class="value-desc">Not Working</div>
+                {% set no_job_count = no_job | length %}
+                {% set percentage_no_job = (no_job_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_no_job | round(2)}}%</h4>
+                
+            </div>
+        </a>
+
+
+    </div><br><br>
+
+    <h3>Church Activities & Support Teams</h3>
+    <div class="line-sep"></div>
+    <div style="" class="stats-cont general-flex">
+
+        <a href="/search?value=Praise">
+            <div style="box-shadow: 0 3px 7px 3px rgba(1, 99, 58, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/praiseteam-icon.png" /></div>
+                <div style="color:rgba(1, 99, 58)" class="value">{{praise_team | length}}</div>
+                <div style="color:rgba(1, 99, 58)" class="value-desc">Praise & Worship</div>
+                {% set praise_team_count = praise_team | length %}
+                {% set percentage_praise_team = (praise_team_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_praise_team | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Ushering">
+            <div style="box-shadow: 0 3px 7px 3px rgba(209, 6, 74, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/ushers-icon.png" /></div>
+                <div style="color:rgba(209, 6, 74)" class="value">{{ushers_team | length}}</div>
+                <div style="color:rgba(209, 6, 74)" class="value-desc">Ushers</div>
+                {% set ushering_count = ushers_team | length %}
+                {% set percentage_ushering = (ushering_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_ushering | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Band">
+            <div style="box-shadow: 0 3px 7px 3px rgba(218, 88, 28, 0.2);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/band-icon.png" /></div>
+                <div style="color:rgba(218, 88, 28)" class="value">{{band | length}}</div>
+                <div style="color:rgba(218, 88, 28)" class="value-desc">Band</div>
+                {% set band_count = band | length %}
+                {% set percentage_band = (band_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_band | round(2)}}%</h4>
+            </div>
+        </a>
+        <a href="/search?value=Cleaner">
+            <div style="box-shadow: 0 3px 7px 3px rgba(60, 14, 119, 0.329);"  class="stats-card general-flex">
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/cleaner-icon.png" /></div>
+                <div style="color:rgba(60, 14, 119)" class="value">{{cleaner | length}}</div>
+                <div style="color:rgba(60, 14, 119)" class="value-desc">Cleaners</div>
+                {% set cleaner_count = cleaner | length %}
+                {% set percentage_cleaner = (cleaner_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_cleaner | round(2)}}%</h4>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+<script>
+    
+</script>
+{% endblock %}

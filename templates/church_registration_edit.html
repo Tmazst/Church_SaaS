@@ -1,0 +1,194 @@
+ <!-- Re:registration  -->
+
+ <!-- register  -->
+
+<!-- Pledges  -->
+
+<!-- MM  -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    {%if church.church_contacts %}
+    <div class="icons-cont"><img class="icons" src='static/icons/telephone-icon.png' /><small class="">{{church.church_contacts}}</small></div>
+    {% endif %}
+    <div style="margin-bottom: 0;text-align: left;font-size:14px;"> {{church.location}}, {{church.country}}</div>
+</div><br>
+
+
+
+
+<div style="align-items:flex-start;border:none" class="container">
+
+    <form style="flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+        <!-- <h1 style="text-align: left;">Open Pledges<br> Session</h1> -->
+        {{church_form.hidden_tag()}}
+        <div id="payment_platform" class="group"><h3 style="margin-bottom: 0;text-align: left;">Edit Enter Church Details</h3></div><br>
+
+        <!-- Church Name  -->
+        <div id="transaction_id" class="group">
+            {{ church_form.church_name.label }}<br>
+            {{ church_form.church_name(class="form-control finish-sign-fmcontrl",value=church_details.church_name) }}<br>
+            {% if church_form.church_name.errors %}
+                {% for error in church_form.church_name.errors %}
+                <span class="span-error" >*{{error}}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Slogan  -->
+        <div id="payment_platform" class="group">
+            {{ church_form.slogan.label }}<br>
+            {{ church_form.slogan(class="form-control finish-sign-fmcontrl",value=church_details.slogan) }}<br>
+            {% if church_form.slogan.errors %}
+                {% for error in church_form.slogan.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Location  -->
+        <div id="payment_platform" class="group">
+            {{ church_form.location.label }}<br>
+            {{ church_form.location(class="form-control finish-sign-fmcontrl",value=church_details.location) }}<br>
+            {% if church_form.location.errors %}
+                {% for error in church_form.location.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+         <!-- Church Contacts  -->
+        <div id="compulsury-pop" style="position: relative;" class="group">
+            {{ church_form.church_contacts.label }}<br>
+            {{ church_form.church_contacts(class="form-control finish-sign-fmcontrl",value=church_details.church_contacts) }}<br>
+            {% if church_form.church_contacts.errors %}
+                {% for error in church_form.church_contacts.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Email  -->
+        <div class="group">
+            {{ church_form.church_email.label }}<br>
+            {{ church_form.church_email(class="form-control finish-sign-fmcontrl",value=church_details.church_email) }}<br>
+            {% if church_form.church_email.errors %}
+            {% for error in church_form.church_email.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- State / Region -->
+        <div class="group">
+            {{ church_form.region.label }}<br>
+            {{ church_form.region(class="form-control finish-sign-fmcontrl",value=church_details.region) }}<br>
+            {% if church_form.region.errors %}
+            {% for error in church_form.region.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Country -->
+        <div class="group">
+            {{ church_form.country.label }}<br>
+            {{ church_form.country(class="form-control finish-sign-fmcontrl",selected=church_details.country) }}<br>
+            {% if church_form.country.errors %}
+            {% for error in church_form.country.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Web  -->
+        <div class="group">
+            {{ church_form.church_web.label }}<br>
+            {{ church_form.church_web(class="form-control finish-sign-fmcontrl",value=church_details.church_web) }}<br>
+            {% if church_form.church_web.errors %}
+            {% for error in church_form.church_web.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Facebook  -->
+        <div class="group">
+            {{ church_form.facebook.label }}<br>
+            {{ church_form.facebook(class="form-control finish-sign-fmcontrl",value=church_details.facebook) }}<br>
+            {% if church_form.facebook.errors %}
+            {% for error in church_form.facebook.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Registered by   -->
+        <div class="group">
+            {{ church_form.registered_by.label }}<br>
+            {{ church_form.registered_by(class="form-control finish-sign-fmcontrl",value=church_details.registered_by) }}<br>
+            {% if church_form.registered_by.errors %}
+            {% for error in church_form.registered_by.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Registered by Contacts -->
+        <div class="group">
+            {{ church_form.registered_by_contact.label }}<br>
+            {{ church_form.registered_by_contact(class="form-control finish-sign-fmcontrl",value=church_details.registered_by_contact) }}<br>
+            {% if church_form.registered_by_contact.errors %}
+            {% for error in church_form.registered_by_contact.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Senior Pastor -->
+        <div class="group">
+            {{ church_form.church_senior_pastor.label }}<br>
+            {{ church_form.church_senior_pastor(class="form-control finish-sign-fmcontrl",value=church_details.church_senior_pastor) }}<br>
+            {% if church_form.church_senior_pastor.errors %}
+            {% for error in church_form.church_senior_pastor.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Logo -->
+        <div class="group">
+            {{ church_form.image.label(class="acc_labels") }}<br>
+            {{ church_form.image(class="form-control",placeholder="Logo")}}<br>
+            {% if church_form.image.errors %}
+                {% for error in church_form.image.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <div style="" class="group">
+                <div>{{ church_form.submit(class="btns") }}</div><br>
+                <!--<input class="btns" type="submit" value="Create Account" />-->
+                <!-- <div><a class="slinks-li" href="/login">Login</a></div> -->
+        </div>
+        <div style="" class="group">
+            <!-- <div><a class="slinks-li" href="/register">Forgot Password?</a></div> -->
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          {% for  category, message in messages %}
+              <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+          {% endfor %}
+      {% endif %}
+  {% endwith %}
+</div>
+<br><br>
+
+<div class="container">
+   
+  <div class="login-cont flex-general">
+    
+      <form style="background-color:;flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post">
+        <div class="flex-general" style="flex-direction: column;align-items: flex-start;">
+            <div class="flex-general" style="flex-direction: column;align-items: flex-start;">
+                <h2 class="form-welcome" style="">Step 2 - Find Your Church<br><span style="font-size:medium;color:rgb(102, 102, 102);"></span></h2>
+            </div><br>
+
+            <div>
+                <a href="{{url_for('google_login')}}"><div style="gap:2px;justify-content: flex-start;" class="general-flex" ><h4 style="margin:0"></h4>
+                </div></a>
+            </div><br>
+
+        </div>
+        <div style="margin: ;" class="group">
+            <label style="color:white !important;" class="lables">Select Your Church</label>
+        </div>
+        <div style="margin: ;" class="group">
+            
+            <select class="form-control" style="margin-bottom:10px" name="church_chosen" inputmode="text" >
+                {% for church in churches %}
+                    <option value="{{church.church_name}}">{{church.church_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+           
+        <div style="" class="group">
+                <input class="btns whiten" type="submit" value="Submit">
+        </div>
+        
+        <div style="color:rgb(250, 250, 250) !important" class="group">
+            <span>If your local church is not listed could mean they are not yet registered in the system.</span><br>
+            <span>Please enquire from your local church or check some time later</span>
+        </div>
+
+      </form>
+  </div>
+</div>
+
+<script>
+</script>
+{% endblock %}

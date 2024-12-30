@@ -1,0 +1,106 @@
+<!-- Pledges  -->
+
+<!-- MM  -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+</div><br>
+
+
+<div style="align-items:flex-start;border:none" class="container finish-sign">
+
+
+    <form style="background-color:;flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+        <div id="" class="group">
+            <h1 style="text-align: left;">Edit Pledges Pocket</h1>
+        </div>
+        {{open_pledges_form.hidden_tag()}}
+
+        <!-- Title  -->
+        <div id="transaction_id" class="group">
+            {{ open_pledges_form.title.label }}<br>
+            {{ open_pledges_form.title(class="form-control finish-sign-fmcontrl",value=pledges.title) }}<br>
+            {% if open_pledges_form.title.errors %}
+                {% for error in open_pledges_form.title.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+         <!-- Additional Information  -->
+         <div id="" class="group">
+            {{ open_pledges_form.information.label }}<br>
+            {{ open_pledges_form.information(class="form-control finish-sign-fmcontrl",value=pledges.information) }}<br>
+            {% if open_pledges_form.information.errors %}
+                {% for error in open_pledges_form.information.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+        <!-- Start Date  -->
+        <div id="payment_platform" class="group">
+            {{ open_pledges_form.start_date.label }}<br>
+            {{ open_pledges_form.start_date(class="form-control finish-sign-fmcontrl",value=pledges.start_date) }}<br>
+            {% if open_pledges_form.start_date.errors %}
+                {% for error in open_pledges_form.start_date.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+         <!-- End Date  -->
+        <div id="compulsury-pop" style="position: relative;" class="group">
+            {{ open_pledges_form.end_date.label }}<br>
+            {{ open_pledges_form.end_date(class="form-control finish-sign-fmcontrl",value=pledges.end_date) }}<br>
+            {% if open_pledges_form.end_date.errors %}
+                {% for error in open_pledges_form.end_date.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Fundraising Amount  -->
+        <div class="group">
+            {{ open_pledges_form.fundraising_amount.label }}<br>
+            {{ open_pledges_form.fundraising_amount(class="form-control finish-sign-fmcontrl",value=pledges.fundraising_amount) }}<br>
+            {% if open_pledges_form.fundraising_amount.errors %}
+            {% for error in open_pledges_form.fundraising_amount.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div style="" class="group">
+                <div>{{ open_pledges_form.submit(class="btns") }}</div><br>
+                <!--<input class="btns" type="submit" value="Create Account" />-->
+                <!-- <div><a class="slinks-li" href="/login">Login</a></div> -->
+        </div>
+        <div style="" class="group">
+            <!-- <div><a class="slinks-li" href="/register">Forgot Password?</a></div> -->
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+</script>
+{% endblock %}

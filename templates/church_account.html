@@ -1,0 +1,172 @@
+<!-- register  -->
+
+<!-- church  -->
+
+<!-- MM  -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+<div style class="user-info ">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align:left">{{church.name}}</h4>
+    <div style="" class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.email}}</small></div>
+    <div style="" class="icons-cont"><img class="icons" src='static/icons/church-icon.png' /><small class="">{{church.location}}</small></div>
+    
+</div><br>
+
+{% if event_details %}
+<div style="height:200hv !important;align-items:flex-start;border:none" class="container finish-sign">
+
+  <div style="" class="flex-general">
+
+    <form style="background-color:;flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+        <!-- <h1 style="text-align: left;">Open church<br> Session</h1> -->
+        {{church_form.hidden_tag()}}
+
+        <!-- Church Name  -->
+        <div id="transaction_id" class="group">
+            {{ church_form.church_name.label }}<br>
+            {{ church_form.church_name(class="form-control finish-sign-fmcontrl",value=church.church_name) }}<br>
+            {% if church_form.church_name.errors %}
+            {% for error in church_form.church_name.errors %}<span class="span-error" >*{{error}}</span>
+            {% endif %}
+        </div>
+
+        <!-- Church Slogan  -->
+        <div id="payment_platform" class="group">
+            {{ church_form.slogan.label }}<br>
+            {{ church_form.slogan(class="form-control finish-sign-fmcontrl",value=church.slogan) }}<br>
+            {% if church_form.slogan.errors %}
+            {% for error in church_form.slogan.errors %}<span class="span-error" >*{{error}}</span>
+            {% endif %}
+        </div>
+
+         <!-- Church Contacts  -->
+        <div id="compulsury-pop" style="position: relative;" class="group">
+            {{ church_form.church_contacts.label }}<br>
+            {{ church_form.church_contacts(class="form-control finish-sign-fmcontrl",value=church.church_contacts) }}<br>
+            {% if church_form.church_contacts.errors %}
+                {% for error in church_form.church_contacts.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Email  -->
+        <div class="group">
+            {{ church_form.church_email.label }}<br>
+            {{ church_form.church_email(class="form-control finish-sign-fmcontrl",value=church.church_email) }}<br>
+            {% if church_form.church_email.errors %}
+            {% for error in church_form.church_email.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- State / Region -->
+        <div class="group">
+            {{ church_form.region.label }}<br>
+            {{ church_form.region(class="form-control finish-sign-fmcontrl",value=church.region) }}<br>
+            {% if church_form.region.errors %}
+            {% for error in church_form.region.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Country -->
+        <div class="group">
+            {{ church_form.country.label }}<br>
+            {{ church_form.country(class="form-control finish-sign-fmcontrl",value=church.country) }}<br>
+            {% if church_form.country.errors %}
+            {% for error in church_form.country.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Church Web  -->
+        <div class="group">
+            {{ church_form.church_web.label }}<br>
+            {{ church_form.church_web(class="form-control finish-sign-fmcontrl",value=church.church_web) }}<br>
+            {% if church_form.church_web.errors %}
+            {% for error in church_form.church_web.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Registered by   -->
+        <div class="group">
+            {{ church_form.registered_by.label }}<br>
+            {{ church_form.registered_by(class="form-control finish-sign-fmcontrl",value=church.registered_by) }}<br>
+            {% if church_form.registered_by.errors %}
+            {% for error in church_form.registered_by.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Registered by Contacts -->
+        <div class="group">
+            {{ church_form.registered_by_contact.label }}<br>
+            {{ church_form.registered_by_contact(class="form-control finish-sign-fmcontrl",value=church.registered_by_contact) }}<br>
+            {% if church_form.registered_by_contact.errors %}
+            {% for error in church_form.registered_by_contact.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Senior Pastor -->
+        <div class="group">
+            {{ church_form.church_senior_pastor.label }}<br>
+            {{ church_form.church_senior_pastor(class="form-control finish-sign-fmcontrl",value=church.church_senior_pastor) }}<br>
+            {% if church_form.church_senior_pastor.errors %}
+            {% for error in church_form.church_senior_pastor.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Logo -->
+        <div class="group">
+            {{ account_form.image.label(class="acc_labels") }}<br>
+            {{ account_form.image(class="form-control",placeholder="church region",value=church.image)}}<br>
+            {% if account_form.image.errors %}
+                {% for error in account_form.image.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+
+        <div style="" class="group">
+                <div>{{ church_form.submit(class="btns") }}</div><br>
+                <!--<input class="btns" type="submit" value="Create Account" />-->
+                <!-- <div><a class="slinks-li" href="/login">Login</a></div> -->
+        </div>
+        <div style="" class="group">
+            <!-- <div><a class="slinks-li" href="/register">Forgot Password?</a></div> -->
+        </div>
+
+    </form>
+  </div>
+</div>
+{% else %}
+<h1 style="text-align:center">Sorry, There are No Upcoming Events Open at the Moment!</h1>
+<h1 style="text-align:center">Check Again Later</h1>
+<br>
+{% endif %}
+
+<script>
+
+</script>
+{% endblock %}

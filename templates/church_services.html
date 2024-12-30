@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="background-color:;padding:20px;justify-content: center;align-items: center;" class="calender-cont general-flex-col">
+    <h1>Church Services</h1><br><br>
+    {% for service in services %}
+    <span class="month-title"></span>
+    <div style="background-color:;width:100%;max-width: 500px;" class="month ">
+        <div style="width:100% !important;" class="event-cont">
+            <div class="event-title">{{service.title}}</div>
+            <div class="event-date">{{service.day}}</div>
+            <div class="event-date">{{service.start_time.strftime("%H:%M")}}{% if service.end_time %} - 
+                {{service.end_time.strftime("%H:%M")}} {%endif%}</div>
+                {%if current_user.role == "admin_user" %}
+                    <a href="/church_services_edit?srvc={{ser.dumps({'data':service.id})}}"><div class="btns">Edit</div></a>
+                {%endif %}
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}

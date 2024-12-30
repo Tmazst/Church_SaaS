@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='/css/styles.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>{{title}}</title>
+    <link rel="icon" type="image/png" href="static/images/fea_icon.png">
+
+ 
+    {% if current_user.is_authenticated  and current_user.role == "admin_user" %}
+   <!-- <nav class="nav">
+       <ul>
+           <li class="links-li" ><a href="/">Home</a></li>
+           <li class="links-li" ><a href="/registered_users">Registered</a></li>
+           <li class="links-li"><a href="#">Close Event</a></li>
+       </ul>
+   </nav> -->
+   {% endif %}
+
+    <div style="background-color:;margin-top:30px;align-items:center;"  class="user-label">
+      {% if current_user.is_authenticated %}
+          <li><span style="font-size:13px" class="">Welcome, {{current_user.name}}</span></li>
+          {% if current_user.role == "admin_user" %}
+            <li><a class="btns-user links-user" href="/admin_account">Account</a></li>
+          {% else %}
+            <li><a class="btns-user links-user" href="/user_account">Account</a></li>
+          {% endif %}
+          <li><a class="btns-outlined links-user" href="/logout">Logout</a></li>
+      {% endif %}
+    </div>
+
+    <div>
+      <div class="church-logo"><img style="height:inherit;border-radius: 15px;" src="{{ url_for('static', filename='images/camm_logo.png') }}" /></div>
+      <h1 id="abbr-style" style="margin:10px auto;font-weight:800" >CAMM Sys+</h1>
+      <h3 style="margin-top:0px;color:rgb(65, 66, 66)" >Church Admin & Membership Management </h3>
+    </div>
+
+
+    {% if current_user.is_authenticated %}
+    <div class="navigation">
+
+        <div style=""  onclick="sideNavFunc(event)" class="menu-icon">
+            <div class="stroke"></div>
+            <div class="stroke"></div>
+            <div class="stroke"></div>
+        </div>
+
+        <div class="other-nav">
+            <ul class="other-navbar-nav">
+              <li class="other-nav-item active">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <div class="navbar-separator"></div>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/#services">About</a>
+              </li>
+              <div class="navbar-separator"></div>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/freelance_job_ads">Contact Us</a>
+              </li>
+              <div class="navbar-separator"></div>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/about">Explore Apps</a>
+              </li>
+              <div class="navbar-separator"></div>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/contact" ></a>
+              </li>
+            </ul>
+        </div>
+
+        <div style="background-color:;" class="user">
+              <div><img style="" class="icon-imgs" src="{{ url_for('static', filename='icons/facebook-icon.png') }}" /></div>
+        </div>
+
+    </div>
+    {%endif%}
+
+
+    <div onclick="closeSideNavFunc()"  id="side-navig-bg" class="side-nav-bg ">
+      <div id="side-navig-cont" class="side-nav-cont move-to-appear gen-flex-col">
+          <!-- <div class="close-btn"><div class="stroke"></div></div> -->
+          <div class="general-flex"><img style="height:30px" src="static/icons/home.png" /><h3 style="color:white;text-align: left;">Menu</h3></div>
+          <div style="display: flex;flex-wrap: wrap;height:100vh;position:relative">
+            <div class="sidenav-list">
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/user_registration_form">Register</a>
+                </li>
+                <li class="other-nav-item">
+                {% if current_user.role == "admin_user" %}
+                  <a class="nav-link" href="/admin_account">My Account</a>
+                {% elif current_user.role == "church_user" %}
+                  <a class="nav-link" href="/user_account">My Account</a>
+                {% endif %}
+                </li>
+                
+                <li class="other-nav-item">
+                  <a class="nav-link" onclick="window.location='/local_members'" >Local Members</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" onclick="window.location='/announcements'" >Announcemnts</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/loc_commitee_memberships" >Committees</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/calender" >Year Calender</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/pledge_form" >My Pledges</a>
+                </li>
+                <!-- <li class="other-nav-item">
+                  <a class="nav-link" href="/about" >My Committee(s)</a>
+                </li> --><br>
+                
+            </div>
+            
+            {% if current_user.role == 'admin_user'%}
+            <div style="align-self:;" id="float-nav" class="sidenav-list">
+              <div style="position: relative;">
+              <h3 style="color:white">Administration</h3>
+
+              <div id="nav-1" class="saas-nav-item">
+                  Membership mgmt
+              </div>
+                <div id="nav-chld-1" class="pop-nav-cont">
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/local_members">Local Members</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/members_stats">Statistics</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/loc_commitee_memberships">Committees Members</a>
+                  </li>
+                </div>
+              <div class="line-sep"></div>
+
+              <div id="nav-2" class="saas-nav-item">
+                Event mgmt
+              </div>
+                <div id="nav-chld-2" class="pop-nav-cont">
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/open_event_form">Open Event</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/registrations">Registrations</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/calender">Church Calender</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/my_mission_registrations">Task Teams</a>
+                  </li>
+                </div>
+                <div class="line-sep"></div>
+
+                <div id="nav-3" class="saas-nav-item">
+                  Announcements
+                </div>
+                <div id="nav-chld-3" class="pop-nav-cont">
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/announcements_form">Make Announcemment</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/announcements">Announcemments</a>
+                  </li>
+                </div>
+                <div class="line-sep"></div>
+
+                <div id="nav-4"  class="saas-nav-item">
+                  Church Services
+                </div>
+                <div id="nav-chld-4" class="pop-nav-cont">
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/church_services_form">Make Service</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/church_services">Church Services</a>
+                  </li>
+                </div>
+                <div class="line-sep"></div>
+
+                <div id="nav-5" class="saas-nav-item">
+                  Fundraising
+                </div>
+                <div id="nav-chld-5" class="pop-nav-cont">
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/open_pledges_form">Pledges Pocket</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/pledge_form">Make a Pledge</a>
+                  </li>
+                  <li id="" class="saas-nav-item-chld">
+                    <a class="nav-link" href="/pledges">Show Pledges</a>
+                  </li>
+                </div>
+                <!-- <li class="other-nav-item">
+                  <a class="nav-link" href="/registered_local">My Local Church</a>
+                </li> -->
+                <br>
+                
+
+                
+                <!-- <li class="other-nav-item">
+                  <a class="nav-link" href="/edit_app">My Account</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/about" >Local Members</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/about" >My Church Committees</a>
+                </li>
+                <li class="other-nav-item">
+                  <a class="nav-link" href="/about" >My Committee Memberships</a>
+                </li> -->
+                <!-- <li class="other-nav-item">
+                  <a class="nav-link" href="/about" >My Committee(s)</a>
+                </li> -->
+            </div>
+          </div>
+          {%endif%}
+         
+          
+        </div>
+        
+        
+      </div>
+    </div>
+
+
+    <div onclick="closeSideNavFunc()"  id="side-navig-bg" class="side-nav-bg ">
+      <div id="side-navig-cont" class="side-nav-cont move-to-appear gen-flex-col">
+          <!-- <div class="close-btn"><div class="stroke"></div></div> -->
+          <div class="general-flex"><img style="height:30px" src="static/icons/home.png" /><h3 style="color:white;text-align: left;">Menu</h3></div>
+          <div class="sidenav-list">
+              <li class="other-nav-item">
+                <a class="nav-link" href="/">Registrations</a>
+              </li>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/app_form">Local Perfomance</a>
+              </li>
+              <!-- <li class="other-nav-item">
+                <a class="nav-link" href="/edit_app">My Account</a>
+              </li>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/about" >Local Members</a>
+              </li>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/about" >My Church Committees</a>
+              </li>
+              <li class="other-nav-item">
+                <a class="nav-link" href="/about" >My Committee Memberships</a>
+              </li> -->
+              <!-- <li class="other-nav-item">
+                <a class="nav-link" href="/about" >My Committee(s)</a>
+              </li> -->
+          </div>
+      </div>
+    </div>
+
+
+</head>
+
+<body>
+    <div class="">
+        {% block content %}
+        {% endblock %}
+    </div><br><br>
+    <div style="flex-direction: column;" class="physical_addr">
+      <div style="flex-direction: column;" class="general-flex">
+        <small>Having issues? Report them here for a quick response!</small>
+         <a href="/contact_form"> <div style="font-weight:500px" class="btns">Report Issues</div></a>
+      </div><br>
+    </div><br>
+    <div class="physical_addr">
+      <label>powered by: Tech Xolutions(TechX)</label><br>
+      <label>info@techxololutions.com</label>
+    </div>
+
+    <script src="static/js_script.js" ></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

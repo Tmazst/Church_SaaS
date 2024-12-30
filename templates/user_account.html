@@ -1,0 +1,212 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br>
+<div style class="user-info ">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{usr_account.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align:left">{{usr_account.name}}</h4>
+    <div style="" class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{usr_account.email}}</small></div>
+    <div style="" class="icons-cont"><img class="icons" src='static/icons/church-icon.png' />{% if usr_account.church_local %}<small class="">{{usr_account.church_local}},</small></div>
+    <small style="" class="">{{usr_account.church_zone}}, {{usr_account.church_mission}}</small>{% else %}<a href="/account_form">Finish Sign-up</a>{% endif %} <br>
+    {% if usr_account.role == "admin_user" %}
+        <small style="color:rgb(149, 151, 151);" class="">Admin</small>
+    {% endif %}
+</div>
+
+<br><br>
+
+<div class="container">
+   
+  <!-- <div class=" flex-general"> -->
+    
+      <form style="flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+        <h1>Account Details<br><span style="font-size:medium;color:rgb(102, 102, 102)"></span></h1>
+            {{account_form.hidden_tag()}}
+            <!-- Contacts  -->
+            <div class="group">
+                {{ account_form.contacts.label(class="acc_labels") }}<br>
+                {{ account_form.contacts(class="form-control",placeholder="contacts",value=usr_account.contacts) }}<br>
+                {% if account_form.contacts.errors %}
+                  {% for error in account_form.contacts.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+               {% endif %}
+          </div>
+          <!-- Gender  -->
+          <div class="group">
+            {{ account_form.gender.label(class="acc_labels") }}<br>
+            {{ account_form.gender(class="form-control",placeholder="gender",value=usr_account.gender) }}<br>
+            <label style="color:rgb(58, 57, 57);font-size: 12px;" class="labels">Current Value: {{usr_account.gender}}</label>
+            {% if account_form.gender.errors %}
+              {% for error in account_form.gender.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+           {% endif %}
+          </div>
+          <!-- Physical Address  -->
+          <div class="group">
+            {{ account_form.address.label(class="acc_labels") }}<br>
+            {{ account_form.address(class="form-control",placeholder="address",value=usr_account.address) }}<br>
+            {% if account_form.address.errors %}
+              {% for error in account_form.address.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+           {% endif %}
+          </div>
+          <!-- Country  -->
+          <div class="group">
+            {{ account_form.country.label(class="acc_labels") }}<br>
+            {{ account_form.country(class="form-control",placeholder="church activity",value=usr_account.country)}}<br>
+            {% if account_form.country.errors %}
+                {% for error in account_form.country.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Image  -->
+        <div class="group">
+            {{ account_form.image.label(class="acc_labels") }}<br>
+            {{ account_form.image(class="form-control",placeholder="church region",value=usr_account.image)}}<br>
+            {% if account_form.image.errors %}
+                {% for error in account_form.image.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+          <!-- Age Group  -->
+          <div class="group">
+            <h3 class="subtopics">Church:</h3>
+            {{ account_form.age_group.label(class="acc_labels") }}<br>
+            {{ account_form.age_group(class="form-control",placeholder="Youth",value=usr_account.age_group) }}<br>
+            <label style="color:rgb(58, 57, 57);font-size: 12px;" class="labels">Current Value: {{usr_account.age_group}}</label>
+            {% if account_form.age_group.errors %}
+              {% for error in account_form.age_group.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+           {% endif %}
+          </div>
+          <!-- Marital  -->
+          <div class="group">
+            {{ account_form.marital.label }}<br>
+            {{ account_form.marital(class="form-control finish-sign-fmcontrl",placeholder="marital") }}<br>
+            <label style="color:rgb(58, 57, 57);font-size: 12px;" class="labels">Current Value: {{usr_account.marital}}</label>
+            {% if account_form.marital.errors %}
+              {% for error in account_form.marital.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+           {% endif %}
+          </div>
+          <!-- Title  -->
+          <div class="group">
+            {{ account_form.title.label }}<br>
+            {{ account_form.title(class="form-control finish-sign-fmcontrl",placeholder="title") }}<br>
+            <label style="color:rgb(58, 57, 57);font-size: 12px;" class="labels">Current Value: {{usr_account.title}}</label>
+            {% if account_form.title.errors %}
+              {% for error in account_form.title.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+           {% endif %}
+          </div>
+          <!-- Local Church  -->
+        <div class="group">
+            {{ account_form.church_local.label(class="acc_labels") }}<br>
+            {{ account_form.church_local(class="form-control",placeholder="Church local",value=usr_account.church_local) }}<br>
+            {% if account_form.church_local.errors %}
+            {% for error in account_form.church_local.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Branch  -->
+        <div class="group">
+            {{ account_form.church_branch.label(class="acc_labels") }}<br>
+            {{ account_form.church_branch(class="form-control",placeholder="church branch",value=usr_account.church_branch)}}<br>
+            {% if account_form.church_branch.errors %}
+                {% for error in account_form.church_branch.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Activity in Church  -->
+        <div class="group">
+            {{ account_form.church_activity.label(class="acc_labels") }}<br>
+            {{ account_form.church_activity(style="list-style-type:none",placeholder="church activity",value=usr_account.church_activity)}}<br>
+            {% if account_form.church_activity.errors %}
+                {% for error in account_form.church_activity.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Next of Kin  -->
+        <div class="group">
+            <h3 class="subtopics">Next of Kin:</h3>
+            {{ account_form.next_of_kin.label(class="acc_labels") }}<br>
+            {{ account_form.next_of_kin(class="form-control",placeholder="church region",value=usr_account.next_of_kin)}}<br>
+            {% if account_form.next_of_kin.errors %}
+                {% for error in account_form.next_of_kin.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Their Contacts  -->
+        <div class="group">
+            {{ account_form.next_of_kin_no.label(class="acc_labels") }}<br>
+            {{ account_form.next_of_kin_no(class="form-control",placeholder="church region",value=usr_account.next_of_kin_no)}}<br>
+            {% if account_form.next_of_kin_no.errors %}
+                {% for error in account_form.next_of_kin_no.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Employment Status  -->
+        <div class="group">
+            <h3 class="subtopics">Employment Details:</h3>
+            {{ account_form.employ_status.label(class="acc_labels") }}<br>
+            {{ account_form.employ_status(class="form-control",placeholder="church region",value=usr_account.employ_status)}}<br>
+            {% if account_form.employ_status.errors %}
+                {% for error in account_form.employ_status.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Employer  -->
+        <div class="group">
+            {{ account_form.employer.label(class="acc_labels") }}<br>
+            {{ account_form.employer(class="form-control",placeholder="church region",value=usr_account.employer)}}<br>
+            {% if account_form.employer.errors %}
+                {% for error in account_form.employer.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Skills  -->
+        <div class="group">
+            <h3 class="subtopics">Competences:</h3>
+            {{ account_form.skills.label(class="acc_labels") }}<br>
+            {{ account_form.skills(class="form-control",placeholder="church region",value=usr_account.skills)}}<br>
+            {% if account_form.skills.errors %}
+                {% for error in account_form.skills.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Qualifications  -->
+        <div class="group">
+            {{ account_form.qualifications.label(class="acc_labels") }}<br>
+            {{ account_form.qualifications(class="form-control",placeholder="church region",value=usr_account.qualifications)}}<br>
+            {% if account_form.qualifications.errors %}
+                {% for error in account_form.qualifications.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <!-- Experience  -->
+        <div class="group">
+            {{ account_form.experience.label(class="acc_labels") }}<br>
+            {{ account_form.experience(class="form-control",placeholder="church region",value=usr_account.experience)}}<br>
+            {% if account_form.experience.errors %}
+                {% for error in account_form.experience.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <div style="" class="group">
+                <div>{{ account_form.submit(class="btns",value="Update") }}</div><br>
+                <!--<input class="btns" type="submit" value="Create account_form" />-->
+                <!-- <div><a class="slinks-li" href="/login">Login</a></div> -->
+        </div>
+        <div style="" class="group">
+            <!-- <div><a class="slinks-li" href="/register">Forgot Password?</a></div> -->
+        </div>
+
+      </form>
+  <!-- </div> -->
+</div>
+
+<script>
+    
+</script>
+{% endblock %}
