@@ -73,10 +73,12 @@
                  <!-- <div><a class="slinks-li whiten" href="/login">Login Instead?</a></div> -->
             </div><br>
             
+            {% if show_admin_btn == "True" %}
             <div class="group">
                 <small>Are you an Administrator?</small><br>
                 <a class="nav-link btns-outlined whiten" href="/admin_signup">Admin Signup</a>
             </div>
+            {% endif %}
             <div style="" class="group">
                 <!-- <div><a class="slinks-li" href="/register">Forgot Password?</a></div> -->
             </div>

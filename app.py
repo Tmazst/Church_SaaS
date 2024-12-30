@@ -1152,6 +1152,7 @@ def sign_up():
 
     register = Register()
     church = None
+    show_admin_btn = "True"
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -1190,7 +1191,7 @@ def sign_up():
         #print(register.errors)
 
     # from myproject.models import user
-    return render_template("manual_signup.html",register=register)
+    return render_template("manual_signup.html",register=register,show_admin_btn=show_admin_btn)
 
 
 #Verification Pending
@@ -1260,6 +1261,7 @@ def login():
 def admin_signup():
 
     register = Register()
+    show_admin_btn = None
 
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -1292,7 +1294,7 @@ def admin_signup():
         #print(register.errors)
 
     # from myproject.models import user
-    return render_template("manual_signup.html",register=register)
+    return render_template("manual_signup.html",register=register,show_admin_btn=show_admin_btn)
 
 
 def update_zone(registration_form):
