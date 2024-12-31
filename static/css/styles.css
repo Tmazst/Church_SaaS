@@ -2839,6 +2839,11 @@ small{
         padding:10px;
     
     }
+    .stats-cont{
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
 
     .container{
         width:95%;
