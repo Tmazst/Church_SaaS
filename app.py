@@ -1953,8 +1953,8 @@ def search_in_table():
 
     # Database connection parameters
     db_config = {
-        'user': 'root',#creds['user'],
-        'password': 'tmazst41',#creds['db_pass'],
+        'user': 'techtlnf_tmaz',#creds['user'],
+        'password': creds['pdb'],
         'host': 'localhost',  # or your MySQL server address
         'database': 'all_churches'
     }
