@@ -1572,7 +1572,6 @@ def reset_request():
 </head>
 <body>
     <div class="container">
-        <img style="" src="https://drive.google.com/file/d/16Uuc5JoVQxFx4wR36mSYkxdxHlKiisjy/view?usp=drive_link" />
         <h2>Good day, {usr_email.name}</h2>
 
         <p>You have requested a password reset for your CAMM Sys+ (Church Administration & Membership Management Sys) Account</p>
@@ -1659,7 +1658,6 @@ def verification():
 </head>
 <body>
     <div class="container">
-        <img style="" src="https://drive.google.com/file/d/16Uuc5JoVQxFx4wR36mSYkxdxHlKiisjy/view?usp=drive_link" />
         <h2>Hi, {usr_.name}</h2>
 
         <p>Please follow the link below to verify your email with CAMM Sys+ (Church Administration & Membership Management Sys):</p>
@@ -2290,8 +2288,8 @@ if __name__ == '__main__':
 
     with app.app_context():
        db.create_all()
-       generate_and_save_users()
-       print("Generated and saved 30 random users to the database.")
+    #    generate_and_save_users()
+    #    print("Generated and saved 30 random users to the database.")
 
     app.run(debug=True)
 
