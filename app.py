@@ -27,8 +27,6 @@ from faker import Faker
 
 
 
-
-
 #Change App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "sdsdjfe832j2rj_32j"
