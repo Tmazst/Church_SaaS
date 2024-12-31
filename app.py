@@ -1578,7 +1578,7 @@ def reset_request():
         <p>You have requested a password reset for your CAMM Sys+ (Church Administration & Membership Management Sys) Account</p>
         <p style="font-weight:600">To reset your password, visit the following link;</p>
         <a href="{url_for('reset', token=token, _external=True)}" 
-            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #2b54a5; 
+            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #f2f2f2; background-color: #2b54a5; 
                     border: none; border-radius: 15px; text-decoration: none; text-align: center;">
             Reset
         </a>
