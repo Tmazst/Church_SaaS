@@ -26,7 +26,7 @@
 
 <br>
 
-{% if current_user.role == "admin_user" %}
+{% if current_user.is_authenticated and current_user.role == "admin_user" %}
 <div style="align-items:flex-start;border:none" class="container">
 
     <form style="flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">

@@ -364,6 +364,11 @@ def church_registration():
 
     church_form = AllChurchesForm()
 
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
+
     if request.method =="POST":
         church = all_churches(
             church_name=church_form.church_name.data,
@@ -481,6 +486,11 @@ def open_event_form():
 
     open_reg_form = OpenEventForm()
     event_details=None
+
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
 
     if open_event.query.filter_by(event_closed=False).first():
         event_details = open_event.query.filter_by(event_closed=False).first()
@@ -777,6 +787,11 @@ def mission_committee_members():
 @login_required
 def user_registration_form():
 
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
+
     val_registration = None
     event=open_event.query.filter_by(event_closed=0,chrch_id=current_user.chrch_id).first()
     # selected_platform = request.form.get('platform')
@@ -896,6 +911,11 @@ def local_members():
 
     local = None
     loc_pastor = None
+
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
 
     local_members = User.query.filter_by(chrch_id=current_user.chrch_id).all()
     loc_church = all_churches.query.get(current_user.chrch_id)
@@ -1879,6 +1899,11 @@ def google_signin():
 @login_required
 def church_services_form():
 
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
+
     services_form = ChurchServicesForm()
 
     if request.method == "POST":
@@ -1953,7 +1978,6 @@ def members_stats():
                            single=single,single_engaged=single_engaged,married=married,cleaner=cleaner)
 
 
-
 @app.route('/search', methods=['GET'])
 def search_in_table():
 
@@ -1990,8 +2014,6 @@ def search_in_table():
     conn.close()
 
     return render_template('search_results.html', user_obj=user_obj, search_results=results,search_value=search_value)
-
-
 
 
 @app.route("/pledges", methods=["POST","GET"])
@@ -2034,6 +2056,11 @@ def pledges_pockets():
 @app.route("/open_pledges_form", methods=["POST","GET"])
 @login_required
 def open_pledges_form():
+
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
 
     open_pledges_form = OpenPledgesForm()
     pledges_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
@@ -2090,6 +2117,11 @@ def open_pledges_form_edit():
 def pledge_form():
     # days_left=0
 
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
+
     pledge_form = PledgesForm()
     pledges_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
 
@@ -2116,6 +2148,11 @@ def pledge_form():
 @login_required
 def calender_form():
 
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
+    
     calender_form = CalenderForm()
 
     if request.method == "POST":
@@ -2164,7 +2201,6 @@ def church_calender():
     dt = datetime.now().date()
 
     return render_template("calender.html",church_calender=church_calender,months=months,years=years,dt=dt)
-
 
 
 def populate_to_users(announcement_obj):
@@ -2266,6 +2302,11 @@ def church_announcements():
 @app.route("/announcements_form", methods=["POST","GET"])
 @login_required
 def announcements_form():
+
+    if not current_user.chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
 
     announcements_form = AnnouncementsForm()
     church = all_churches.query.get(current_user.chrch_id)
