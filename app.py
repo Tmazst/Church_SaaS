@@ -296,7 +296,7 @@ def create_random_user(chrch_id):
         church_branch = "Lobamba",
         gender = "Female",
         pastor = "Bisho Osborn",
-        church_activity = "Praise Team",
+        church_activity = "Band",
     )
 
 
