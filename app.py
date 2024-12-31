@@ -140,28 +140,37 @@ if os.path.exists('client.json'):
 def compress_image(image_path, target_size_kb):
     # Open an image file
     with Image.open(image_path) as img:
-        img = img.convert('RGB')  # Convert to RGB for compatibility with JPEG
-        # if img.mode in ('RGBA', 'LA'):
-        #     img = img.convert('RGB')  # Convert to RGB
-        # elif img.mode == 'L':
-        #     img = img.convert('L')  # Convert to L if you want to keep it grayscale without alpha
-        # Calculate quality based on the target size
-        quality = 85  # Starting quality
-        while True:
-            # Save to a temporary file to check the size
-            temp_file = image_path.replace(os.path.splitext(image_path)[1], "_temp.jpg")
-            img.save(temp_file, format='JPEG', quality=quality)
+        
+        try:
+            img = img.convert('RGB')  # Convert to RGB for compatibility with JPEG
+            # if img.mode in ('RGBA', 'LA'):
+            #     img = img.convert('RGB')  # Convert to RGB
+            # elif img.mode == 'L':
+            #     img = img.convert('L')  # Convert to L if you want to keep it grayscale without alpha
+            # Calculate quality based on the target size
+            quality = 85  # Starting quality
+            while True:
+                # Save to a temporary file to check the size
+                temp_file = image_path.replace(os.path.splitext(image_path)[1], "_temp.jpg")
+                img.save(temp_file, format='JPEG', quality=quality)
 
-            # Check size
-            if os.path.getsize(temp_file) <= target_size_kb * 1024:  # Convert KB to bytes
-                break
-            quality -= 5  # Decrease quality to reduce file size
+                # Check size
+                if os.path.getsize(temp_file) <= target_size_kb * 1024:  # Convert KB to bytes
+                    break
+                quality -= 5  # Decrease quality to reduce file size
 
-            if quality < 10:  # Minimum quality threshold
-                break
+                if quality < 10:  # Minimum quality threshold
+                    break
 
-        # Move the temp file to the original file name or save as a new file
-        os.replace(temp_file, image_path)
+            # Move the temp file to the original file name or save as a new file
+            os.replace(temp_file, image_path)
+            
+        except Exception as e:
+            print(f"Error standardizing image input: {e}")
+            return None 
+
+
+        
 
 
 def process_file(file):
