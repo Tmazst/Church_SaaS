@@ -267,6 +267,7 @@ fake = Faker()
 
 # Function to create a random user
 def create_random_user(chrch_id):
+
     return church_user(
         chrch_id=chrch_id,
         name=fake.name(),
@@ -295,15 +296,19 @@ def create_random_user(chrch_id):
         gender = "Female",
         pastor = "Bisho Osborn",
         church_activity = "Ushering",
-
     )
 
+
+@app.route("/create_users")
 def generate_and_save_users(num_users=9, chrch_id_range=(1)):
     for _ in range(num_users):
         chrch_id = 1 #random.randint(chrch_id_range[0], chrch_id_range[1])
         user = create_random_user(chrch_id)
         db.session.add(user)
     db.session.commit()
+
+    return jsonify({"Created Users":"Did"})
+
 
 
 @app.route("/", methods=['POST','GET'])
@@ -2290,8 +2295,8 @@ if __name__ == '__main__':
 
     with app.app_context():
        db.create_all()
-       generate_and_save_users()
-       print("Generated and saved 30 random users to the database.")
+    #    generate_and_save_users()
+    #    print("Generated and saved 30 random users to the database.")
 
     app.run(debug=True)
 
