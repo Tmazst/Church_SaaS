@@ -279,15 +279,15 @@ def create_random_user(chrch_id):
         role = "church_user",
         image = "default.jpg",
         next_of_kin = "Mrs Nontobeko",
-        next_of_kin_no = "7810 4621",
-        employ_status = "Un-employed",
-        # employer = "Shoprite",
-        skills = "Plumbing",
-        qualifications = "",
-        experience = "",
+        next_of_kin_no = "7910 4621",
+        employ_status = "Working",
+        employer = "Shoprite",
+        skills = "Accountant",
+        qualifications = "Degree in Accounting",
+        experience = "3 year experience at Camp Hills Hotel",
         state = "Hhohho",
-        title = "Ms",
-        marital = "Single",
+        title = "Br",
+        marital = "Single (Engaged)",
         age_group = "Youth",
         country = "Eswatini",
         contacts = "7611 6584",
@@ -301,7 +301,7 @@ def create_random_user(chrch_id):
 
 
 @app.route("/create_users")
-def generate_and_save_users(num_users=90, chrch_id_range=(1)):
+def generate_and_save_users(num_users=20, chrch_id_range=(1)):
     for _ in range(num_users):
         chrch_id = 1 #random.randint(chrch_id_range[0], chrch_id_range[1])
         user = create_random_user(chrch_id)
