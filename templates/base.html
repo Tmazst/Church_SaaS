@@ -40,7 +40,7 @@
     </div>
 
 
-    {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated and current_user.chrch_id %}
     <div class="navigation">
 
         <div style=""  onclick="sideNavFunc(event)" class="menu-icon">

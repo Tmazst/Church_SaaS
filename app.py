@@ -354,6 +354,7 @@ def home():
 
 
 @app.route('/church_registration',methods=["POST","GET"])
+@login_required
 def church_registration():
 
     church_form = AllChurchesForm()
@@ -374,11 +375,19 @@ def church_registration():
             registered_by_contact=church_form.registered_by_contact.data
         )
 
+        if current_user.is_authenticated:
+            church.registered_by=current_user.id
+            church.registered_by_contact=current_user.contacts
+
         if church_form.image.data:
-                church.image = process_file(church_form.image.data)
+            church.image = process_file(church_form.image.data)
 
         db.session.add(church)
         db.session.commit()
+
+        flash(f"You have successfuly registered {church.church_name} Church Account","success")
+        flash(f"Now, select your and proceed","success")
+        return redirect(url_for("select_church"))
 
     return render_template("church_registration.html",church_form=church_form)
 
@@ -1216,6 +1225,7 @@ def login():
                 # login_user(user_login)
                 # print("No Verification Needed: ", user_login.verified)
 
+                # Check If are they allocated to a church 
                 if user_login.chrch_id:
                     login_user(user_login)
                     flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
@@ -1232,14 +1242,6 @@ def login():
                     flash(f"Please Select Your Local Church", "success")
                     login_user(user_login)
                     return redirect(url_for('select_church'))
-
-                # if not current_user.church_local and not current_user.church_zone:
-                #     print("Finish Setup")
-                #     flash(f"Please Finish Up your Sign-up process", "success")
-                #     if current_user.role == "church_user":
-                #         return redirect(url_for('usr_finish_signup'))
-                #     else:
-                #         return redirect(url_for('admin_finish_signup'))
 
                 req_page = request.args.get('next')
                 return redirect(req_page) if req_page else redirect(url_for('home'))

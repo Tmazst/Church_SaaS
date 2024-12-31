@@ -2282,7 +2282,7 @@ to{
 }
 
 .flash-messages{
-    margin:5px auto;
+    margin:15px auto !important;
     max-width:1100px;
 }
 
