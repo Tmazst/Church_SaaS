@@ -530,6 +530,7 @@ def opened_event_edit():
     return render_template('opened_event_edit.html',open_reg_form=open_reg_form,event_details=event_edit)
 
 
+
 def reg_confirmation():
     
     accommodation="No"
@@ -1052,7 +1053,7 @@ def contact_form():
                 mail = Mail(app)
 
                 # token = user_class().get_reset_token(usr_email.id)
-                msg = Message("Inquiry Message", sender="noreply@demo.com", recipients=[em, 'aeceswatini2024@gmail.com'])
+                msg = Message("Inquiry Message", sender="noreply@demo.com", recipients=[em])
                 msg.html = f"""<html>
 <head>
     <style>
@@ -1558,7 +1559,7 @@ def reset_request():
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }}
         h2,h3 {{
-            color: #4CAF50;
+            color: #2b54a5;
         }}
         p,li{{font-weight:500;color:#505050 }}
         .footer {{
@@ -1571,13 +1572,13 @@ def reset_request():
 </head>
 <body>
     <div class="container">
-        <img style="" src="https://africec.org/images/webimages/logo/logo.png" />
+        <img style="" src="https://drive.google.com/file/d/16Uuc5JoVQxFx4wR36mSYkxdxHlKiisjy/view?usp=drive_link" />
         <h2>Good day, {usr_email.name}</h2>
 
-        <p>You have requested a password reset for your Church Registrations - A.E.C Account.</p>
+        <p>You have requested a password reset for your CAMM Sys+ (Church Administration & Membership Management Sys) Account</p>
         <p style="font-weight:600">To reset your password, visit the following link;</p>
         <a href="{url_for('reset', token=token, _external=True)}" 
-            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; 
+            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #2b54a5; 
                     border: none; border-radius: 15px; text-decoration: none; text-align: center;">
             Reset
         </a>
@@ -1645,7 +1646,7 @@ def verification():
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }}
         h2,h3 {{
-            color: #4CAF50;
+            color: #2b54a5;
         }}
         p,li{{font-weight:500;color:#505050 }}
         .footer {{
@@ -1658,13 +1659,13 @@ def verification():
 </head>
 <body>
     <div class="container">
-        <img style="" src="https://africec.org/images/webimages/logo/logo.png" />
+        <img style="" src="https://drive.google.com/file/d/16Uuc5JoVQxFx4wR36mSYkxdxHlKiisjy/view?usp=drive_link" />
         <h2>Hi, {usr_.name}</h2>
 
-        <p>Please follow the link below to verify your email with Church Registrations - AEC:</p>
+        <p>Please follow the link below to verify your email with CAMM Sys+ (Church Administration & Membership Management Sys):</p>
         <p style="font-weight:600">Verification link;</p>
         <a href="{ url_for('verified', token=token, _external=True) }" 
-            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; 
+            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #2b54a5; 
                     border: none; border-radius: 15px; text-decoration: none; text-align: center;">
             Verify Email
         </a>
@@ -2147,6 +2148,93 @@ def church_calender():
     return render_template("calender.html",church_calender=church_calender,months=months,years=years,dt=dt)
 
 
+
+def populate_to_users(announcement_obj):
+    
+    all_users = [user.email for user in User.query.all()]
+
+    print("CHECK EVENT: ",all_users)
+
+    church = all_churches.query.get(current_user.chrch_id)
+
+    usr = admin_user.query.get(current_user.id)
+
+    def send_veri_mail():
+
+        app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+        app.config["MAIL_PORT"] = 587
+        app.config["MAIL_USE_TLS"] = True
+        # Creditentials saved in environmental variables
+        em = app.config["MAIL_USERNAME"] = creds.get('email')  # os.getenv("MAIL")
+        app.config["MAIL_PASSWORD"] = creds.get('gpass') #os.getenv("PWD")
+        app.config["MAIL_DEFAULT_SENDER"] = "noreply@gmail.com"
+
+        mail = Mail(app)
+
+        html_content = f"""<html>
+<head>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #333;
+            padding: 20px;
+        }}
+        .container {{
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }}
+        h2,h3 {{
+            color: #4CAF50;
+        }}
+        p,li{{font-weight:500;color:#707070 }}
+        .footer {{
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }}
+        span{{ font-weight:600;color:coral}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img style="" src="https://yt3.googleusercontent.com/ytc/AIdro_kWhxLUK_wGrRkKhCAr_L_oGH2T1c-HMvF8VW0odpZ80g=s160-c-k-c0x00ffffff-no-rj" />
+        <h2>Dear {church.church_name} Member</h2>
+
+        <p>{announcement_obj.info.data}</p>
+        <p>by: {usr.name}, {usr.committee_local_pos} - {usr.committee_local_group}</p>
+        <br>
+        <p class="footer">Church Announcements!</p>
+    </div>
+</body>
+</html>
+"""
+
+         # Create email message
+        
+        msg = Message(
+            subject=announcement_obj.title.data,
+            sender=app.config["MAIL_DEFAULT_SENDER"],
+            recipients=[],  # Leave recipients empty if using BCC
+            bcc=all_users,  # Add all users to BCC to hide recipient info
+            html=html_content
+        )
+
+        try:
+            mail.send(msg)
+            flash(f'Emails Sent Successfully', 'success')
+            return "Email Sent"
+        except Exception as e:
+            flash(f'Email not sent here', 'error')
+            return "The mail was not sent"
+
+    # try:
+    send_veri_mail() 
+    # except:
+
+
 @app.route("/announcements", methods=["POST","GET"])
 @login_required
 def church_announcements():
@@ -2166,10 +2254,12 @@ def announcements_form():
     if request.method == "POST":
         announcements_obj = announcements(chrch_id=current_user.chrch_id,usr_id=current_user.id,title=announcements_form.title.data
                 ,info=announcements_form.info.data,timestamp = datetime.now(),directed_to=announcements_form.directed_to.data
-                )
-        
+                ) 
         db.session.add(announcements_obj)
         db.session.commit()
+
+    if announcements_form.emails.data:
+        populate_to_users(announcements_form)
 
     return render_template("announcements_form.html",announcements_form=announcements_form,church=church)
 

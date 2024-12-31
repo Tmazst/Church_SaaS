@@ -1503,7 +1503,9 @@ label span{
 
 .slinks-li{
     width:100%;
-    color:var(--main-color);
+    color:white;
+    /* padding:10px; */
+    font-size: 13px;
 }
 
 .side-a{

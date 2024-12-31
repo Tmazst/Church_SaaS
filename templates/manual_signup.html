@@ -68,14 +68,14 @@
                 <div id="power-point" class="power-point"></div>
             </div><br>
             <div style="" class="group">
-                 <div >{{ register.submit(class="btns whiten") }}</div>
-                 <!--<input class="btns" type="submit" value="Create Account" />-->
-                 <!-- <div><a class="slinks-li whiten" href="/login">Login Instead?</a></div> -->
+                 <div >{{ register.submit(class="btns whiten") }}</div><br>
+                 <!-- <input class="btns" type="submit" value="Create Account" /> -->
+                 <div><a class="slinks-li" href="/login">Login Instead?</a></div>
             </div><br>
             
             {% if show_admin_btn == "True" %}
             <div class="group">
-                <small>Are you an Administrator?</small><br>
+                <small>Signup as administrator</small><br>
                 <a class="nav-link btns-outlined whiten" href="/admin_signup">Admin Signup</a>
             </div>
             {% endif %}

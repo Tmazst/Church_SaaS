@@ -57,6 +57,15 @@
             {% endif %}
         </div>
 
+        <!-- Email Users -->
+        <div id="transaction_id" class="group">
+            {{ announcements_form.emails.label }}<br>
+            {{ announcements_form.emails(class="form-control finish-sign-fmcontrl") }}<br>
+            {% if announcements_form.emails.errors %}
+            {% for error in announcements_form.emails.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
         <!-- Information  -->
         <div id="payment_platform" class="group">
             {{ announcements_form.info.label }}<br>

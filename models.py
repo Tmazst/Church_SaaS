@@ -78,7 +78,7 @@ class User(db.Model,UserMixin):
     church_local = db.Column(db.String(50))
     church_branch = db.Column(db.String(50))
     gender = db.Column(db.String(30))
-    pastor = db.Column(db.String(30))
+    pastor = db.Column(db.String(30))#Fix Duplicate ----------------
     church_activity = db.Column(db.String(30))
     pledges_ids = relationship("pledges", backref='user', lazy=True)
     
