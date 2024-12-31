@@ -287,20 +287,20 @@ def create_random_user(chrch_id):
         experience = "2 years Electrician at EPH",
         state = "Hhohho",
         title = "Br",
-        marital = "Single (Engaged)",
-        age_group = "Youth",
+        marital = "Married",
+        age_group = "Fathers",
         country = "Eswatini",
         # Part 2
         church_local = "Hosea Calvary Ministries",
         church_branch = "Lobamba",
-        gender = "Female",
+        gender = "Male",
         pastor = "Bisho Osborn",
         church_activity = "Ushering",
     )
 
 
 @app.route("/create_users")
-def generate_and_save_users(num_users=9, chrch_id_range=(1)):
+def generate_and_save_users(num_users=60, chrch_id_range=(1)):
     for _ in range(num_users):
         chrch_id = 1 #random.randint(chrch_id_range[0], chrch_id_range[1])
         user = create_random_user(chrch_id)
