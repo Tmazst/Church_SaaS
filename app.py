@@ -364,10 +364,10 @@ def church_registration():
 
     church_form = AllChurchesForm()
 
-    if not current_user.chrch_id:
-        flash("Your Account has not been Mapped with any church account yet!")
-        log_out()
-        return redirect(url_for("home"))
+    # if not current_user.chrch_id:
+    #     flash("Your Account has not been Mapped with any church account yet!")
+    #     log_out()
+    #     return redirect(url_for("home"))
 
     if request.method =="POST":
         church = all_churches(
