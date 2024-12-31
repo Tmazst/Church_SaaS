@@ -1217,7 +1217,7 @@ def livedemo():
     user_login = User.query.get(1)
     login_user(user_login)
 
-    flash("🎉 Welcome to our live demo! We're excited to have you here. Good luck as you dive in and test things out👍")
+    flash("🎉 Welcome to our live demo! We're excited to have you here. Good luck as you dive in and test things out👍","success")
 
     return redirect(url_for('home'))
 
