@@ -276,7 +276,7 @@ def create_random_user(chrch_id):
         timestamp = datetime.now(),
         verified = True,
         role = "church_user",
-        image = "dafault.jpg",
+        image = "default.jpg",
         next_of_kin = "Mr Nontobeko Ngozo",
         next_of_kin_no = "7608 4621",
         employ_status = "Entreprenuer",
@@ -304,7 +304,6 @@ def generate_and_save_users(num_users=9, chrch_id_range=(1)):
         user = create_random_user(chrch_id)
         db.session.add(user)
     db.session.commit()
-
 
 
 @app.route("/", methods=['POST','GET'])
@@ -2291,8 +2290,8 @@ if __name__ == '__main__':
 
     with app.app_context():
        db.create_all()
-    #    generate_and_save_users()
-    #    print("Generated and saved 30 random users to the database.")
+       generate_and_save_users()
+       print("Generated and saved 30 random users to the database.")
 
     app.run(debug=True)
 
