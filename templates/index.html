@@ -18,6 +18,67 @@
         {% endwith %}
 </div>
 <br><br>
+<div style="width:max-content;margin:15px auto" class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+</div><br>
+<div class="dashboard-icons gen-flex-wrap">
+    <a class="nav-lin" href="/announcements_form">
+        <div class="cont-card gen-flex-wrap">
+            <img style="height:60px" src="static/icons/add-icon.png" />
+            <div class="btn-desc">Announcement</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/church_services_form">
+        <div class="cont-card gen-flex-col">
+            <img style="height:60px" src="static/icons/add-icon.png" />
+            <div class="btn-desc">Church Service</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/open_pledges_form">
+        <div class="cont-card gen-flex-col">
+            <img style="height:60px" src="static/icons/add-icon.png" />
+            <div class="btn-desc">Pledges Pocket</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/calender_form">
+        <div class="cont-card gen-flex-col">
+            <img style="height:60px" src="static/icons/add-icon.png" />
+            <div class="btn-desc">Events Calender</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/open_event_form">
+        <div class="cont-card gen-flex-col">
+            <img style="height:60px" src="static/icons/add-icon.png" />
+            <div class="btn-desc">Events Manager</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+
+    <a class="nav-lin" href="/members_stats">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/statistics-icon.png" />
+            <div class="btn-desc">Statistics</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/local_members">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/members-icon.png" />
+            <div class="btn-desc">Members</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+</div>
+
 <div style="flex-direction: column;justify-content: flex-start;" class="">
 
     {% if not current_user.is_authenticated %}
