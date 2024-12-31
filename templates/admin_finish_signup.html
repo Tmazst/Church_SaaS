@@ -43,7 +43,7 @@
             <!-- Contacts  -->
             <div class="group">
                 {{ finish_register.contacts.label }}<br>
-                {{ finish_register.contacts(class="form-control finish-sign-fmcontrl",placeholder="contacts") }}<br>
+                {{ finish_register.contacts(class="form-control finish-sign-fmcontrl",value=user.contacts) }}<br>
                 {% if finish_register.contacts.errors %}
                   {% for error in finish_register.contacts.errors %}<span class="span-error" >*{{error}}</span>{% endfor %}
                {% endif %}

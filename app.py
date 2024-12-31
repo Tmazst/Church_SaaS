@@ -185,7 +185,7 @@ def process_file(file):
         # Compress the image to ~90KB
         compress_image(file_path, target_size_kb=90)
 
-        flash("File Upload Successful!!", "success")
+        # flash("File Upload Successful!!", "success")
         return new_file_name
 
 
@@ -377,7 +377,8 @@ def church_registration():
 
         if current_user.is_authenticated:
             church.registered_by=current_user.id
-            church.registered_by_contact=current_user.contacts
+            usr = admin_user.query.get(current_user.id)
+            usr.contacts=church_form.registered_by_contact.data
 
         if church_form.image.data:
             church.image = process_file(church_form.image.data)
@@ -385,8 +386,8 @@ def church_registration():
         db.session.add(church)
         db.session.commit()
 
-        flash(f"You have successfuly registered {church.church_name} Church Account","success")
-        flash(f"Now, select your and proceed","success")
+        flash(f"You have successfully registered {church.church_name} Church Account","success")
+        flash(f"Now, select your church and proceed","success")
         return redirect(url_for("select_church"))
 
     return render_template("church_registration.html",church_form=church_form)
