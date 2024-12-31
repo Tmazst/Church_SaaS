@@ -1956,7 +1956,7 @@ def search_in_table():
         'user': 'techtlnf_tmaz',#creds['user'],
         'password': creds['pdb'],
         'host': 'localhost',  # or your MySQL server address
-        'database': 'all_churches'
+        'database': 'techtlnf_all_churches'
     }
 
     conn = mysql.connector.connect(**db_config)
