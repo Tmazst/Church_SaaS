@@ -1210,6 +1210,17 @@ def sign_up():
     return render_template("manual_signup.html",register=register,show_admin_btn=show_admin_btn)
 
 
+
+@app.route("/livedemo", methods=["POST","GET"])
+def livedemo():
+
+    user_login = User.query.get(1)
+    login_user(user_login)
+
+    flash("🎉 Welcome to our live demo! We're excited to have you here. Good luck as you dive in and test things out👍")
+
+    return redirect(url_for('home'))
+
 #Verification Pending
 @app.route("/login", methods=["POST","GET"])
 def login():
@@ -1979,6 +1990,7 @@ def search_in_table():
     conn.close()
 
     return render_template('search_results.html', user_obj=user_obj, search_results=results,search_value=search_value)
+
 
 
 
