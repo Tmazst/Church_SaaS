@@ -140,6 +140,8 @@ if os.path.exists('client.json'):
 def compress_image(image_path, target_size_kb):
     # Open an image file
     with Image.open(image_path) as img:
+        if img.mode == 'RGBA':
+            img = img.convert('RGB')
         # Calculate quality based on the target size
         quality = 85  # Starting quality
         while True:
