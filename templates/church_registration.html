@@ -23,21 +23,19 @@
     {% endwith %}
 </div>
 <br><br><br>
-<div class="group">
-    <div class="user-info">
-        <h3 style="margin-bottom: 0;text-align: left;">Enter Church Details</h3>
-        <div class="icons-cont"><small class=""></small></div>
-        <div style="margin-bottom: 0;text-align: left;"></div>
-    </div>
-</div>
+
 <br>
 
-
+{% if current_user.role == "admin_user" %}
 <div style="align-items:flex-start;border:none" class="container">
 
     <form style="flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
         <!-- <h1 style="text-align: left;">Open Pledges<br> Session</h1> -->
         {{church_form.hidden_tag()}}
+
+        <div class="group">
+            <h3 style="margin-bottom: 0;text-align: left;">Enter Church Details</h3>
+        </div>
 
         <!-- Church Name  -->
         <div id="transaction_id" class="group">
@@ -178,9 +176,10 @@
     </form>
 
 </div>
-
+{%else%}
+<h2>Hi!, Only Administrators can open a church account. Please open your account as an Admin if you have the previleges to do so.<a href="/admin_signup">Admin Signup</a></h2>
+{%endif%}
 
 <script>
-
 </script>
 {% endblock %}
