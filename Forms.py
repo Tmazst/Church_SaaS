@@ -87,7 +87,7 @@ class AdminAccountForm(FlaskForm):
     other3 = StringField('')
     next_of_kin = StringField('Emergency Contact Person')
     next_of_kin_no = StringField('Their Contacts')
-    employ_status = SelectField('Employment Status', validators=[Optional()],choices=[("Entreprenuer", "Entreprenuer/Self-Employed"),("Working", "Working"),("Employed","No Job")])
+    employ_status = SelectField('Employment Status', validators=[Optional()],choices=[("Entreprenuer", "Entreprenuer/Self-Employed"),("Working", "Working"),("Un-employed","No Job")])
     employer = StringField('Employer (If Working)')
     skills = StringField('Skills')
     qualifications = StringField('Qualifications (If Applicable)')
