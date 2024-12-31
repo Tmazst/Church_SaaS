@@ -45,6 +45,7 @@
     <br><br>
     {% endif %}
 
+    {% if nearest_event %}
     <h5>Other Upcoming Mission Events</h5>
     <div id="upcom-card" style="height:300px;box-shadow: none;" class="block-event">
 
@@ -63,9 +64,12 @@
             </span>
                 <div style="margin-bottom: 15px;" class="btns">Register</div>
             </div>
-        </div><br>
+        </div>
+        
+        <br>
 
     </div><br> 
+    {%endif%}
     <a href="/calender"><div style="margin:20px auto;color:rgb(70, 70, 70)" class="calender gen-flex-col shadow">
         <h3 style="margin: 0;color:rgb(36, 35, 35)">Year Calendar</h3><span>Church's Yearly Events</span></div></a>
         <div style="margin: 0 auto" class="general-flex cursor">
