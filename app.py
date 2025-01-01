@@ -26,7 +26,6 @@ from faker import Faker
 # import logging
 
 
-
 #Change App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "sdsdjfe832j2rj_32j"
@@ -140,7 +139,7 @@ if os.path.exists('client.json'):
 def compress_image(image_path, target_size_kb):
     # Open an image file
     with Image.open(image_path) as img:
-        
+
         try:
             img = img.convert('RGB')  # Convert to RGB for compatibility with JPEG
             # if img.mode in ('RGBA', 'LA'):
@@ -168,9 +167,6 @@ def compress_image(image_path, target_size_kb):
         except Exception as e:
             print(f"Error standardizing image input: {e}")
             return None 
-
-
-        
 
 
 def process_file(file):
@@ -201,24 +197,6 @@ def process_file(file):
         return new_file_name
 
 
-# def process_file(file):
-
-#         filename = secure_filename(file.filename)
-
-#         _img_name, _ext = os.path.splitext(filename)
-#         gen_random = secrets.token_hex(8)
-#         new_file_name = gen_random + _ext
-
-#         if file.filename == '':
-#             return 'No selected file'
-
-#         print("DEBUG FILE NAME: ", file.filename)
-#         file_saved = file.save(os.path.join("static/images",new_file_name))
-#         flash(f"File Upload Successful!!", "success")
-#         return new_file_name
-
-
-
 def process_pop_file(file,usr_id):
     print("Check File: ",file)
     if file.startswith("default"):
@@ -245,6 +223,7 @@ def process_pop_file(file,usr_id):
 def createall(db_):
     db_.create_all()
 
+
 encry_pw = Bcrypt()
 
 
@@ -255,20 +234,19 @@ def inject_ser():
     # global ser
     church = None
     event = open_event.query.filter_by(event_closed=False).first()
-    user_no_base=User.query.all()
+    user_no_base=None
 
     #Pledges
     days_left = 0
     pledges_pocket = None
-    
-   
+
     if current_user.is_authenticated:
+        user_no_base=User.query.filter_by(chrch_id=current_user.chrch_id).all()
         church = all_churches.query.get(current_user.chrch_id)
         pledges_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
         if pledges_pocket:
             left = pledges_pocket.end_date - datetime.now().date()
             days_left = left.days
-
 
     return dict(event_details=event,pop_transts=pop_transactions,user_no_base=user_no_base,ser=ser,church=church,
                 days_left=days_left,pocket=pledges_pocket)
@@ -321,7 +299,6 @@ def generate_and_save_users(num_users=20, chrch_id_range=(1)):
     db.session.commit()
 
     return jsonify({"Created Users":"Did"})
-
 
 
 @app.route("/", methods=['POST','GET'])
