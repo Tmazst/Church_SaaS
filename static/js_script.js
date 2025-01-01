@@ -175,24 +175,25 @@ function openDetails(id,event){
 };
 
 
-function popUp(id){
+function popUp(){
     // var popScrnLogo = document.getElementById("updates");
     // popScrnLogo.classList.toggle("show-popup");
     
-    let popCont = document.querySelector('#pop_image_'+id);
-    let popup = document.querySelector("#popup_"+id);
+    let popCont = document.querySelector('.popup-cont');
+    let formCont = document.querySelector("#form-cont");
 
     popCont.classList.toggle("show-popup");
-    popup.classList.toggle("show-popup");
-
-    // Assuming you want to remove the query parameter from the URL
-    // // Get the current URL without the query parameter
-    // var newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
-
-    // // Use replaceState to update the URL without the query parameter
-    // window.history.replaceState({path: newUrl}, '', newUrl);
+    formCont.style.display='none';
     
 };
+
+function closePop(){
+    let popCont = document.querySelector('.popup-cont');
+    let formCont = document.querySelector("#form-cont");
+    popCont.classList.remove("show-popup");
+    formCont.style.display='flex';
+}
+
 
 const paragraph = document.querySelectorAll('.sel-tag');
 

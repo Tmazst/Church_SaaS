@@ -40,6 +40,16 @@ class all_churches(db.Model):
     announcements_ids = relationship("announcements", backref='all_churches', lazy=True)
     church_services_ids = relationship("church_services", backref='all_churches', lazy=True)
     calender_ids = relationship("calender", backref='all_churches', lazy=True)
+    subscription_ids = relationship("subscription", backref='all_churches', lazy=True)
+    timestamp = db.Column(db.DateTime)
+
+
+class subscription(db.Model):
+
+    id = db.Column(db.Integer,primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    updated_by = db.Column(db.Integer)
+    subscrptn = db.Column(db.String(100))
     timestamp = db.Column(db.DateTime)
 
 

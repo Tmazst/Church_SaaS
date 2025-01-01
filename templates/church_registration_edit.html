@@ -115,6 +115,16 @@
             {% endif %}
         </div>
 
+        <!-- Susbcription Options -->
+        <div class="group">
+            {{ church_form.subscribe.label }}<br>
+            {{ church_form.subscribe(class="form-control finish-sign-fmcontrl",placeholder="Subscribe") }}<br>
+            {% if church_form.subscribe.errors %}
+            {% for error in church_form.subscribe.errors %}<span class="span-error" >*{{error}}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+
         <!-- Church Web  -->
         <div class="group">
             {{ church_form.church_web.label }}<br>

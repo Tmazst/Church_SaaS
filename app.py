@@ -30,8 +30,8 @@ from faker import Faker
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "sdsdjfe832j2rj_32j"
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///techxicons_db.db"
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://techtlnf_tmaz:!Tmazst41#@localhost/techtlnf_all_churches"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://techtlnf_tmaz:!Tmazst41#@localhost/techtlnf_all_churches"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle':280}
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -241,6 +241,13 @@ def inject_ser():
     pledges_pocket = None
 
     if current_user.is_authenticated:
+        subscr_package = None
+
+        latest_subcription = subscription.query.filter_by(chrch_id=current_user.chrch_id).order_by(subscription.timestamp.desc()).first()
+
+        if latest_subcription:
+            subscr_package = latest_subcription
+
         user_no_base=User.query.filter_by(chrch_id=current_user.chrch_id).all()
         church = all_churches.query.get(current_user.chrch_id)
         pledges_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
@@ -249,7 +256,7 @@ def inject_ser():
             days_left = left.days
 
     return dict(event_details=event,pop_transts=pop_transactions,user_no_base=user_no_base,ser=ser,church=church,
-                days_left=days_left,pocket=pledges_pocket)
+                days_left=days_left,pocket=pledges_pocket,subscr_package=subscr_package)
 
 
 #Users faker
@@ -371,7 +378,7 @@ def church_registration():
             location=church_form.location.data,
             timestamp=datetime.now(),
             registered_by=church_form.registered_by.data,
-            registered_by_contact=church_form.registered_by_contact.data
+            registered_by_contact=church_form.registered_by_contact.data,
         )
 
         if current_user.is_authenticated:
@@ -384,6 +391,21 @@ def church_registration():
 
         db.session.add(church)
         db.session.commit()
+
+        church_id = all_churches.query.filter_by(registered_by=current_user.id).first()
+
+        try:
+            sub_pckg = subscription(
+                chrch_id = church_id.id,
+                updated_by = current_user.id,
+                subscrptn = church_form.subscribe.data,
+                timestamp = datetime.now()
+            )
+            db.session.add(sub_pckg)
+            db.session.commit()
+        except:
+            return jsonify({"Error Sub-800":"You Might Be Skipping some steps, Please Contact Service Provider for Assistance"})
+
 
         flash(f"You have successfully registered {church.church_name} Church Account","success")
         flash(f"Now, select your church and proceed","success")
@@ -542,7 +564,6 @@ def opened_event_edit():
         return redirect(url_for('home'))
 
     return render_template('opened_event_edit.html',open_reg_form=open_reg_form,event_details=event_edit)
-
 
 
 def reg_confirmation():
@@ -1218,6 +1239,38 @@ def sign_up():
     # from myproject.models import user
     return render_template("manual_signup.html",register=register,show_admin_btn=show_admin_btn)
 
+@app.route("/pricing", methods=["POST","GET"])
+def pricing():
+    
+    return render_template("camm_pricing.html")
+
+
+@app.route("/suscribe", methods=["POST","GET"])
+@login_required
+def subscribe():
+
+    if request.method == "GET":
+        print("Lets see if we can update subscription")
+        sub = request.args.get("sub")
+
+        obj = subscription(
+            chrch_id = current_user.chrch_id,
+            updated_by = current_user.id,
+            subscrptn = sub,
+            timestamp = datetime.now()
+        )
+
+        db.session.add(obj)
+        db.session.commit()
+        flash("We have updated Your Subscription Package Successfully!", "success")
+
+        return redirect(url_for('home'))
+
+# @app.route("/subscription", methods=["POST","GET"])
+# @login_required
+# def subscrption():
+    
+#     return render_template("")
 
 
 @app.route("/livedemo", methods=["POST","GET"])
@@ -2338,6 +2391,7 @@ if __name__ == '__main__':
 
     with app.app_context():
        db.create_all()
+       print("Updating Tables")
     #    generate_and_save_users()
     #    print("Generated and saved 30 random users to the database.")
 

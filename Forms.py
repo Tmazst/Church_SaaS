@@ -115,7 +115,8 @@ class AllChurchesForm(FlaskForm):
     country = SelectField('Country',choices=[("Eswatini", "Eswatini"),("South Africa", "South Africa"),("Mozambique", "Mozambique"),
                                                      ("Botswana", "Botswana"),("Zimbabwe", "Zimbabwe"),("Lesotho", "Lesotho"),("Namibia", "Namibia"),("Zimabwe", "Zimabwe"),("Zambia", "Zambia")])
     region = StringField('State / Region', validators=[Optional()])
-
+    subscribe = RadioField('Monthly Subscription Package',choices=[("Basic", "Basic"),("Standard", "Standard"),("Premium", "Premium")], validators=[DataRequired()])
+    
     submit = SubmitField('Submit')
 
 

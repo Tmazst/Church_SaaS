@@ -27,9 +27,9 @@
 <br>
 
 {% if current_user.is_authenticated and current_user.role == "admin_user" %}
-<div style="align-items:flex-start;border:none" class="container">
+<div id="form-cont" style="align-items:flex-start;border:none" class="container">
 
-    <form style="flex-direction:column;z-index:1000;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+    <form style="flex-direction:column;z-index:0;" class="" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
         <!-- <h1 style="text-align: left;">Open Pledges<br> Session</h1> -->
         {{church_form.hidden_tag()}}
 
@@ -105,6 +105,19 @@
             {% endif %}
         </div>
 
+        <!-- Susbcription Options -->
+        <div class="group">
+            {{ church_form.subscribe.label }}<br>
+            {{ church_form.subscribe(class="form-control finish-sign-fmcontrl",placeholder="Subscribe") }}<br>
+            {% if church_form.subscribe.errors %}
+            {% for error in church_form.subscribe.errors %}<span class="span-error" >*{{error}}</span><br>
+            {% endfor %}
+            {% endif %}
+            <div onclick="popUp()" class="pack-style" style="font-size:14px;color:coral;
+            text-decoration: underline;font-weight:600">See Subscription Options?</div>
+        </div>
+
+
         <!-- Church Web  -->
         <div class="group">
             {{ church_form.church_web.label }}<br>
@@ -175,6 +188,61 @@
 
     </form>
 
+</div>
+
+
+
+<div style="z-index:2000" class="popup-cont">
+    <h2 class="margin-zero-auto">Subcription Packages</h2>
+    <div style="margin:10px auto; gap:10px;justify-content: center;position: relative;"  class="margin-zero-auto general-flex-wrap pricing-cont"> 
+
+        <div style="width:350px" class="general-card general-align-col-c">
+            <p style="background-color:red;" class="circle-bg">CB</p>
+            <h2>CAMM Basic</h2>
+            <h3 style="color:red" class="border-outline">Basic</h3>
+            <div style="background-color:red;" class="line"></div>
+            <ul style="margin:30px 0">
+                <li>Church with 20 or less Members</li>
+                <li>One Month CAMM Premium Trial</li>
+                <li>Free Subsription with limited features</li>
+            </ul>
+            <h3 style="margin-bottom:-10px" class="">E0.00</h3><br>
+            <!-- <a href="/subscribe?sub='basic'" style="width:90px;background-color:red;" class="btns">Choose</a ><br> -->
+        </div>
+
+        <div style="width:350px" class="general-card general-align-col-c">
+            <p style="background-color:coral;" class="circle-bg">CS</p>
+            <h2>CAMM Standard</h2>
+            <h3 style="color:coral;border-color:coral" class="border-outline">Choice</h3>
+            <div style="background-color:coral;" class="line"></div>
+            <ul style="margin:30px 0">
+                <li>Above 20 Members </li>
+                <li>One Month CAMM Premium Trial</li>
+                <li>Sandardized Per Feature Access</li>
+            </ul>
+            <h3 style="margin-bottom:-10px" class="">E250pm</h3><br>
+            <!-- <a href="/subscribe?sub='standard'" style="width:90px;background-color:coral;" class="btns">Buy</a ><br> -->
+        </div>
+
+        <div style="width:350px" class="general-card general-align-col-c">
+            <p style="background-color:#117A65 ;" class="circle-bg">CP</p>
+            <h2>CAMM Premium</h2>
+            <h3 style="color:#117A65 ;border-color:#117A65 " class="border-outline">Professional</h3>
+            <div style="background-color:#117A65 ;" class="line"></div>
+            <ul style="margin:30px 0">
+                <li>Above 20 Members </li>
+                <li>Full Per Feature Access</li>
+                <li>Full Per Feature Updates</li>
+            </ul>
+            <h3 style="margin-bottom:-10px" class="">E550pm</h3><br>
+            <form style="background-color:;flex-direction:column;z-index:1000;" class="church-form" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+                <!-- <a href="/subscribe?sub='premium'" style="width:90px;background-color:#117A65 ;" class="btns">Buy</a ><br> -->
+            </form>
+        </div>
+        
+        <div onclick="closePop()" style="position:absolute;bottom:250px" class="btns">Back</div>
+    </div>
+    
 </div>
 {%else%}
 <h2>Hi!, Only Administrators can open a church account. Please open your account as an Admin if you have the previleges to do so.<a href="/admin_signup">Admin Signup</a></h2>
