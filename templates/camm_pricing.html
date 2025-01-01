@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;">{{church.country}}, {{church.address}}</div>
+</div><br>
+
+<br><br>
+
+
+<div style="margin-top:50px; gap:15px"  class="margin-zero-auto general-flex-wrap">
+    <h2 class="margin-zero-auto">Subcription Packages</h2><br>
+    <div style="width:350px" class="general-card general-align-col-c">
+        <p style="background-color:red;" class="circle-bg">CB</p>
+        <h2>CAMM Basic</h2>
+        <h3 style="color:red" class="border-outline">Basic</h3>
+        <div style="background-color:red;" class="line"></div>
+        <ul style="margin:30px 0">
+            <li>Church with 20 or less Members</li>
+            <li>One Month CAMM Premium Trial</li>
+            <li>Free Subsription with limited features</li>
+        </ul>
+        <h3 style="margin-bottom:-10px" class="">E0.00</h3><br>
+        <a href="/subscribe?sub='basic'" style="width:90px;background-color:red;" class="btns">Choose</a ><br>
+    </div>
+
+     <div style="width:350px" class="general-card general-align-col-c">
+        <p style="background-color:coral;" class="circle-bg">CS</p>
+        <h2>CAMM Standard</h2>
+        <h3 style="color:coral;border-color:coral" class="border-outline">Choice</h3>
+        <div style="background-color:coral;" class="line"></div>
+        <ul style="margin:30px 0">
+            <li>Above 20 Members </li>
+            <li>One Month CAMM Premium Trial</li>
+            <li>Sandardized Per Feature Access</li>
+        </ul>
+         <h3 style="margin-bottom:-10px" class="">E250pm</h3><br>
+        <a href="/subscribe?sub='standard'" style="width:90px;background-color:coral;" class="btns">Buy</a ><br>
+    </div>
+
+    <div style="width:350px" class="general-card general-align-col-c">
+        <p style="background-color:#117A65 ;" class="circle-bg">CP</p>
+        <h2>CAMM Premium</h2>
+        <h3 style="color:#117A65 ;border-color:#117A65 " class="border-outline">Professional</h3>
+        <div style="background-color:#117A65 ;" class="line"></div>
+        <ul style="margin:30px 0">
+            <li>Above 20 Members </li>
+            <li>Full Per Feature Access</li>
+            <li>Full Per Feature Updates</li>
+        </ul>
+         <h3 style="margin-bottom:-10px" class="">E550pm</h3><br>
+        <form style="background-color:;flex-direction:column;z-index:1000;" class="church-form" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+            <a href="/subscribe?sub='premium'" style="width:90px;background-color:#117A65 ;" class="btns">Buy</a ><br>
+        </form>
+
+</div>
+
+
+{% endblock %}
