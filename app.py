@@ -239,10 +239,10 @@ def inject_ser():
     #Pledges
     days_left = 0
     pledges_pocket = None
+    subscr_package = None
 
     if current_user.is_authenticated:
-        subscr_package = None
-
+        
         latest_subcription = subscription.query.filter_by(chrch_id=current_user.chrch_id).order_by(subscription.timestamp.desc()).first()
 
         if latest_subcription:
@@ -1915,25 +1915,35 @@ def google_signin():
                 return jsonify({"message": "An error occurred", "error": str(e)}), 500
         
     else:
-        usr_obj = User.query.filter_by(email=usr_email).first()
-        login_user(usr_obj)
-        
-        flash(f"Hello! {usr_obj.name.title()} You're Logged In!", "success")
+        user_login = User.query.filter_by(email=usr_email).first()
 
-        if usr_obj.chrch_id:
-            login_user(usr_obj)
+        if not user_login.verified:
+            login_user(user_login)
+            return redirect(url_for('verification'))
+
+        if user_login.chrch_id:
+            login_user(user_login)
+            flash(f"Hey! {user_login.name.title()} You're Logged In!", "success")
+            if user_login.role == "church_user":
+                user = church_user.query.get(user_login.id)
+                if not user.gender or not user.contacts or not user.address:
+                        print(user.gender ,user.contacts, user.address)
+                        return redirect(url_for('usr_finish_signup'))
+            else:
+                user = admin_user.query.get(user_login.id)
+                if not user.gender or not user.contacts or not user.address:
+                    return redirect(url_for('admin_finish_signup'))
         else:
             flash(f"Please Select Your Local Church", "success")
+            login_user(user_login)
             return redirect(url_for('select_church'))
 
-        # if not current_user.church_local and not current_user.church_zone:
-        #     print("Finish Setup")
-        #     flash(f"Please Finish your Sign-up process", "success")
-        #     return redirect(url_for('finish_signup'))
         req_page = request.args.get('next')
         return redirect(req_page) if req_page else redirect(url_for('home'))
+    
 
     return redirect(url_for("home"))
+
 
 ####FEATURES
 
