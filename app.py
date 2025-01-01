@@ -30,8 +30,8 @@ from faker import Faker
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "sdsdjfe832j2rj_32j"
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///techxicons_db.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://techtlnf_tmaz:!Tmazst41#@localhost/techtlnf_all_churches"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://techtlnf_tmaz:!Tmazst41#@localhost/techtlnf_all_churches"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle':280}
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
