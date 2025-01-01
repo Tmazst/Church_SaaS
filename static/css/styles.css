@@ -1690,7 +1690,7 @@ label span{
 }
 
 .nav-link:hover{
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     cursor:pointer;
 }
 
@@ -1850,6 +1850,12 @@ label span{
     list-style-type: none;
     white-space: nowrap;
     margin:10px auto;
+    transition: all 0.3s ease;
+}
+
+.saas-nav-item:hover{
+    cursor: pointer;
+    color:coral;
 }
 
 .saas-nav-item .line-sep{

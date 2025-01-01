@@ -69,71 +69,37 @@
 // });
 
 var navParent = document.querySelectorAll(".saas-nav-item");
-
 navParent.forEach(nav => {
-    // nav.preventDefault();
-    nav.addEventListener('mouseenter',function(){
-        console.log("Mouse Enter");
+    nav.addEventListener('click', function(){
+        console.log("Nav item clicked");
+
+        // First, hide all child elements
+        navParent.forEach(item => {
+            var childNav = document.querySelector("#nav-chld-" + item.id.split('-')[1]);
+            if (childNav) {
+                childNav.classList.remove('reveal');
+            }
+        });
+
+        // Show the specific child nav for the clicked item
         if (nav.id === "nav-1"){
             var navOneChild = document.querySelector("#nav-chld-1");
-            navOneChild.classList.add('reveal');
-            navOneChild.addEventListener("mouseenter", function(){
-                navOneChild.classList.add('reveal');
-                // console.log(navOneChild.id);
-            })
-
-            navOneChild.addEventListener("mouseleave", function(){
-                navOneChild.classList.remove('reveal');
-            })
+            navOneChild.classList.toggle('reveal'); // Use toggle to show/hide
         }else if(nav.id === "nav-2"){
             var navOneChild = document.querySelector("#nav-chld-2");
-            navOneChild.classList.add('reveal');
-            navOneChild.addEventListener("mouseenter", function(){
-                navOneChild.classList.add('reveal');
-                // console.log(navOneChild.id);
-            })
-
-            navOneChild.addEventListener("mouseleave", function(){
-                navOneChild.classList.remove('reveal');
-            })
+            navOneChild.classList.toggle('reveal');
         }else if(nav.id === "nav-3"){
             var navOneChild = document.querySelector("#nav-chld-3");
-            navOneChild.classList.add('reveal');
-            navOneChild.addEventListener("mouseenter", function(){
-                navOneChild.classList.add('reveal');
-                // console.log(navOneChild.id);
-            })
-
-            navOneChild.addEventListener("mouseleave", function(){
-                navOneChild.classList.remove('reveal');
-            })
+            navOneChild.classList.toggle('reveal');
         }else if(nav.id === "nav-4"){
             var navOneChild = document.querySelector("#nav-chld-4");
-            navOneChild.classList.add('reveal');
-            navOneChild.addEventListener("mouseenter", function(){
-                navOneChild.classList.add('reveal');
-                // console.log(navOneChild.id);
-            })
-
-            navOneChild.addEventListener("mouseleave", function(){
-                navOneChild.classList.remove('reveal');
-            })
+            navOneChild.classList.toggle('reveal');
         }else if(nav.id === "nav-5"){
             var navOneChild = document.querySelector("#nav-chld-5");
-            navOneChild.classList.add('reveal');
-            navOneChild.addEventListener("mouseenter", function(){
-                navOneChild.classList.add('reveal');
-                // console.log(navOneChild.id);
-            })
-
-            navOneChild.addEventListener("mouseleave", function(){
-                navOneChild.classList.remove('reveal');
-            })
+            navOneChild.classList.toggle('reveal');
         }
-
-    })
+    });
 });
-
 
 // var navOneChild = document.querySelector("#nav-chld-1");
 

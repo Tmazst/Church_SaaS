@@ -57,15 +57,6 @@
             {% endif %}
         </div>
 
-        <!-- Email Users -->
-        <div id="transaction_id" class="group">
-            {{ announcements_form.emails.label }}<br>
-            {{ announcements_form.emails(class="form-control finish-sign-fmcontrl") }}<br>
-            {% if announcements_form.emails.errors %}
-            {% for error in announcements_form.emails.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
-            {% endif %}
-        </div>
-
         <!-- Information  -->
         <div id="payment_platform" class="group">
             {{ announcements_form.info.label }}<br>
@@ -73,7 +64,16 @@
             {% if announcements_form.info.errors %}
             {% for error in announcements_form.info.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
             {% endif %}
-        </div>
+        </div><br>
+
+        <!-- Email Users -->
+        <div id="transaction_id" style="background-color:;width:100%;max-width: 600px;" class="grou">
+            {{ announcements_form.emails.label }}
+            {{ announcements_form.emails(class="finish-sign-fmcontrl,style='height:5px;background-color:red'") }}<br>
+            {% if announcements_form.emails.errors %}
+            {% for error in announcements_form.emails.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div><br>
 
 
         <div style="" class="group">

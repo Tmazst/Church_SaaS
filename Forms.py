@@ -126,7 +126,7 @@ class AnnouncementsForm(FlaskForm):
                                                ,("Men", "Men"),("Sunday School", "Sunday School"),("Couples", "Couples"),("Singles", "Singles"),("Sisters", "Sisters"),("Brother", "Brother")])
     
     info = TextAreaField('Announcement', validators=[DataRequired(),Length(min=5,max=200)])
-    emails = BooleanField('Send Email to Users?', validators=[Optional()])
+    emails = BooleanField('Email All Users?', validators=[Optional()])
     submit = SubmitField('Submit')
 
 
