@@ -113,7 +113,7 @@
         <div  class="block-left-pan gen-flex-col  other_events_l">
             <div style="z-index:1000;" class="title-cont gen-flex-col"><h1 style="margin-bottom:0;color:white">{{nearest_event.title}}</h1>
                 <h3 style="margin-top:0;color:white">{{nearest_event.start_date.strftime("%d")}}
-                    {% if nearest_event.start_date %} - {{nearest_event.end_date.strftime("%d")}}{%endif%} {{nearest_event.end_date.strftime("%b %Y")}}</h3>
+                    {% if nearest_event.end_date %} - {{nearest_event.end_date.strftime("%d")}}{%endif%} {{nearest_event.start_date.strftime("%b %Y")}}</h3>
                 <!-- <div class="flex-grower" ></div> -->
             </div> 
         </div>
