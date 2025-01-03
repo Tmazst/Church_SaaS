@@ -2215,6 +2215,7 @@ def calender_form():
         db.session.add(calender_obj)
         db.session.commit()
         flash("Church Event Posted Successfully","success")
+        return redirect(url_for("calender"))
 
     return render_template("calender_form.html",calender_form=calender_form)
 

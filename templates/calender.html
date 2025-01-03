@@ -15,7 +15,7 @@
                     {% set days_left = event.start_date - dt %}
                     <div class="event-title">{{event.title}}</div>
                     <div class="event-date">{{event.start_date.strftime("%d")}}{% if event.end_date %} - 
-                        {{event.end_date.strftime("%d")}} {%endif%} {{event.start_date.strftime("%B %Y")}}</div>
+                        {{event.end_date.strftime("%d %B %y")}}{%else%}{{event.start_date.strftime("%B %Y")}}{%endif%} </div>
                         {%if event.venue %}
                             <div style="color:#303030;font-size:12px;padding:5px" class="event-venue">@{{event.venue}}</div>
                         {%endif %}
