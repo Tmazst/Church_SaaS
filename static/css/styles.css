@@ -534,6 +534,8 @@ section{
     min-width:300px;
     min-height:500px;
     padding:20px 10px;
+    max-width: 350px;
+    
 }
 
 .general-align-col-c{
@@ -680,6 +682,10 @@ table {
 .stats-card:hover{
     cursor: pointer;
     opacity:0.8;
+}
+
+.prices{
+    gap:15px;width:100%;max-width: 1100px;align-items: stretch !important;
 }
 
 .general-flex-wrap{
@@ -2951,6 +2957,9 @@ small{
         height: auto !important;
         padding:10px;
     
+    }
+    .prices{
+        justify-content: center;
     }
     .stats-cont{
         justify-content: center;
