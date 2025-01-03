@@ -25,7 +25,9 @@
     <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
     <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
     <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
-</div><br><br>
+</div>
+<br><br>
+{% if current_user.role == 'admin_user' %}
 <div class="dashboard-icons gen-flex-wrap">
     <a class="nav-lin" href="/announcements_form">
         <div class="cont-card gen-flex-wrap">
@@ -62,6 +64,7 @@
             <div class="caption"></div>
         </div>
     </a>
+{% endif %}
 
     <a class="nav-lin" href="/members_stats">
         <div class="cont-card gen-flex-col">
@@ -74,6 +77,41 @@
         <div class="cont-card gen-flex-col">
             <img style="height:40px" src="static/icons/members-icon.png" />
             <div class="btn-desc">Members</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/announcements">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/announcements-icon.png" />
+            <div class="btn-desc">Announcements</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/loc_commitee_memberships">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/committees-icon.png" />
+            <div class="btn-desc">Committees</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/registration_form">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/reigistration-icon.png" />
+            <div class="btn-desc">Event Registration</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/calender">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/calender-icon.png" />
+            <div class="btn-desc">Events Calender</div>
+            <div class="caption"></div>
+        </div>
+    </a>
+    <a class="nav-lin" href="/pledge_form">
+        <div class="cont-card gen-flex-col">
+            <img style="height:40px" src="static/icons/pledge-icon.png" />
+            <div class="btn-desc">Pledge (Fundraise)</div>
             <div class="caption"></div>
         </div>
     </a>
