@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="margin:40px auto; padding:10px; background-color:;width:600px" class="engrave-contact">
+<div style="margin:40px auto; padding:10px; background-color:;max-width:600px;width:100%" class="engrave-contact">
 
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -50,7 +50,7 @@
             <div class="" style="width:90%;flex-direction: row;gap:13px;">
                 <a href="#" id="whatsappEqry" onclick="sendWhatsappEngrave()">
                     <div class="submits-options">
-                        <img style="height:30px;width:30px" src="static/icons/whatsapp-icon.png" />
+                        <img style="height:30px;" src="static/icons/whatsapp1-icon.png" />
                         <label style="color:rgb(10, 189, 34)" for="whatsapp">Send Whatsapp</label>
                         <!-- <input type="submit" value="whatsapp" /> -->
                     </div>
