@@ -121,7 +121,7 @@
         <div style="" class="block-right-pan gen-flex-col other_events_r">
             <div class="gen-flex-col event-details"><img src="static/icons/location-icon.png"/><span class="ads-tag-4">{{nearest_event.venue}}</span></div>
             <div class="gen-flex-col event-details"><img src="static/icons/registration-icon.png"/><span class="ads-tag-4">{{nearest_event.start_date.strftime("%d")}}
-                {% if nearest_event.start_date %} - {{nearest_event.end_date.strftime("%d")}}{%endif%} {{nearest_event.end_date.strftime("%b %Y")}}
+                {% if nearest_event.end_date %} - {{nearest_event.end_date.strftime("%d")}}{%endif%} {{nearest_event.start_date.strftime("%b %Y")}}
             </span>
                 <div style="margin-bottom: 15px;" class="btns">Register</div>
             </div>
