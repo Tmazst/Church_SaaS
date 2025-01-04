@@ -2968,6 +2968,11 @@ small{
         padding:10px;
     
     }
+
+    .sel-tag{height:300px}
+
+    .selling-tag{font-weight: 400;}
+
     .prices{
         justify-content: center;
     }
