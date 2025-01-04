@@ -684,6 +684,16 @@ table {
     opacity:0.8;
 }
 
+.selling-tag{
+    color:rgb(124, 124, 124);
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    width:100%;
+    max-width: 600px;
+    margin: 15px auto;
+}
+
 .prices{
     gap:15px;width:100%;max-width: 1100px;align-items: stretch !important;
 }

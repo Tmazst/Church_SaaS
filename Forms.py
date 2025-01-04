@@ -102,6 +102,7 @@ class AdminAccountForm(FlaskForm):
 
 class AllChurchesForm(FlaskForm):
     church_name = StringField('Church Name', validators=[DataRequired()])
+    branch=StringField('Church Branch', validators=[Optional()])
     slogan = StringField('Church Slogan / Verse', validators=[Optional()])
     church_contacts = TelField('Church Contacts', validators=[DataRequired()])
     location = StringField('Church Physical Address', validators=[DataRequired()])

@@ -347,9 +347,10 @@ def home():
                 print(f"The nearest event is {nearest_event} and it starts in {min_days} days.")
     else:
         return redirect(url_for("login"))
-
-
-    # calender_ = calender.query.filter_by
+    
+    if current_user.is_authenticated and current_user.role == 'admin_user':
+        flash("For an enhanced interface experience, we encourage admin users to use media devices with wide screens i.e. PC or tablet.","success")
+    
     
     return render_template("index.html", event_details=event_details, nearest_event=nearest_event)
 
@@ -379,6 +380,7 @@ def church_registration():
             timestamp=datetime.now(),
             registered_by=church_form.registered_by.data,
             registered_by_contact=church_form.registered_by_contact.data,
+            description = church_form.branch.data
         )
 
         if current_user.is_authenticated:
@@ -1128,7 +1130,7 @@ def contact_form():
 </head>
 <body>
     <div class="container">
-        <img style="" src="https://africec.org/images/webimages/logo/logo.png" />
+        <img style="" src="https://camm.churchregistry.org/static/images/camm_logo.png" /> 
         <h4>Name:       {contact_form.name.data}</h4>
         <h4>Email:      {contact_form.email.data}</h4>
         <h4>Contact:    {contact_form.contact.data}</h4>
@@ -1136,7 +1138,7 @@ def contact_form():
         <p> {contact_form.message.data}</p>
 
         
-        <p class="footer">If you did not request the above message please ignore it, and your password will remain unchanged.</p>
+        <p class="footer">powered by: techxolutions.com</p>
     </div>
 </body>
 </html>
@@ -1393,6 +1395,117 @@ def update_zone(registration_form):
 def absent():
     pass
 
+#Signup Confirmation Email
+def signup_confirm():
+   
+    usr_ = church_user.query.get(current_user.id)
+    church = all_churches.query.filter_by(id=current_user.chrch).first()
+
+    def send_veri_mail():
+
+        app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+        app.config["MAIL_PORT"] = 587
+        app.config["MAIL_USE_TLS"] = True
+        # Creditentials saved in environmental variables
+        em = app.config["MAIL_USERNAME"] = creds.get('email')  # os.getenv("MAIL")
+        app.config["MAIL_PASSWORD"] = creds.get('gpass') #os.getenv("PWD")
+        app.config["MAIL_DEFAULT_SENDER"] = "noreply@gmail.com"
+
+        mail = Mail(app)
+
+        token = user_class().get_reset_token(current_user.id)
+        usr_email = usr_.email
+
+        msg = Message(subject="Registration Confirmation", sender="no-reply@gmail.com", recipients=[usr_email])
+
+        msg.html = f"""<html>
+<head>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #333;
+            padding: 20px;
+        }}
+        .container {{
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }}
+        h2,h3 {{
+            color: #4CAF50;
+        }}
+        p,li{{font-weight:500;color:#707070 }}
+        .footer {{
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }}
+        span{{ font-weight:600;color:coral}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img style="" src="https://camm.churchregistry.org/{church.image}" />
+        <h2>Hi, {usr_.name}</h2>
+        <p>Thank you for registering! Your account with {church.church_name} has been successfully created.</p>
+        <p>For your records, please find the details below:</p>
+        <h3>Account Details:</h3>
+        <ul>
+            <li><span>Name:</span> {usr_.name}</li>
+            <li><span>Title:</span> {usr_.title}</li>
+            <li><span>Email:</span> {usr_.email}</li>
+            <li><span>Marital Status:</span> {usr_.marital}</li>
+            <li><span>Sex:</span> {usr_.gender}</li>
+            <li><span>Age Group:</span> {usr_.age_group}</li>
+            <li><span>Address:</span> {usr_.address} </li>
+            <li><span>Region/Province/State:</span> {usr_.state}</li>
+            <li><span>Country:</span> {usr_.country}</li>
+            <li><span>Family Member:</span> {usr_.next_of_kin}</li>
+            <li><span>Thier Contact:</span> {usr_.next_of_kin_no}</li>
+            <li><span>Church Activity/Role:</span> {usr_.church_activity}</li>
+        </ul>
+        <h3>Other:</h3>
+        <ul>
+            <li><span>Employment Status:</span> {usr_.employ_status}</li>
+            <li><span>Employer:</span> {usr_.employer}</li>
+            <li><span>Skills:</span> {usr_.skills}</li>
+            <li><span>Qualification:</span> {usr_.qualifications}</li>
+            <li><span>Experience:</span> {usr_.experience}</li>
+        </ul>
+        <h3>Church Details:</h3>
+        <ul>
+            <li><span>Local Church:</span> {church.church_name}</li>
+            <li><span>Branch:</span> {church.description}</li>
+            <li><span>Location:</span> {church.location}</li>
+            <li><span>Contacts:</span> {church.church_contacts}</li>
+            <li><span>Email:</span> {church.church_email}</li>
+            <li><span>Website:</span> {church.church_web}</li>
+            <li><span>Facebook:</span> {church.facebook}</li>
+            <li><span>Senior Pastor:</span> {church.church_senior_pastor}</li>
+        </ul>
+        <p class="footer">"Thank you for registering! Don’t miss out on upcoming updates from the church, including announcements, church services, details on event registrations, the church calendar, and more!"</p>
+        
+    </div>
+</body>
+</html>
+"""
+
+
+        try:
+            mail.send(msg)
+            flash(f'We have sent you an email with Registration Details', 'success')
+            return "Email Sent"
+        except Exception as e:
+            flash(f'Email not sent here', 'error')
+            return "The mail was not sent"
+
+    # try:
+    send_veri_mail() 
+    # except:
+
+
 @app.route("/usr_finish_signup", methods=["POST","GET"])
 @login_required
 def usr_finish_signup():
@@ -1420,7 +1533,10 @@ def usr_finish_signup():
                 user.image = process_file(finish_register.image.data)
 
             db.session.commit()
+            if loc_church:
+                signup_confirm()
             flash(f"Congratulations✨, You have just finished signing up for your {loc_church.church_name} membership", "success")
+
             return redirect(url_for('home'))
 
     elif finish_register.errors:
@@ -1466,7 +1582,10 @@ def admin_finish_signup():
                 user.image = process_file(finish_register.image.data)
 
             db.session.commit()
-            flash(f"Update Successful.", "success")
+            if loc_church:
+                signup_confirm()
+            flash(f"Congratulations✨, You have just finished signing up for your {loc_church.church_name} membership", "success")
+            
             return redirect(url_for('home'))
 
     elif finish_register.errors:
