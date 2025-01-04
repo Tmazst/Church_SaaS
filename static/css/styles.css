@@ -2387,6 +2387,7 @@ to{
     width:100%;
     margin:10px auto;
     gap:10px;
+    justify-content: center;
 }
 
 .alert-error{
