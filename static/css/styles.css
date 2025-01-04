@@ -2378,10 +2378,15 @@ to{
     font-weight: 600px !important;
 }
 
+.app-download{
+    margin:10px auto;
+}
+
 .dashboard-icons{
     max-width: 600px;
     width:100%;
     margin:10px auto;
+    gap:10px;
 }
 
 .alert-error{
