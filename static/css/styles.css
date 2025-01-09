@@ -2839,10 +2839,7 @@ small{
         width:90%;
     }
 
-    .new-num-bg{
-        
-        right:-9px;
-    }
+   
     .calender-cont{width:80%}
     .block{
         width:80%;
@@ -3013,6 +3010,10 @@ small{
         height:27px;
     }
 
+    .new-num-bg{
+        
+        right:-7px;
+    }
     .poster{
         width:100%;
         height: auto !important;
