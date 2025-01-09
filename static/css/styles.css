@@ -2838,7 +2838,11 @@ small{
     .container{
         width:90%;
     }
-    
+
+    .new-num-bg{
+        
+        right:-5px;
+    }
     .calender-cont{width:80%}
     .block{
         width:80%;
@@ -3006,7 +3010,7 @@ small{
 @media all and (max-width: 575px){
 
     .note-icons{
-        height:25px;
+        height:27px;
     }
 
     .poster{
