@@ -240,6 +240,8 @@ def inject_ser():
     days_left = 0
     pledges_pocket = None
     subscr_package = None
+    # pledges = None
+    # events = None
 
     if current_user.is_authenticated:
         
@@ -251,12 +253,18 @@ def inject_ser():
         user_no_base=User.query.filter_by(chrch_id=current_user.chrch_id).all()
         church = all_churches.query.get(current_user.chrch_id)
         pledges_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
+        pledges_nm = len(pledges.query.filter_by(chrch_id=current_user.chrch_id).all())
+        events_nm = len(calender.query.filter_by(chrch_id=current_user.chrch_id).all())
+        announce_nm = len(announcements.query.filter_by(chrch_id=current_user.chrch_id).all())
+        registered_nm = len(pop_transactions.query.filter_by(chrch_id=current_user.chrch_id).all())
+        services_nm = len(church_services.query.filter_by(chrch_id=current_user.chrch_id).all())
         if pledges_pocket:
             left = pledges_pocket.end_date - datetime.now().date()
             days_left = left.days
 
     return dict(event_details=event,pop_transts=pop_transactions,user_no_base=user_no_base,ser=ser,church=church,
-                days_left=days_left,pocket=pledges_pocket,subscr_package=subscr_package)
+                days_left=days_left,pocket=pledges_pocket,subscr_package=subscr_package,pledges_pocket_nm=pledges_pocket,
+                pledges_nm=pledges_nm, envts_nm=events_nm,announce_nm=announce_nm,services_nm=services_nm,registered_nm=registered_nm)
 
 
 #Users faker

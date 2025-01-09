@@ -48,32 +48,61 @@
             <div class="stroke"></div>
         </div>
 
-        <div class="other-nav">
-            <ul class="other-navbar-nav">
-              <li class="other-nav-item active">
-                <a class="nav-link" href="/">Home</a>
+        <div class="icons-nav general-flex">
+              <li class="icons-nav-item active">
+                <a class="nav-link" href="/local_members" >
+                  <div class="note-cont">
+                    <img  class="note-icons" src="static/icons/camm_new_mem.png"   />
+                    <div style="height:15px;width:15px" class="new-num-bg general-flex"><span>{{user_no_base | length }}</span></div>
+                  </div>
+                </a>
               </li>
-              <div class="navbar-separator"></div>
-              <li class="other-nav-item">
-                <a class="nav-link" href="/#services">About</a>
+              <li class="icons-nav-item">
+                <a class="nav-link" href="/pledges_pockets" >
+                  <div class="note-cont">
+                    <img class="note-icons" src="static/icons/camm_pledges.png"   />
+                    
+                    <!-- <div class="new-num-bg general-flex"><span>1</span></div> -->
+                   
+                  </div>
+                </a>
               </li>
-              <div class="navbar-separator"></div>
-              <li class="other-nav-item">
-                <a class="nav-link" href="/freelance_job_ads">Contact Us</a>
+              <li class="icons-nav-item">
+                <a class="nav-link" href="/calender" >
+                  <div class="note-cont">
+                    <img class="note-icons" src="static/icons/camm_new_event.png"   />
+                    <div class="new-num-bg general-flex"><span>{{envts_nm}}</span></div>
+                  </div>
+                </a>
               </li>
-              <div class="navbar-separator"></div>
-              <li class="other-nav-item">
-                <a class="nav-link" href="/about">Explore Apps</a>
+              <li class="icons-nav-item">
+                <a class="nav-link" href="/registered_users" >
+                  <div class="note-cont">
+                    <img class="note-icons" src="static/icons/camm_new_reg.png"   />
+                    <div class="new-num-bg general-flex"><span>{{registered_nm}}</span></div>
+                  </div>
+                </a>
               </li>
-              <div class="navbar-separator"></div>
-              <li class="other-nav-item">
-                <a class="nav-link" href="/contact" ></a>
+              <li class="icons-nav-item">
+                <a class="nav-link" href="/announcements" >
+                  <div class="note-cont">
+                    <img class="note-icons" src="static/icons/new_announce.png"   />
+                    <div class="new-num-bg general-flex"><span>{{announce_nm}}</span></div>
+                  </div>
+                </a>
               </li>
-            </ul>
+              <li class="icons-nav-item">
+                <a class="nav-link" href="/church_services" >
+                  <div class="note-cont">
+                    <img class="note-icons" src="static/icons/camm_new_serv.png"   />
+                    <div class="new-num-bg general-flex"><span>{{services_nm}}</span></div>
+                  </div>
+                </a>
+              </li>
         </div>
 
-        <div style="background-color:;" class="user">
-              <div><img style="" class="icon-imgs" src="{{ url_for('static', filename='icons/facebook-icon.png') }}" /></div>
+        <div style="background-color:;" class="user social-icons">
+              <a href="https://www.facebook.com/profile.php?id=61571789630888"><div><img style="" class="icon-imgs" src="{{ url_for('static', filename='icons/facebook-icon.png') }}" /></div></a>
         </div>
 
     </div>
