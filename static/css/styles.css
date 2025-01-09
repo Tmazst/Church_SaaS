@@ -3005,6 +3005,10 @@ small{
 
 @media all and (max-width: 575px){
 
+    .note-icons{
+        height:25px;
+    }
+
     .poster{
         width:100%;
         height: auto !important;
