@@ -2597,19 +2597,23 @@ def church_announcements():
 
 
 userr = admin_user
-def generate_whatsapp_link(announce, user_id, church):
+def generate_whatsapp_link(announce_id, user_id, church_id):
     text = None
     encoded_text = None
+    announce = announcements.query.get(announce_id)
+    church = all_churches.query.get(church_id)
+    user = admin_user.query.get(user_id)
+    
     try:
         # if userr.role == 'admin_user':
-        if admin_user.query.get(user_id).committee_local_group:
+        if user.committee_local_group:
             text = (
                 f"\n*CHURCH ANNOUNCEMENT* \n"
                 f"\n*{announce.title}* \n\n"
                 f"{announce.info}\n\n"
-                f"_By: {userr.query.get(user_id).name} - _"
-                f"_{userr.query.get(user_id).committee_local_group}_ "
-                f"_{userr.query.get(user_id).committee_local_pos}_\n\n"
+                f"_By: {user.name} - _"
+                f"_{user.committee_local_group}_ "
+                f"_{user.committee_local_pos}_\n\n"
                 f"*{church.church_name}*\n"
                 f"*Contancts:* {church.church_contacts}\n"
                 f"*Email:* {church.church_email}\n\n\n"
