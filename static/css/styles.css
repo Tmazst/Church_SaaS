@@ -320,7 +320,7 @@ tr:hover{
 
 #announce .announce_card{
     box-shadow:-1px 1px 3px 0px rgba(0,0,0,0.5);
-    min-width:370px;
+    min-width:350px;
     width:60%;
     margin:10px auto;
     border-radius: 20px;
@@ -331,7 +331,7 @@ tr:hover{
     display: flex;
     /* padding: 20px; */
     box-shadow:-1px 1px 3px 0px rgba(0,0,0,0.5);
-    min-width:370px;
+    min-width:350px;
     width:60%;
     margin:10px auto;
     border-radius: 20px;
