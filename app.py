@@ -23,6 +23,7 @@ from PIL import Image
 import mysql.connector
 import random
 from faker import Faker
+from urllib.parse import quote
 # import logging
 
 
@@ -36,6 +37,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle':280}
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOADED"] = 'static/uploads'
+# app.config['JSON_AS_ASCII'] = True
 
 oauth = OAuth(app)
 db.init_app(app)
@@ -240,6 +242,11 @@ def inject_ser():
     days_left = 0
     pledges_pocket = None
     subscr_package = None
+    pledges_nm = None
+    events_nm = None
+    announce_nm = None
+    registered_nm = None
+    services_nm = None
     # pledges = None
     # events = None
 
@@ -483,6 +490,19 @@ def church_account():
 
 @app.route('/share_image/<img_share>')
 def share_image(img_share):
+    # Name of your image and its path
+    image_name = img_share
+    image_path = os.path.join('images', image_name)  # Relative path from the static folder
+    image_url = url_for('static', filename=image_path, _external=True)  # Full URL to the image
+    
+    # WhatsApp message with the image URL
+    message = f"Check out this image from FEA: {image_url}"
+    whatsapp_link = f"https://wa.me/?text={quote(message)}"
+    
+    return render_template('share_image.html', whatsapp_link=whatsapp_link, image_url=image_url)
+
+@app.route('/share_whatsapp/<img_share>')
+def share_whatsapp(img_share):
     # Name of your image and its path
     image_name = img_share
     image_path = os.path.join('images', image_name)  # Relative path from the static folder
@@ -2383,6 +2403,99 @@ def church_calender():
     return render_template("calender.html",church_calender=church_calender,months=months,years=years,dt=dt)
 
 
+@app.route("/email_users", methods=["POST","GET"])
+def email_users():
+    
+    # all_users = [user.email for user in User.query.all()]
+
+    if request.method == "GET" and current_user.role == 'admin_user':
+        obj = request.args.get("obj")
+
+        announcement_obj = announcements.query.filter_by(id=obj,chrch_id=current_user.chrch_id).first()
+
+        print("*****DEBUG ANNOUNCE: ",announcement_obj.title)
+
+
+        all_users = ["thabo.mmaziya@gmail.com","pro.dignitron@gmail.com"]
+
+        print("CHECK EVENT: ",all_users)
+
+        church = all_churches.query.get(current_user.chrch_id)
+
+        usr = User.query.get(current_user.id)
+
+        app.config["MAIL_SERVER"] = "smtp.googlemail.com"
+        app.config["MAIL_PORT"] = 587
+        app.config["MAIL_USE_TLS"] = True
+        # Creditentials saved in environmental variables
+        em = app.config["MAIL_USERNAME"] =   os.getenv("MAIL") #creds.get('email')
+        app.config["MAIL_PASSWORD"] = os.getenv("PWD") #creds.get('gpass') 
+        app.config["MAIL_DEFAULT_SENDER"] = "noreply@gmail.com"
+
+        mail = Mail(app)
+
+        html_content = f"""<html>
+<head>
+<style>
+    body {{
+        font-family: Arial, sans-serif;
+        background-color: #f6f6f6;
+        color: #333;
+        padding: 20px;
+    }}
+    .container {{
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }}
+    h2,h3 {{
+        color: #4CAF50;
+    }}
+    p,li{{font-weight:500;color:#707070 }}
+    .footer {{
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #777;
+    }}
+    span{{ font-weight:600;color:coral}}
+</style>
+</head>
+<body>
+<div class="container">
+    <img style="" src="https://yt3.googleusercontent.com/ytc/AIdro_kWhxLUK_wGrRkKhCAr_L_oGH2T1c-HMvF8VW0odpZ80g=s160-c-k-c0x00ffffff-no-rj" />
+    <h2>Dear {church.church_name} Member</h2>
+
+    <p>{announcement_obj.info}</p>
+    <p>email by: {usr.name}, {usr.committee_local_pos} - {usr.committee_local_group}</p>
+    <br>
+    <p class="footer">Church Announcements!</p>
+</div>
+</body>
+</html>
+"""
+
+        # Create email message
+    
+        msg = Message(
+            subject=announcement_obj.title,
+            sender=app.config["MAIL_DEFAULT_SENDER"],
+            recipients=[],  # Leave recipients empty if using BCC
+            bcc=all_users,  # Add all users to BCC to hide recipient info
+            html=html_content
+        )
+
+        try:
+            mail.send(msg)
+            flash(f'Emails Sent Successfully', 'success')
+            return "Email Sent"
+        except Exception as e:
+            flash(f'Email not sent here', 'error')
+            return "The mail was not sent"
+
+
+    return jsonify({"Success":"Email Sent"})
+
 def populate_to_users(announcement_obj):
     
     all_users = [user.email for user in User.query.all()]
@@ -2438,7 +2551,7 @@ def populate_to_users(announcement_obj):
         <h2>Dear {church.church_name} Member</h2>
 
         <p>{announcement_obj.info.data}</p>
-        <p>by: {usr.name}, {usr.committee_local_pos} - {usr.committee_local_group}</p>
+        <p>email by: {usr.name}, {usr.committee_local_pos} - {usr.committee_local_group}</p>
         <br>
         <p class="footer">Church Announcements!</p>
     </div>
@@ -2476,7 +2589,45 @@ def church_announcements():
     all_announcements = announcements.query.filter_by(chrch_id=current_user.chrch_id).all()
     church = all_churches.query.get(current_user.chrch_id)
 
-    return render_template("church_announcements.html",announcements=all_announcements,church=church,usr=admin_user)
+    return render_template("church_announcements.html",announcements=all_announcements,church=church,usr=admin_user,
+                           generate_whatsapp_link=generate_whatsapp_link,populate_to_users=populate_to_users)
+
+
+userr = User
+def generate_whatsapp_link(announce, user, church):
+    text = None
+
+    if userr.query.get(announce.usr_id).name:
+        text = (
+            f"\n*CHURCH ANNOUNCEMENT* \n"
+            f"\n*{announce.title}* \n\n"
+            f"{announce.info}\n\n"
+            f"_By: {userr.query.get(announce.usr_id).name} - _"
+            f"_{userr.query.get(announce.edited_by).committee_local_group}_ "
+            f"_{userr.query.get(announce.edited_by).committee_local_pos}_\n\n"
+            f"*{church.church_name}*\n"
+            f"*Contancts:* {church.church_contacts}\n"
+            f"*Email:* {church.church_email}\n\n\n"
+            f"Shared from: CAMM Sys+\n"
+            f"https://camm.churchregistry.org/announcements"
+        )
+    else:
+        f"\n*CHURCH ANNOUNCEMENT* \n"
+        text = (
+        f"*\n{announce.title}* \n\n"
+        f"{announce.info}\n\n"
+        f"*{church.church_name}*\n"
+        f"*Contancts:* {church.church_contacts}\n"
+        f"*Email:* {church.church_email}\n\n\n"
+        f"Shared from: CAMM Sys+\n"
+        f"https://camm.churchregistry.org/church_announcements"
+        )
+    
+    encoded_text = text.encode('utf-8')
+
+    encoded_text = quote(encoded_text)
+
+    return f"https://wa.me/?text={encoded_text}"
 
 
 @app.route("/announcements_form", methods=["POST","GET"])
@@ -2522,6 +2673,8 @@ def announcements_form_edit():
         return redirect(url_for("church_announcements"))
 
     return render_template("announcements_form_edit.html",announcements_form=announcements_form,announcement=announcement)
+
+
 
 
 # Press the green button in the gutter to run the script.
