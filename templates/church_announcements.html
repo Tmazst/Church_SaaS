@@ -33,17 +33,17 @@
 <div style="max-width:1100px;margin:0 auto" class="group">
     <h1 style="text-align: center;margin:0 auto">Church Announcements</h1>
 </div>
-<br>
-<div style="flex-wrap:wrap !important;border:none;gap:15px;" class="container finish-sign">
 
-  <!-- <div style="" class="flex-general"> -->
-    
+<br>
+
+<div id="announce" style="flex-wrap:wrap !important;border:none;gap:15px;" class="container finish-sign">
+
         {%for announce in announcements %}
         <div style="align-items: center;" class="announce_card general-flex-col">
 
             <!-- Title  -->
             <div id="transaction_id" class="group">
-                <h3 style="width:100%"><span style="float:left">{{announce.title}}</span> <span style="float:right;font-size: 13px;color:#2b54a5;" class="btns-outlined">{{announce.directed_to}}</span></h3>
+                <h3 style="width:100%;"><span style="float:left;color:rgb(172, 62, 22)">{{announce.title}}</span> <span style="float:right;font-size: 13px;color:#2b54a5;" class="btns-outlined">{{announce.directed_to}}</span></h3>
                 <h4 style="width:100%;text-align: left;">{{announce.timestamp.strftime("%d %b %y")}}</h4>
             </div>
 
@@ -52,9 +52,10 @@
                 <p>{{announce.info}}</p>
             </div>
 
+            <!-- Edited By  -->
             {% if announce.edited_by %}
             <div id="payment_platform" class="group">
-                <small  style="color:coral" class="captions"><i>Edited by: {{usr.query.get(announce.edited_by).name}} 
+                <small  class="captions"><i>Edited by: {{usr.query.get(announce.edited_by).name}} 
                     - {{usr.query.get(announce.edited_by).committee_local_group}} {{usr.query.get(announce.edited_by).committee_local_pos}}</i></small>
             </div>
             {%else%}
@@ -64,12 +65,13 @@
             </div>
             {%endif%}
 
+            <!-- Submit  -->
             {% if current_user.role == "admin_user"%}
             <div style="" class="group">
                 <a href="/announcements_form_edit?anncmnt={{ser.dumps({'data':announce.id})}}"> <div class="btns">Edit</div></a><br>
             </div>
             {%endif%}
-
+            <div class="pocktes-img-bg"><img style="height:150px;opacity:0.05" src="static/icons/announcements-icon.png" /></div>
         </div>
         {% endfor %}
 

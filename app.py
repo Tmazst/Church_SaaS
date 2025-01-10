@@ -2229,7 +2229,7 @@ def pledges_pockets():
     all_pockets = open_pledges.query.filter_by(chrch_id=current_user.chrch_id).all()
     months = {evt.start_date.strftime("%B") for evt in all_pockets}
 
-    return render_template("pledges_pockets.html",pledges_pockets=all_pockets,months=months,usr=admin_user)
+    return render_template("pledges_pockets.html",pledges_pockets=all_pockets,months=months,usr=User)
 
 
 @app.route("/open_pledges_form", methods=["POST","GET"])
