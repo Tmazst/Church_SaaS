@@ -2601,37 +2601,37 @@ def generate_whatsapp_link(announce, user, church):
     text = None
     encoded_text = None
     try:
-        if userr.role == 'admin_user':
-            if userr.query.get(announce.usr_id).name:
-                text = (
-                    f"\n*CHURCH ANNOUNCEMENT* \n"
-                    f"\n*{announce.title}* \n\n"
-                    f"{announce.info}\n\n"
-                    f"_By: {userr.query.get(announce.usr_id).name} - _"
-                    f"_{userr.query.get(announce.edited_by).committee_local_group}_ "
-                    f"_{userr.query.get(announce.edited_by).committee_local_pos}_\n\n"
-                    f"*{church.church_name}*\n"
-                    f"*Contancts:* {church.church_contacts}\n"
-                    f"*Email:* {church.church_email}\n\n\n"
-                    f"Shared from: CAMM Sys+\n"
-                    f"https://camm.churchregistry.org/announcements"
-                )
-            else:
-                
-                text = (
+        # if userr.role == 'admin_user':
+        if userr.query.get(announce.usr_id).name:
+            text = (
                 f"\n*CHURCH ANNOUNCEMENT* \n"
-                f"*\n{announce.title}* \n\n"
+                f"\n*{announce.title}* \n\n"
                 f"{announce.info}\n\n"
+                f"_By: {userr.query.get(announce.usr_id).name} - _"
+                f"_{userr.query.get(announce.edited_by).committee_local_group}_ "
+                f"_{userr.query.get(announce.edited_by).committee_local_pos}_\n\n"
                 f"*{church.church_name}*\n"
                 f"*Contancts:* {church.church_contacts}\n"
                 f"*Email:* {church.church_email}\n\n\n"
                 f"Shared from: CAMM Sys+\n"
-                f"https://camm.churchregistry.org/church_announcements"
-                )
+                f"https://camm.churchregistry.org/announcements"
+            )
+        else:
             
-            encoded_text = text.encode('utf-8')
+            text = (
+            f"\n*CHURCH ANNOUNCEMENT* \n"
+            f"*\n{announce.title}* \n\n"
+            f"{announce.info}\n\n"
+            f"*{church.church_name}*\n"
+            f"*Contancts:* {church.church_contacts}\n"
+            f"*Email:* {church.church_email}\n\n\n"
+            f"Shared from: CAMM Sys+\n"
+            f"https://camm.churchregistry.org/church_announcements"
+            )
+        
+        encoded_text = text.encode('utf-8')
 
-            encoded_text = quote(encoded_text)
+        encoded_text = quote(encoded_text)
 
         return f"https://wa.me/?text={encoded_text}"
     except:
