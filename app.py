@@ -2596,13 +2596,13 @@ def church_announcements():
                            generate_whatsapp_link=generate_whatsapp_link)
 
 
-userr = admin_user
+userr = User
 def generate_whatsapp_link(announce, user, church):
     text = None
     encoded_text = None
     try:
         # if userr.role == 'admin_user':
-        if userr.query.get(announce.usr_id).name:
+        if userr.query.get(announce.usr_id).committee_local_group:
             text = (
                 f"\n*CHURCH ANNOUNCEMENT* \n"
                 f"\n*{announce.title}* \n\n"
@@ -2617,7 +2617,6 @@ def generate_whatsapp_link(announce, user, church):
                 f"https://camm.churchregistry.org/announcements"
             )
         else:
-            
             text = (
             f"\n*CHURCH ANNOUNCEMENT* \n"
             f"*\n{announce.title}* \n\n"
