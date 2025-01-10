@@ -76,7 +76,7 @@
             {% set user_id = usr.query.get(announce.usr_id).id %}
             {% set church_id = church.id %}
             {% set announce_id = announce.id %}
-            <h1>user: {{ user}},church_id: {{ church_id}},announce_id: {{ announce_id}}</h1>
+            <h1>user: {{ user_id}},church_id: {{ church_id}},announce_id: {{ announce_id}}</h1>
             <div style="margin-bottom: 1px;" class="group">Send also:</div>
             <div style="flex-direction: row;justify-content: flex-start;align-items: center;gap:10px" class="group">
                 <a href="{{ generate_whatsapp_link(announce_id, user_id, church_id) }}"><img style="height: 35px;" src="static/icons/whatsapp-col-icon.png" /></a>
