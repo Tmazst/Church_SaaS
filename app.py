@@ -37,7 +37,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle':280}
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOADED"] = 'static/uploads'
-# app.config['JSON_AS_ASCII'] = True
+# app.config['JSON_AS_ASCII'] = False
 
 oauth = OAuth(app)
 db.init_app(app)
