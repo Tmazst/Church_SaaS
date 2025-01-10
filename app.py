@@ -2596,20 +2596,20 @@ def church_announcements():
                            generate_whatsapp_link=generate_whatsapp_link)
 
 
-userr = User
-def generate_whatsapp_link(announce, user, church):
+userr = admin_user
+def generate_whatsapp_link(announce, user_id, church):
     text = None
     encoded_text = None
     try:
         # if userr.role == 'admin_user':
-        if userr.query.get(announce.usr_id).committee_local_group:
+        if admin_user.query.get(user_id).committee_local_group:
             text = (
                 f"\n*CHURCH ANNOUNCEMENT* \n"
                 f"\n*{announce.title}* \n\n"
                 f"{announce.info}\n\n"
-                f"_By: {userr.query.get(announce.usr_id).name} - _"
-                f"_{userr.query.get(announce.edited_by).committee_local_group}_ "
-                f"_{userr.query.get(announce.edited_by).committee_local_pos}_\n\n"
+                f"_By: {userr.query.get(user_id).name} - _"
+                f"_{userr.query.get(user_id).committee_local_group}_ "
+                f"_{userr.query.get(user_id).committee_local_pos}_\n\n"
                 f"*{church.church_name}*\n"
                 f"*Contancts:* {church.church_contacts}\n"
                 f"*Email:* {church.church_email}\n\n\n"
@@ -2648,15 +2648,15 @@ def announcements_form():
 
     announcements_form = AnnouncementsForm()
     church = all_churches.query.get(current_user.chrch_id)
-    if request.method == "POST":
+    if request.method == "POST" and current_user.role == "admin_user":
         announcements_obj = announcements(chrch_id=current_user.chrch_id,usr_id=current_user.id,title=announcements_form.title.data
                 ,info=announcements_form.info.data,timestamp = datetime.now(),directed_to=announcements_form.directed_to.data
                 ) 
         db.session.add(announcements_obj)
         db.session.commit()
 
-    if announcements_form.emails.data:
-        populate_to_users(announcements_form)
+        if announcements_form.emails.data:
+            populate_to_users(announcements_form)
 
     return render_template("announcements_form.html",announcements_form=announcements_form,church=church)
 
