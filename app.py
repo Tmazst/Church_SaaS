@@ -2406,7 +2406,7 @@ def church_calender():
 @app.route("/email_users", methods=["POST","GET"])
 def email_users():
     
-    # all_users = [user.email for user in User.query.all()]
+    
 
     if request.method == "GET" and current_user.role == 'admin_user':
         obj = request.args.get("obj")
@@ -2415,8 +2415,9 @@ def email_users():
 
         print("*****DEBUG ANNOUNCE: ",announcement_obj.title)
 
+        all_users = [user.email for user in User.query.filter_by(chrch=current_user.church).all()]
 
-        all_users = ["thabo.mmaziya@gmail.com","pro.dignitron@gmail.com"]
+        # all_users = ["thabo.mmaziya@gmail.com","pro.dignitron@gmail.com"]
 
         print("CHECK EVENT: ",all_users)
 
@@ -2428,7 +2429,7 @@ def email_users():
         app.config["MAIL_PORT"] = 587
         app.config["MAIL_USE_TLS"] = True
         # Creditentials saved in environmental variables
-        em = app.config["MAIL_USERNAME"] =   os.getenv("MAIL") #creds.get('email')
+        em = app.config["MAIL_USERNAME"] =  "pro.dignitron@gmail.com" #os.getenv("MAIL") #creds.get('email')
         app.config["MAIL_PASSWORD"] = os.getenv("PWD") #creds.get('gpass') 
         app.config["MAIL_DEFAULT_SENDER"] = "noreply@gmail.com"
 
@@ -2463,7 +2464,7 @@ def email_users():
 </head>
 <body>
 <div class="container">
-    <img style="" src="https://yt3.googleusercontent.com/ytc/AIdro_kWhxLUK_wGrRkKhCAr_L_oGH2T1c-HMvF8VW0odpZ80g=s160-c-k-c0x00ffffff-no-rj" />
+    <!---- <img style="" src="https://yt3.googleusercontent.com/ytc/AIdro_kWhxLUK_wGrRkKhCAr_L_oGH2T1c-HMvF8VW0odpZ80g=s160-c-k-c0x00ffffff-no-rj" /> ---->
     <h2>Dear {church.church_name} Member</h2>
 
     <p>{announcement_obj.info}</p>
@@ -2491,7 +2492,7 @@ def email_users():
             return "Email Sent"
         except Exception as e:
             flash(f'Email not sent here', 'error')
-            return "The mail was not sent"
+            return "Only Admins Can Send Emails"
 
 
     return jsonify({"Success":"Email Sent"})
