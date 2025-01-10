@@ -72,11 +72,14 @@
             </div>
             {%endif%}
             <div class="pocktes-img-bg"><img style="height:150px;opacity:0.05" src="static/icons/announcements-icon.png" /></div>
-            {% set user = usr.query.get(announce.usr_id).id %}
-
+            
+            {% set user_id = usr.query.get(announce.usr_id).id %}
+            {% set church_id = church.id %}
+            {% set announce_id = announce.id %}
+            <h1>user: {{ user}},church_id: {{ church_id}},announce_id: {{ announce_id}}</h1>
             <div style="margin-bottom: 1px;" class="group">Send also:</div>
             <div style="flex-direction: row;justify-content: flex-start;align-items: center;gap:10px" class="group">
-                <a href="{{ generate_whatsapp_link(announce, user_id, church) }}"><img style="height: 35px;" src="static/icons/whatsapp-col-icon.png" /></a>
+                <a href="{{ generate_whatsapp_link(announce_id, user_id, church_id) }}"><img style="height: 35px;" src="static/icons/whatsapp-col-icon.png" /></a>
                 <a href="/email_users?obj={{announce.id}}"><img style="height: 40px;" src="static/icons/email_icon.png" /></a>
             </div>
         </div>
