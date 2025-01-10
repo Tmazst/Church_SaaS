@@ -1269,6 +1269,7 @@ def sign_up():
     # from myproject.models import user
     return render_template("manual_signup.html",register=register,show_admin_btn=show_admin_btn)
 
+
 @app.route("/pricing", methods=["POST","GET"])
 def pricing():
     
@@ -1295,6 +1296,7 @@ def subscribe():
         flash("We have updated Your Subscription Package Successfully!", "success")
 
         return redirect(url_for('home'))
+
 
 # @app.route("/subscription", methods=["POST","GET"])
 # @login_required
@@ -2594,39 +2596,40 @@ def church_announcements():
                            generate_whatsapp_link=generate_whatsapp_link)
 
 
-userr = User
+userr = admin_user
 def generate_whatsapp_link(announce, user, church):
     text = None
-
-    if userr.query.get(announce.usr_id).name:
-        text = (
+    
+    if userr.role == 'admin_user':
+        if userr.query.get(announce.usr_id).name:
+            text = (
+                f"\n*CHURCH ANNOUNCEMENT* \n"
+                f"\n*{announce.title}* \n\n"
+                f"{announce.info}\n\n"
+                f"_By: {userr.query.get(announce.usr_id).name} - _"
+                f"_{userr.query.get(announce.edited_by).committee_local_group}_ "
+                f"_{userr.query.get(announce.edited_by).committee_local_pos}_\n\n"
+                f"*{church.church_name}*\n"
+                f"*Contancts:* {church.church_contacts}\n"
+                f"*Email:* {church.church_email}\n\n\n"
+                f"Shared from: CAMM Sys+\n"
+                f"https://camm.churchregistry.org/announcements"
+            )
+        else:
             f"\n*CHURCH ANNOUNCEMENT* \n"
-            f"\n*{announce.title}* \n\n"
+            text = (
+            f"*\n{announce.title}* \n\n"
             f"{announce.info}\n\n"
-            f"_By: {userr.query.get(announce.usr_id).name} - _"
-            f"_{userr.query.get(announce.edited_by).committee_local_group}_ "
-            f"_{userr.query.get(announce.edited_by).committee_local_pos}_\n\n"
             f"*{church.church_name}*\n"
             f"*Contancts:* {church.church_contacts}\n"
             f"*Email:* {church.church_email}\n\n\n"
             f"Shared from: CAMM Sys+\n"
-            f"https://camm.churchregistry.org/announcements"
-        )
-    else:
-        f"\n*CHURCH ANNOUNCEMENT* \n"
-        text = (
-        f"*\n{announce.title}* \n\n"
-        f"{announce.info}\n\n"
-        f"*{church.church_name}*\n"
-        f"*Contancts:* {church.church_contacts}\n"
-        f"*Email:* {church.church_email}\n\n\n"
-        f"Shared from: CAMM Sys+\n"
-        f"https://camm.churchregistry.org/church_announcements"
-        )
-    
-    encoded_text = text.encode('utf-8')
+            f"https://camm.churchregistry.org/church_announcements"
+            )
+        
+        encoded_text = text.encode('utf-8')
 
-    encoded_text = quote(encoded_text)
+        encoded_text = quote(encoded_text)
 
     return f"https://wa.me/?text={encoded_text}"
 
