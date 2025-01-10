@@ -2591,7 +2591,7 @@ def church_announcements():
     church = all_churches.query.get(current_user.chrch_id)
 
     return render_template("church_announcements.html",announcements=all_announcements,church=church,usr=admin_user,
-                           generate_whatsapp_link=generate_whatsapp_link,populate_to_users=populate_to_users)
+                           generate_whatsapp_link=generate_whatsapp_link)
 
 
 userr = User
