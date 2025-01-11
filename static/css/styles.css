@@ -320,7 +320,7 @@ tr:hover{
 
 #announce .announce_card{
     box-shadow:-1px 1px 3px 0px rgba(0,0,0,0.5);
-    min-width:350px;
+    min-width:330px;
     width:60%;
     margin:10px auto;
     border-radius: 20px;
@@ -331,7 +331,7 @@ tr:hover{
     display: flex;
     /* padding: 20px; */
     box-shadow:-1px 1px 3px 0px rgba(0,0,0,0.5);
-    min-width:350px;
+    min-width:330px;
     width:60%;
     margin:10px auto;
     border-radius: 20px;
@@ -1830,10 +1830,24 @@ label span{
     display: none;
 }
 
+.side-nav-background{
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    top: 0;
+    bottom: 0;
+    z-index:-1;
+    left:0;
+    right:0;
+    background-color: transparent;
+}
+
+
 #side-navig-cont{
     position: relative;
     background-color: var(--main-color);
 }
+
 
 .side-nav-bg{
     position: fixed;
@@ -1844,7 +1858,7 @@ label span{
     z-index:1600;
     left:0;
     right:0;
-    background: rgba(0,0,0,0.5);
+    background: none;
 }
 
 .other-navbar-nav{

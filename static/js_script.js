@@ -526,16 +526,16 @@ function sideNavFunc(event){
 
     };
 
-// function closeSideNavFunc(){
+function closeSideNavFunc(){
     // var popScrnLogo = document.getElementById("updates");
     // popScrnLogo.classList.toggle("show-popup");
-    // console.log("Side Nav");
-    // let sideNavBg = document.querySelector('#side-navig-bg');
-    // let sideNavCont = document.querySelector("#side-navig-cont");
+    console.log("Side Nav");
+    let sideNavBg = document.querySelector('#side-navig-bg');
+    let sideNavCont = document.querySelector("#side-navig-cont");
     // document.querySelector("#commentField").value = "";
-    // sideNavBg.classList.remove("show-popup");
-    // sideNavCont.classList.remove("show-menu");
-    // };
+    sideNavBg.classList.remove("show-popup");
+    sideNavCont.classList.remove("show-menu");
+    };
     
 
     function showHideFbtns(){
