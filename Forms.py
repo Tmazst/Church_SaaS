@@ -135,8 +135,8 @@ class SermonNotesForm(FlaskForm):
 
     title = StringField('Title', validators=[DataRequired()])
     speaker = StringField('Speaker', validators=[DataRequired()])
-    info = TextAreaField('Sermon Summary', validators=[Optional(),Length(min=0,max=150)])
-    notes_file = FileField('Upload Notes', validators=[Optional()])
+    info = TextAreaField('Sermon Summary', validators=[Optional(),Length(min=0,max=200)])
+    notes_file = FileField('Upload Notes (Only PDFs)', validators=[Optional()])
     submit = SubmitField('Submit')
 
 

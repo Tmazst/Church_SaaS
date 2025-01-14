@@ -197,6 +197,20 @@ function closePop(){
     formCont.style.display='flex';
 }
 
+function popupSermon(id){
+    // var popScrnLogo = document.getElementById("updates");
+    // popScrnLogo.classList.toggle("show-popup");
+    
+    let popCont = document.querySelector('#pop_image_' + id);
+    let popUp = document.querySelector('#popup_' + id);
+    // let formCont = document.querySelector("#form-cont");
+
+    popCont.classList.toggle("show-popup");
+    popUp.classList.toggle("show-popup");
+    // formCont.style.display='none';
+    
+};
+
 
 const paragraph = document.querySelectorAll('.sel-tag');
 

@@ -190,6 +190,13 @@ a:hover{opacity: 0.81;}
     margin:10px auto;
 }
 
+.serm{
+    background: red !important;
+    border:none !important;
+    min-width:300px !important;
+    min-height:45px;
+}
+
 .show-it{display: block !important;}
 
 .off-num{
@@ -2657,8 +2664,9 @@ to{
     /* display:none; */
     display:flex;
     background:none;
-    height:600px;
-    /* width:90%; */
+    min-height:700px;
+    max-width: 1100px !important;
+    width:90% !important;
     top:200px;
     border-radius:10px;
     flex-direction:column;

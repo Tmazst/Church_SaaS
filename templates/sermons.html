@@ -11,8 +11,15 @@
         flex-direction:column;
     }
     section{ background-image:url(static/images/bg_service.png) }
+    .off-num{
+        color:rgb(87, 87, 87)
+    }
+    .subs{width:100%;max-width: 600px;margin:10px auto;border:1px solid rgb(70, 69, 69);color:rgb(53, 53, 53);
+            font-weight:600;border-radius: 10px;}
+    .cap{position:absolute;}
     /* .sub-topic{background-color: rgb(0, 60, 255) !important; } */
 </style>
+
 <div class="flash-messages" id="">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -33,24 +40,26 @@
     <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
 </div><br>
 
-{% if offerings_obj %}
+{% if sermon_obj %}
 <div class="">
    <div class="registered-users-cont">
     <h2>Church Sermons</h2>
+    
     {%for year in years %}
+    
         {% for month in months %}
-            <h3 style="width:100%;max-width: 600px;margin:10px auto;background-color: rgb(247, 191, 10);color:rgb(53, 53, 53);
-            
-            font-weight:600;">{{month}} {{year}}</h3>
-            {%for sermon in sermons_obj%}
+            <h3 class="subs" style="">{{month}} {{year}}</h3><br>
+            {%for sermon in sermon_obj%}
             {%if sermon.timestamp.strftime("%B") == month %}
             <div class="registered-user">
-                <div onclick="showHideSermons('{{sermon.id}}')" class="filter-subs general-flex months-off-tabs"  style="justify-content: flex-start;">
-                    <div style="font-weight: 600;" class="">{{sermon.title}}</div>
-                    <div style="font-weight: 600;font-size:13px;color:red" class="">{{sermon.timestamp.strftime("%d %B %Y")}} - {{sermon.speaker}}</div>
+                <div onclick="showHideSermons('{{sermon.id}}')" class="filter-subs general-flex months-off-tabs serm"  style="justify-content: flex-start;">
+                    <div style="position:relative" class="">
+                        <div style="font-weight: 600;" class=""><span class="off-num">{{loop.index}}</span> {{sermon.title}}</div>
+                        <div style="font-weight: 600;font-size:13px;color:red;" class="cap">{{sermon.timestamp.strftime("%d %b")}} - {{sermon.speaker}}</div>
+                    </div>
                     <img id="conta-handle-{{sermon.id}}" class="" style="height:25px;margin-left: 0px;" src="static/icons/content-handle-icon.png" />
                 </div>
-                <div id="offering-cont-{{sermon.id}}" class="cont-offering">
+                <div id="sermon-cont-{{sermon.id}}" class="cont-offering">
                     <div style="flex-direction: column;" class="card serm-card">
                         <!-- for loop  -->
                         
@@ -63,7 +72,7 @@
                             <div class="field-lines"></div>
 
                             <small class="labels">Notes</small>
-                            <div onclick="popUp('{{sermon.id}}')" class="btns">Open</div>
+                            <div onclick="popupSermon('{{sermon.id}}')" class="btns">Open</div>
                             <small>View & Download Notes</small>
 
                         </div>
@@ -108,7 +117,7 @@
 </div>
 {% else %}
 <br><br>
-<h1>There are No Offerings Made Yet!</h1>
+<h1>There are no study materials recorded yet, Check again later!</h1>
 <br><br>
 {%endif%}
 

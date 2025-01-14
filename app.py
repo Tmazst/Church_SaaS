@@ -200,8 +200,8 @@ def process_file(file):
 
 
 def process_pop_file(file,usr_id):
-    print("Check File: ",file)
-    if file.startswith("default"):
+
+    if isinstance(file, str):
         return file
     else:
         filename = secure_filename(file.filename)
@@ -515,8 +515,10 @@ def sermon_form():
         db.session.add(sermon)
         db.session.commit()
 
+        flash("Uploaded Successfully","success")
 
     return render_template("sermon_notes_form.html",notes_form=notes_form)
+
 
 @app.route('/sermons',methods=["POST","GET"])
 @login_required
