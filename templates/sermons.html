@@ -1,0 +1,120 @@
+
+<!-- Sermon  -->
+ <!-- Freewill  -->
+
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+    /* .sub-topic{background-color: rgb(0, 60, 255) !important; } */
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+</div><br>
+
+{% if offerings_obj %}
+<div class="">
+   <div class="registered-users-cont">
+    <h2>Church Sermons</h2>
+    {%for year in years %}
+        {% for month in months %}
+            <h3 style="width:100%;max-width: 600px;margin:10px auto;background-color: rgb(247, 191, 10);color:rgb(53, 53, 53);
+            
+            font-weight:600;">{{month}} {{year}}</h3>
+            {%for sermon in sermons_obj%}
+            {%if sermon.timestamp.strftime("%B") == month %}
+            <div class="registered-user">
+                <div onclick="showHideSermons('{{sermon.id}}')" class="filter-subs general-flex months-off-tabs"  style="justify-content: flex-start;">
+                    <div style="font-weight: 600;" class="">{{sermon.title}}</div>
+                    <div style="font-weight: 600;font-size:13px;color:red" class="">{{sermon.timestamp.strftime("%d %B %Y")}} - {{sermon.speaker}}</div>
+                    <img id="conta-handle-{{sermon.id}}" class="" style="height:25px;margin-left: 0px;" src="static/icons/content-handle-icon.png" />
+                </div>
+                <div id="offering-cont-{{sermon.id}}" class="cont-offering">
+                    <div style="flex-direction: column;" class="card serm-card">
+                        <!-- for loop  -->
+                        
+                        <div class="general-flex" style="padding:15px; align-items: flex-start !important;flex-direction:column">
+                        <div class="month-title-off">{{sermon.title}}</div><br>
+                            <!-- <h5 class="btns-outlined greyscale-it"> Freewill</h5> -->
+                            <small class="labels">Summary</small>
+                            <small>{{sermon.info}}</small>
+
+                            <div class="field-lines"></div>
+
+                            <small class="labels">Notes</small>
+                            <div onclick="popUp('{{sermon.id}}')" class="btns">Open</div>
+                            <small>View & Download Notes</small>
+
+                        </div>
+
+                    </div> 
+                </div><br>
+
+            </div>
+            <!-- Pop-up -->
+            {% if sermon.notes_file %}
+            <div id="pop_image_{{sermon.id}}" class="pop-cont">
+                <div id="popup_{{sermon.id}}" class="pop-up">
+                    {% set pop_img = sermon.notes_file %}
+                    {% set file_ext = pop_img.split('.')[-1] | lower %}
+                    <!---IMG VIEWER-->
+                    {% if file_ext  in ['jpg','jpeg','png', 'gif'] %}
+                        {% if pop_img %}
+                            <h4>{{pop_img}}</h4>
+                        {% endif %}
+                        <img  src="static/uploads/{{pop_img}}" />
+                    <!---PDF VIEWER-->
+                    {% elif file_ext  == 'pdf' %}
+                    <h4>{{pop_img}}</h4>
+                        <embed src="static/uploads/{{pop_img}}" type="application/pdf" width="100%" height="1000px" />
+                    <!---DOCX VIEWER-->
+                    {% elif file_ext  == 'docx' %}
+                        <iframe src="https://docs.google.com/gview?url={{ url_for('static', filename='uploads/pop_img') }}&embedded=true" width="100%" height="1000px" frameborder="0"></iframe>
+                    {% else %}
+                        <p>Unsupported file format.</p>
+                    {% endif %}
+                    <br>
+                    <div  style="align-self:flex-end;width:60%" ><input onclick="closePopup('{{sermon.id}}')" class="btns" type="button" value="Exit"></div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {%endfor%}
+            {%endfor%}
+        {%endfor%}
+   </div>
+  
+</div>
+{% else %}
+<br><br>
+<h1>There are No Offerings Made Yet!</h1>
+<br><br>
+{%endif%}
+
+
+
+<script>
+    
+</script>
+{% endblock %}

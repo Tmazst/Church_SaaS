@@ -1,0 +1,106 @@
+<!-- Freewill  -->
+
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    .print-btn{
+        position: relative;
+        width: 90%;
+        max-width: 1100px;
+        /* background-color: brown; */
+        margin: 0 auto;
+        justify-content: flex-end;
+        /* float:right */
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+    /* .sub-topic{background-color: rgb(0, 60, 255) !important; } */
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+
+<div class="print-btn general-flex"><a href="/offering_report"><img style="height:75px" src="static/icons/print-icon.png" ></a></div>
+
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+</div><br>
+
+{% if offerings_obj %}
+<div class="">
+   <div class="registered-users-cont">
+    <h2>Church Offering</h2>
+    {%for year in years %}
+        {% for month in months %}
+            <h3 style="width:100%;max-width: 600px;margin:10px auto;background-color: rgb(247, 191, 10);color:rgb(53, 53, 53);
+            
+            font-weight:600;">{{month}} {{year}}</h3><br>
+            {%for offerings in offerings_obj%}
+            {%if offerings.timestamp.strftime("%B") == month %}
+            <div style="position:relative" class="registered-user">
+                <div onclick="showHideOfferings('{{offerings.id}}')" class="filter-subs general-flex months-off-tabs"  style="justify-content: flex-start;">
+                    <div style="font-weight: 600;" class="width:60%"> <span class="off-num">{{loop.index}}</span> Offering  - {{offerings.timestamp.strftime("%d %B %Y")}} </div>
+                    <img id="cont-handle-{{offerings.id}}" class="" style="height:25px;margin-left: 0px;" src="static/icons/content-handle-icon.png" />
+                </div>
+                <div id="offering-cont-{{offerings.id}}" class="cont-offering">
+                    <div style="flex-direction: column;" class="card free-card">
+                        <!-- for loop  -->
+                        
+                        <div class="general-flex" style="padding:15px; align-items: flex-start !important;flex-direction:column">
+                        <div class="month-title-off">{{offerings.timestamp.strftime("%d %B %Y")}}</div><br>
+                            <!-- <h5 class="btns-outlined greyscale-it"> Freewill</h5> -->
+                            <small class="labels">Freewill</small>
+                            <small>E{{offerings.freewill}}</small>
+
+                            <div class="field-lines"></div>
+
+                            <small class="labels">Tithes</small>
+                            <small>E{{offerings.tithes}}</small>
+
+                            <div class="field-lines"></div>
+
+                            <small class="labels">Building</small>
+                            <small>E{{offerings.building}}</small>
+                        </div>
+
+                    </div> 
+                </div><br>
+                
+
+            </div>
+            {% endif %}
+            {%endfor%}
+            {%endfor%}
+        {%endfor%}
+        
+   </div>
+  
+</div>
+{% else %}
+<br><br>
+<h1>There are No Offerings Made Yet!</h1>
+<br><br>
+{%endif%}
+
+
+
+<script>
+    
+</script>
+{% endblock %}

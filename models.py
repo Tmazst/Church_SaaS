@@ -177,6 +177,40 @@ class announcements(db.Model):
     timestamp = db.Column(db.DateTime)
 
 
+class sermons_notes(db.Model):
+
+    id = db.Column(db.Integer,primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    usr_id=db.Column(db.Integer)
+    title = db.Column(db.String(50))
+    speaker = db.Column(db.String(50))
+    info = db.Column(db.String(150))
+    notes_file = db.Column(db.String(100))
+    edited_by = db.Column(db.String(50))
+    timestamp = db.Column(db.DateTime)
+
+class offerings(db.Model):
+
+    id = db.Column(db.Integer,primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    usr_id=db.Column(db.Integer)
+    freewill = db.Column(db.String(50))
+    tithes = db.Column(db.String(50))
+    building = db.Column(db.String(255))
+    outreach = db.Column(db.String(255))
+    other1 = db.Column(db.String(255))
+    other2 = db.Column(db.String(255))
+    other3 = db.Column(db.String(255))
+    other4 = db.Column(db.String(255))
+    other5 = db.Column(db.String(255))
+    other6 = db.Column(db.String(255))
+    other7 = db.Column(db.String(255))
+    other8 = db.Column(db.String(255))
+    other9 = db.Column(db.String(255))
+    edited_by = db.Column(db.String(50))
+    timestamp = db.Column(db.DateTime)
+
+
 class church_user(User):
 
     __table_name__ = "church_user"

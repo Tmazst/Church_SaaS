@@ -4,7 +4,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='/css/styles.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/weasy-css.css')}}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>{{title}}</title>
@@ -117,7 +118,7 @@
     </div>
     {%endif%}
 
-
+    <!-- Side Navigation  -->
     <div  id="side-navig-bg" class="side-nav-bg ">
       <div id="side-navig-cont" class="side-nav-cont move-to-appear gen-flex-col">
           <!-- <div class="close-btn"><div class="stroke"></div></div> -->
@@ -153,6 +154,9 @@
                   <li class="other-nav-item">
                     <a class="nav-link" href="/pledge_form" >My Pledges</a>
                   </li>
+                  <li class="other-nav-item">
+                    <a class="nav-link" href="/offering" >Offering Report</a>
+                  </li>
                   <!-- <li class="other-nav-item">
                     <a class="nav-link" href="/about" >My Committee(s)</a>
                   </li> --><br>
@@ -164,6 +168,7 @@
                 <div style="position: relative;">
                 <h3 style="color:white">Administration</h3>
 
+                <!-- Membership Manager  -->
                 <div id="nav-1" class="saas-nav-item">
                     Membership Manager
                 </div>
@@ -180,6 +185,7 @@
                   </div>
                 <div class="line-sep"></div>
 
+                <!-- Event Management  -->
                 <div id="nav-2" class="saas-nav-item">
                   Event Manager
                 </div>
@@ -199,6 +205,7 @@
                   </div>
                   <div class="line-sep"></div>
 
+                  <!-- Announcements  -->
                   <div id="nav-3" class="saas-nav-item">
                     Announcements
                   </div>
@@ -212,6 +219,7 @@
                   </div>
                   <div class="line-sep"></div>
 
+                  <!-- Church Services  -->
                   <div id="nav-4"  class="saas-nav-item">
                     Church Services
                   </div>
@@ -225,6 +233,7 @@
                   </div>
                   <div class="line-sep"></div>
 
+                  <!-- Fundraising  -->
                   <div id="nav-5" class="saas-nav-item">
                     Fundraising
                   </div>
@@ -237,6 +246,19 @@
                     </li>
                     <li id="" class="saas-nav-item-chld">
                       <a class="nav-link" href="/pledges">Show Pledges</a>
+                    </li>
+                  </div>
+                  <div class="line-sep"></div>
+                  <!-- Financials  -->
+                  <div id="nav-6" class="saas-nav-item">
+                    Financials 
+                  </div>
+                  <div id="nav-chld-6" class="pop-nav-cont">
+                    <li id="" class="saas-nav-item-chld">
+                      <a class="nav-link" href="/offering_form">Offering Form</a>
+                    </li>
+                    <li id="" class="saas-nav-item-chld">
+                      <a class="nav-link" href="/offering">Offering Reports</a>
                     </li>
                   </div>
                   <!-- <li class="other-nav-item">

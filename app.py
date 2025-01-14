@@ -271,7 +271,7 @@ def inject_ser():
 
     return dict(event_details=event,pop_transts=pop_transactions,user_no_base=user_no_base,ser=ser,church=church,
                 days_left=days_left,pocket=pledges_pocket,subscr_package=subscr_package,pledges_pocket_nm=pledges_pocket,
-                pledges_nm=pledges_nm, envts_nm=events_nm,announce_nm=announce_nm,services_nm=services_nm,registered_nm=registered_nm)
+                pledges_nm=pledges_nm, envts_nm=events_nm,announce_nm=announce_nm,services_nm=services_nm,registered_nm=registered_nm,date=datetime)
 
 
 #Users faker
@@ -457,6 +457,158 @@ def church_registration_edit():
         flash("Update Successful","success")
 
     return render_template("church_registration_edit.html",church_form=church_form,church_details=church)
+
+
+@app.route('/offering_form',methods=["POST","GET"])
+@login_required
+def offering_form():
+
+    offering_form = OfferingForm()
+
+    if request.method == "POST":
+
+        offering = offerings(
+            chrch_id = current_user.chrch_id,usr_id=current_user.id, freewill = offering_form.freewill.data,
+            tithes = offering_form.tithes.data, building = offering_form.building.data, outreach = offering_form.outreach.data,timestamp = datetime.now()
+        )
+
+        db.session.add(offering)
+        db.session.commit()
+
+    return render_template("offering_form.html",offering_form=offering_form)
+
+
+@app.route('/offering',methods=["POST","GET"])
+@login_required
+def offering():
+    months=None
+    years=None
+
+    offerings_obj = offerings.query.filter_by(chrch_id=current_user.chrch_id).all()
+
+    if offerings_obj:
+        months = {evt.timestamp.strftime("%B") for evt in offerings_obj}
+        years = {evt.timestamp.year for evt in offerings_obj}
+
+        dt = datetime.now().date()
+
+    return render_template("offering.html",offerings_obj=offerings_obj,months=months,years=years)
+
+
+@app.route('/sermon_form',methods=["POST","GET"])
+@login_required
+def sermon_form():
+
+    notes_form = SermonNotesForm()
+
+    if request.method == "POST":
+        sermon = sermons_notes(
+            chrch_id = current_user.chrch_id,usr_id=current_user.id,title = notes_form.title.data,
+            speaker = notes_form.speaker.data,info = notes_form.info.data,notes_file = notes_form.notes_file.data,
+            timestamp = datetime.now()
+        )
+
+        if notes_form.notes_file.data:
+            file =  process_pop_file(notes_form.notes_file.data,current_user.id)
+            sermon.notes_file = file
+
+        db.session.add(sermon)
+        db.session.commit()
+
+
+    return render_template("sermon_notes_form.html",notes_form=notes_form)
+
+@app.route('/sermons',methods=["POST","GET"])
+@login_required
+def sermons():
+    months=None
+    years=None
+
+    sermon_obj = sermons_notes.query.filter_by(chrch_id=current_user.chrch_id).all()
+
+    if sermon_obj:
+        months = {evt.timestamp.strftime("%B") for evt in sermon_obj}
+        years = {evt.timestamp.year for evt in sermon_obj}
+
+        dt = datetime.now().date()
+
+    return render_template("sermons.html",sermon_obj=sermon_obj,months=months,years=years)
+
+# from flask import Flask, render_template, make_response
+# from flask_weasyprint import HTML, render_pdf
+
+
+# @app.route('/offering_report.pdf')
+# def hello_pdf(name):
+#     # Make a PDF straight from HTML in a string.
+#     html = render_template('report.html')
+#     return render_pdf(HTML(string=html))
+
+
+
+def generate_report_data():
+
+    offering=[]
+    off_months=None
+    
+
+    tr_data = ["Date","Freewill","Tithes","Building","Outreach"]
+    filter_item = request.args.get("fltr")
+    insp_offerings = offerings.query.filter_by(chrch_id=current_user.chrch_id).all()
+
+    if insp_offerings:
+        off_months = { obj.timestamp.strftime("%B") for obj in  insp_offerings}
+
+    if filter_item:
+        offering = [ obj for obj in offerings.query.filter_by(chrch_id=current_user.chrch_id).all() if obj.timestamp.strftime("%B") == filter_item ]
+    else:
+        offering = [ obj for obj in offerings.query.filter_by(chrch_id=current_user.chrch_id).all() if obj.timestamp.strftime("%B") == datetime.now().strftime("%B") ]
+
+
+    freewill_ttl = sum([float(freewl.freewill) for freewl in offering if freewl.freewill is not None])
+    tithes_ttl = sum([float(tths.tithes) for tths in offering if tths.tithes is not None])
+    building_ttl = sum([float(blng.building) for blng in offering if blng.building is not None])
+    outreach_ttl = sum([0, 0])  # Assuming outreach_ttl is always [0, 0]
+    all_total = freewill_ttl + tithes_ttl + building_ttl + outreach_ttl
+
+
+    return offering, tr_data, off_months, freewill_ttl, tithes_ttl, building_ttl , outreach_ttl, all_total
+
+
+@app.route('/offering_report',methods=["POST","GET"])
+@login_required
+def offering_printv():
+    
+    offering, tr_data, off_months,  freewill_ttl, tithes_ttl, building_ttl, outreach_ttl, all_total = generate_report_data()
+
+    print("Checks Months: ",off_months,tr_data)
+
+    return render_template("report.html", offering=offering,tr_data=tr_data,off_months=off_months,
+                           freewill_ttl=freewill_ttl,tithes_ttl=tithes_ttl,building_ttl =building_ttl,outreach_ttl=outreach_ttl,
+                           all_total=all_total)
+
+
+@app.route('/offering_justprint')
+@login_required
+def offering_justprint():
+    
+    offering, tr_data, off_months,  freewill_ttl, tithes_ttl, building_ttl, outreach_ttl, all_total = generate_report_data()
+
+    return render_template("just_print_off.html", offering=offering,tr_data=tr_data,off_months=off_months,
+                           freewill_ttl=freewill_ttl,tithes_ttl=tithes_ttl,building_ttl =building_ttl,outreach_ttl=outreach_ttl,
+                           all_total=all_total)
+
+
+@app.route('/calender_justprint')
+@login_required
+def calender_justprint():
+    pass
+
+
+@app.route('/calender_report',methods=["POST","GET"])
+@login_required
+def calender_report():
+    pass
 
 
 @app.route('/church_account')
@@ -839,16 +991,16 @@ def user_registration_form():
 
     get_user = User.query.get(current_user.id)
 
-    # Update validators based on selection
-    # registration_form.update_validators(registration_form.payment_platform.data)
-
+    #Check The is a current open event
     if event:
         val_registration = pop_transactions.query.filter_by(usr_id=current_user.id).first()
     
+    #Already Registered
     if val_registration:
         flash(f"You are already registered.", "success")
         return redirect(url_for("already_registered"))# redirect(url_for("home"))
     
+    #Finish Sign Up
     if not current_user.church_local:
         flash("Please Finish Up Your Account Setup, First. You're Almost Done!","success")
         if current_user.role == "church_user":
@@ -2401,7 +2553,7 @@ def church_calender():
     months = {evt.start_date.strftime("%B") for evt in church_calender}
     years = {evt.start_date.year for evt in church_calender}
     dt = datetime.now().date()
-
+ 
     return render_template("calender.html",church_calender=church_calender,months=months,years=years,dt=dt)
 
 

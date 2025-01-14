@@ -1,0 +1,156 @@
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/weasy-css.css')}}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}" /> -->
+    <title></title>
+    <meta name="description" content="Invoice demo sample">
+  </head>
+<style>
+    .img-cont{
+        position:absolute;
+        top:30px;
+        left: 30px;
+    }
+    @media print {
+            /* Custom styles for printing */
+            body {
+                font-size: 12pt;
+            }
+            .no-print {
+                display: none;
+            }
+            .report-container{
+                display: none;
+            }
+        }
+</style>
+  <body>
+    <br><br>
+    
+
+
+    <div style="border:none" id="remove-filter" class="report-container">
+        <div style="background-color:;" class="group">
+            <small style="width:100%;">Filter:</small>
+            <select onchange="location = this.value;" id="month-filter" class="form-control" style="margin-left:50px;max-width: 250px;" name="filter-month">
+                <option value="">--------Choose Month-------</option>
+                {% for opt in  off_months %}
+                    <option value="/offering_report?fltr={{opt}}">{{opt}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br>
+
+    <div id="remove-cont" class="report-container">
+        <h2>Monthly Offering Report</h2>
+        <h5>{{offering[0].timestamp.strftime("%B %Y")}}</h5>
+        <div>
+            <div style="height:75px;width:75px;" class="img-cont">
+                <div width="90%"><img style="height:75px !important" class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+            </div>
+            <aside>
+                
+                <address id="from">
+                    
+                    <b>{{church.church_name}}</b>
+                    {{church.location}}
+                    {{church.church_email}}
+                    TEL: {{church.church_contacts}}
+                </address>
+
+                <address id="to"><br>
+                    Mobile Money: {{church.church_contacts}}
+                    Accounts: 612124454 FNB / 25465687 Eswatini Bank
+                </address>
+            </aside>
+        </div>
+        <div>
+            <dl id="informations">
+                <dt>Offering Sheet</dt>
+                <dd>200{{church.id}}</dd>
+                <dt>Date</dt>
+                <dd>{{date.now().strftime("%B %d, %Y")}}</dd>
+            </dl>
+            <br>
+        </div>
+
+        <div>
+            <table>
+
+                <thead>
+                    
+                    <tr>
+                        {%for ea_tr in tr_data%}
+                        <th>{{ea_tr}}</th>
+                        {%endfor%}
+                    </tr>
+                    
+                </thead>
+
+                <tbody>
+                    {%for row in offering%}
+                    <tr>
+                        <td>{{row.timestamp.strftime("%d %b %y")}}</td>
+                        <td>E{{row.freewill}}</td>
+                        <td>E{{row.tithes}}</td>
+                        <td>E{{row.building}}</td>
+                        <td>E{{row.outreach}}</td>
+                    </tr>
+                    {%endfor%}
+                    <tr>
+                        <td><b>Totals</b></td>
+                        <td><b>E{{ freewill_ttl}}</b></td>
+                        <td><b>E{{tithes_ttl}}</b></td>
+                        <td><b>E{{building_ttl}}</b></td>
+                        <td><b>E{{outreach_ttl}}</b></td>
+                        
+                    </tr>
+                </tbody>
+
+                </table>
+            </div>
+            <br><br><br><br>
+            
+                <footer>
+                    <table id="total">
+                        <thead>
+                        <tr>
+                            <th><b>All Totals</b></th>
+                            <th>Signature</th>
+                            <th>Signature</th>
+                            <th>Signature</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><span style="color:red"><b>E{{all_total}}</b></span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </footer>
+            
+    </div><br><br><br>
+    <button class="no-print" onclick="window.print()">Print this page</button>
+    </body>
+
+    <script>
+         // Automatically trigger print dialog when the page loads
+         window.onload = function() {
+            window.print();
+            var removeCont = document.querySelector("#remove-cont");
+            var removeFilter = document.querySelector("#remove-filter");
+            removeCont.classList.remove("report-container");
+            removeFilter.classList.add("hide-filter");
+            removeFilter.classList.remove("report-container");
+        };
+    </script>
+
+</html>
+
+

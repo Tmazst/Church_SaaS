@@ -97,6 +97,9 @@ navParent.forEach(nav => {
         }else if(nav.id === "nav-5"){
             var navOneChild = document.querySelector("#nav-chld-5");
             navOneChild.classList.toggle('reveal');
+        }else if(nav.id === "nav-6"){
+            var navOneChild = document.querySelector("#nav-chld-6");
+            navOneChild.classList.toggle('reveal');
         }
     });
 });
@@ -544,4 +547,18 @@ function closeSideNavFunc(){
         fbtns.classList.toggle('show-it');
         contHandle.classList.toggle('rotate-45');
         // contHandle.style.transitionDelay = '0.3s'
+    }
+
+    function showHideOfferings(id){
+        let OfferingCont = document.querySelector("#offering-cont-" +id); 
+        let contHandle = document.querySelector('#cont-handle-' + id);
+        OfferingCont.classList.toggle('show-it');
+        contHandle.classList.toggle('rotate-45');
+    }
+
+    function showHideSermons(id){
+        let OfferingCont = document.querySelector("#sermon-cont-" +id); 
+        let contHandle = document.querySelector('#conta-handle-' + id);
+        OfferingCont.classList.toggle('show-it');
+        contHandle.classList.toggle('rotate-45');
     }

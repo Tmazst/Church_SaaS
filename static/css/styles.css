@@ -192,6 +192,15 @@ a:hover{opacity: 0.81;}
 
 .show-it{display: block !important;}
 
+.off-num{
+    /* background-color: #0474be; */
+    color:white;
+    border-radius: 50%;
+    padding: 5px;
+    min-width: 10px !important;
+    height: 10px;
+}
+
 tr:hover{
     /* opacity: 0.7; */
     background-color: rgb(248, 247, 247);
@@ -201,13 +210,15 @@ tr:hover{
 .rotate-45{
     transform: rotate(90deg);
     transition:all 0.3s ease-out;
+    
 }
 
 .filter-subs{
     cursor: pointer;
-    border-left:3px solid var(--secondary-color);
+    border-left:3px solid red;
+    /* border-radius: 10px; */
     padding:5px;
-    background-color: #f1f1f1;
+    background-color: #92b7fc;
 }
 
 #float-nav{
@@ -1166,6 +1177,7 @@ form{
 
 
 
+
 .container{
     display:flex;
     justify-content:flex-start !important;
@@ -1840,6 +1852,42 @@ label span{
     left:0;
     right:0;
     background-color: transparent;
+}
+
+.cont-offering{
+    display:none
+}
+
+.months-off-tabs{
+    width:100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.month-title-off{
+    color:#722525;
+    font-weight:500;
+    font-size: 20px;
+}
+
+.free-card{
+    border:1px solid rgb(209, 209, 209);
+    box-shadow: none;
+}
+
+.serm-card{
+    border:1px solid rgb(209, 209, 209);
+    box-shadow: none;
+    width:90% !important;
+    margin:0 auto;
+    max-width: 600px !important;
+}
+
+.field-lines{
+    height:1px;
+    background-color: #6d6d6d;
+    width:80%;
+    /* margin: 0 auto; */
 }
 
 
@@ -2549,6 +2597,47 @@ to{
 
 #open_details{
     display:none;
+}
+
+@media print {
+    /* Custom styles for printing */
+    body {
+        font-size: 12pt;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .no-print {
+        display: none;
+    }
+    .report-container{
+        width:max-content !important;
+    }
+}
+
+.report-container{
+    display: flex !important;
+    flex-direction: column;
+    /* background-color: #f8f8f8; */
+    position: relative;
+    width:60%;
+    min-width: max-content;
+    margin:0 auto;
+    padding:30px;
+    border:1px solid #303030
+}
+
+.report-container dl{
+    padding:30px;
 }
 
 .pop-cont{

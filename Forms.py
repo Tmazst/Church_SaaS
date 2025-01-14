@@ -131,6 +131,23 @@ class AnnouncementsForm(FlaskForm):
     emails = BooleanField('Email All Users?', validators=[Optional()])
     submit = SubmitField('Submit')
 
+class SermonNotesForm(FlaskForm):
+
+    title = StringField('Title', validators=[DataRequired()])
+    speaker = StringField('Speaker', validators=[DataRequired()])
+    info = TextAreaField('Sermon Summary', validators=[Optional(),Length(min=0,max=150)])
+    notes_file = StringField('Upload Notes', validators=[Optional()])
+    submit = SubmitField('Submit')
+
+
+class OfferingForm(FlaskForm):
+
+    freewill = FloatField('Freewill', validators=[DataRequired()])
+    tithes = FloatField('Tithe', validators=[DataRequired()])
+    building = FloatField('Building', validators=[DataRequired()])
+    outreach = FloatField('Outreach', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 
 class CalenderForm(FlaskForm):
 
