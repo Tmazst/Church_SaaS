@@ -191,10 +191,11 @@ a:hover{opacity: 0.81;}
 }
 
 .serm{
-    background: red !important;
+    background: none!important;
     border:none !important;
     min-width:300px !important;
     min-height:45px;
+    padding-right:15px
 }
 
 .show-it{display: block !important;}
@@ -1862,7 +1863,9 @@ label span{
 }
 
 .cont-offering{
-    display:none
+    display:none;
+    min-width:350px !important;
+    margin:10px auto;
 }
 
 .months-off-tabs{
