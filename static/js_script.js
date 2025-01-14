@@ -100,6 +100,9 @@ navParent.forEach(nav => {
         }else if(nav.id === "nav-6"){
             var navOneChild = document.querySelector("#nav-chld-6");
             navOneChild.classList.toggle('reveal');
+        }else if(nav.id === "nav-7"){
+            var navOneChild = document.querySelector("#nav-chld-7");
+            navOneChild.classList.toggle('reveal');
         }
     });
 });
