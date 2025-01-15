@@ -24,6 +24,9 @@
             .report-container{
                 display: none;
             }
+            @page{
+                    margin:30px;
+                }
         }
 </style>
   <body>
@@ -31,7 +34,7 @@
     
 
 
-    <div style="border:none" id="remove-filter" class="report-container">
+    <div style="border:none" id="remove-filter" class="report-container print-table">
         <div style="background-color:;" class="group">
             <small style="width:100%;">Filter:</small>
             <select onchange="location = this.value;" id="month-filter" class="form-control" style="margin-left:50px;max-width: 250px;" name="filter-month">
@@ -44,7 +47,7 @@
     </div>
     <br>
 
-    <div id="remove-cont" class="report-container">
+    <div id="remove-cont" class="report-container print-table">
         <h2>Monthly Offering Report</h2>
         <h5>{{offering[0].timestamp.strftime("%B %Y")}}</h5>
         <div>

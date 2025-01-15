@@ -37,6 +37,10 @@
                 .no-print {
                     display: none;
                 }
+
+                @page{
+                    margin:30px;
+                }
                 
             }
     </style>
@@ -58,7 +62,7 @@
     </div>
     <br>
 
-    <div class="report-container">
+    <div class="report-container print-table">
         <h2>Monthly Offering Report</h2>
         <h5>{{offering[0].timestamp.strftime("%B %Y")}}</h5>
         <div>

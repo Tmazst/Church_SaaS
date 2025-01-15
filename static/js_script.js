@@ -68,6 +68,7 @@
 //     navOneChild.classList.remove('reveal');
 // });
 
+
 var navParent = document.querySelectorAll(".saas-nav-item");
 navParent.forEach(nav => {
     nav.addEventListener('click', function(){
@@ -103,9 +104,13 @@ navParent.forEach(nav => {
         }else if(nav.id === "nav-7"){
             var navOneChild = document.querySelector("#nav-chld-7");
             navOneChild.classList.toggle('reveal');
+        }else if(nav.id === "nav-8"){
+            var navOneChild = document.querySelector("#nav-chld-8");
+            navOneChild.classList.toggle('reveal');
         }
     });
 });
+
 
 // var navOneChild = document.querySelector("#nav-chld-1");
 
@@ -199,6 +204,20 @@ function closePop(){
     popCont.classList.remove("show-popup");
     formCont.style.display='flex';
 }
+
+function popupMinutes(id){
+    // var popScrnLogo = document.getElementById("updates");
+    // popScrnLogo.classList.toggle("show-popup");
+    
+    let popCont = document.querySelector('#pop_image_' + id);
+    let popUp = document.querySelector('#popup_' + id);
+    // let formCont = document.querySelector("#form-cont");
+
+    popCont.classList.toggle("show-popup");
+    popUp.classList.toggle("show-popup");
+    // formCont.style.display='none';
+    
+};
 
 function popupSermon(id){
     // var popScrnLogo = document.getElementById("updates");
@@ -579,3 +598,13 @@ function closeSideNavFunc(){
         OfferingCont.classList.toggle('show-it');
         contHandle.classList.toggle('rotate-45');
     }
+
+    function showHideMinutes(id){
+        let OfferingCont = document.querySelector("#minutes-cont-" +id); 
+        let contHandle = document.querySelector('#conta-handle-' + id);
+        OfferingCont.classList.toggle('show-it');
+        contHandle.classList.toggle('rotate-45');
+    }
+
+
+   

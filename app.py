@@ -24,6 +24,10 @@ import mysql.connector
 import random
 from faker import Faker
 from urllib.parse import quote
+
+# Register Print File Routes
+from print import print_bp
+    
 # import logging
 
 
@@ -51,6 +55,8 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+app.register_blueprint(print_bp)
 
 ALLOWED_EXTENSIONS = {"txt", "xlxs", 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'gif',"JPG"}
 
@@ -536,81 +542,213 @@ def sermons():
 
     return render_template("sermons.html",sermon_obj=sermon_obj,months=months,years=years)
 
-# from flask import Flask, render_template, make_response
-# from flask_weasyprint import HTML, render_pdf
+
+@app.route('/meeting_minutes_form',methods=["POST","GET"])
+@login_required
+def meeting_minutes_form():
+
+    minutes_form = meetingMinutesNotesForm()
+
+    if request.method == "POST":
+        meeting = meeting_minutes(
+            chrch_id = current_user.chrch_id,usr_id=current_user.id,title = minutes_form.title.data,
+            summary = minutes_form.summary.data,minutes_file = minutes_form.minutes_file.data,
+            timestamp = datetime.now(),committee=current_user.committee_local_group, nature=minutes_form.nature.data
+        )
+
+        if minutes_form.minutes_file.data:
+            file =  process_pop_file(minutes_form.minutes_file.data,current_user.id)
+            meeting.minutes_file = file
+
+        db.session.add(meeting)
+        db.session.commit()
+
+        flash("Uploaded Successfully","success")
+
+    return render_template("minutes_form.html",minutes_form=minutes_form)
 
 
-# @app.route('/offering_report.pdf')
-# def hello_pdf(name):
-#     # Make a PDF straight from HTML in a string.
-#     html = render_template('report.html')
-#     return render_pdf(HTML(string=html))
+@app.route('/minutes',methods=["POST","GET"])
+@login_required
+def minutes():
+    months=None
+    years=None
+
+    minutes_obj = meeting_minutes.query.filter_by(chrch_id=current_user.chrch_id).all()
+
+    print("Minutes: ",minutes_obj)
+
+    if minutes_obj:
+        months = {evt.timestamp.strftime("%B") for evt in minutes_obj}
+        years = {evt.timestamp.year for evt in minutes_obj}
+
+        dt = datetime.now().date()
+
+    return render_template("minutes.html",minutes_obj=minutes_obj,months=months,years=years)
 
 
 
-def generate_report_data():
+def stats():
 
-    offering=[]
-    off_months=None
+    members_stats = User.query.filter_by(chrch_id=current_user.chrch_id).all()
+    males = User.query.filter_by(chrch_id=current_user.chrch_id,gender='Male').all()
+    females = User.query.filter_by(chrch_id=current_user.chrch_id,gender='Female').all()
+    own_bossess = User.query.filter_by(chrch_id=current_user.chrch_id,employ_status='Entreprenuer').all()
+    youth = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Youth').all()
+    fathers = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Fathers').all()
+    mothers = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Mothers').all()
+    children = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Children').all()
+    no_job = User.query.filter_by(chrch_id=current_user.chrch_id,employ_status='Un-employed').all()
+    single = User.query.filter_by(chrch_id=current_user.chrch_id,marital='Single').all()
+    single_engaged = User.query.filter_by(chrch_id=current_user.chrch_id,marital='Single (Engaged)').all()
+    married = User.query.filter_by(chrch_id=current_user.chrch_id,marital='Married').all()
+    employed = User.query.filter_by(chrch_id=current_user.chrch_id,employ_status='Working').all()
+    praise_team = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Praise Team").all()
+    ushers_team = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Ushering").all()
+    band = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Band").all()
+    cleaner = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Cleaner").all()
+
+
+    return members_stats ,males,females,own_bossess,youth,fathers,mothers,children,no_job,single,single_engaged,married,employed,praise_team,ushers_team,band,cleaner 
+
+
+@app.route("/members_stats", methods=["POST","GET"])
+@login_required
+def members_stats():
+    
+    members_stats ,males,females,own_bossess,youth,fathers,mothers,children,no_job,single,single_engaged,married,employed,praise_team,ushers_team,band,cleaner = stats()
+
+    return render_template("members_stats.html",members_stats=members_stats,males=males,
+                           females=females,own_bossess=own_bossess,praise_team=praise_team,ushers_team=ushers_team,band=band,
+                           no_job=no_job,employed=employed,youth=youth,fathers=fathers,mothers=mothers,children=children,
+                           single=single,single_engaged=single_engaged,married=married,cleaner=cleaner)
+
+
+@app.route('/print_wizard',methods=["POST","GET"])
+@login_required
+def print_wizard():
+
     
 
-    tr_data = ["Date","Freewill","Tithes","Building","Outreach"]
-    filter_item = request.args.get("fltr")
-    insp_offerings = offerings.query.filter_by(chrch_id=current_user.chrch_id).all()
 
-    if insp_offerings:
-        off_months = { obj.timestamp.strftime("%B") for obj in  insp_offerings}
-
-    if filter_item:
-        offering = [ obj for obj in offerings.query.filter_by(chrch_id=current_user.chrch_id).all() if obj.timestamp.strftime("%B") == filter_item ]
-    else:
-        offering = [ obj for obj in offerings.query.filter_by(chrch_id=current_user.chrch_id).all() if obj.timestamp.strftime("%B") == datetime.now().strftime("%B") ]
+    return render_template("print_wizard.html")
 
 
-    freewill_ttl = sum([float(freewl.freewill) for freewl in offering if freewl.freewill is not None])
-    tithes_ttl = sum([float(tths.tithes) for tths in offering if tths.tithes is not None])
-    building_ttl = sum([float(blng.building) for blng in offering if blng.building is not None])
-    outreach_ttl = sum([0, 0])  # Assuming outreach_ttl is always [0, 0]
-    all_total = freewill_ttl + tithes_ttl + building_ttl + outreach_ttl
+# @app.route("/print_stats", methods=["POST","GET"])
+# @login_required
+# def print_stats():
 
-
-    return offering, tr_data, off_months, freewill_ttl, tithes_ttl, building_ttl , outreach_ttl, all_total
-
-
-@app.route('/offering_report',methods=["POST","GET"])
-@login_required
-def offering_printv():
+#     tr_data = ["Year","Members","Males","Females","Fathers","Mothers","Youth","Children","Married","Single","Single(Engaged)","Employed","Self-Employed"
+#                "Unemployed","Praise Team","Ushers","Band","Cleaners"]
     
-    offering, tr_data, off_months,  freewill_ttl, tithes_ttl, building_ttl, outreach_ttl, all_total = generate_report_data()
+#     members_stats,males,females,own_bossess,youth,fathers,mothers,children,no_job,single,single_engaged,married,employed,praise_team,ushers_team,band,cleaner = stats()
 
-    print("Checks Months: ",off_months,tr_data)
+#     return render_template("print_stats.html",members_stats=members_stats,males=males,
+#                            females=females,own_bossess=own_bossess,praise_team=praise_team,ushers_team=ushers_team,band=band,
+#                            no_job=no_job,employed=employed,youth=youth,fathers=fathers,mothers=mothers,children=children,
+#                            single=single,single_engaged=single_engaged,married=married,cleaner=cleaner,tr_data=tr_data)
 
-    return render_template("report.html", offering=offering,tr_data=tr_data,off_months=off_months,
-                           freewill_ttl=freewill_ttl,tithes_ttl=tithes_ttl,building_ttl =building_ttl,outreach_ttl=outreach_ttl,
-                           all_total=all_total)
 
+# def generate_report_data():
 
-@app.route('/offering_justprint')
-@login_required
-def offering_justprint():
+#     offering=[]
+#     off_months=None
     
-    offering, tr_data, off_months,  freewill_ttl, tithes_ttl, building_ttl, outreach_ttl, all_total = generate_report_data()
 
-    return render_template("just_print_off.html", offering=offering,tr_data=tr_data,off_months=off_months,
-                           freewill_ttl=freewill_ttl,tithes_ttl=tithes_ttl,building_ttl =building_ttl,outreach_ttl=outreach_ttl,
-                           all_total=all_total)
+#     tr_data = ["Date","Freewill","Tithes","Building","Outreach"]
+#     filter_item = request.args.get("fltr")
+#     insp_offerings = offerings.query.filter_by(chrch_id=current_user.chrch_id).all()
+
+#     if insp_offerings:
+#         off_months = { obj.timestamp.strftime("%B") for obj in  insp_offerings}
+
+#     if filter_item:
+#         offering = [ obj for obj in offerings.query.filter_by(chrch_id=current_user.chrch_id).all() if obj.timestamp.strftime("%B") == filter_item ]
+#     else:
+#         offering = [ obj for obj in offerings.query.filter_by(chrch_id=current_user.chrch_id).all() if obj.timestamp.strftime("%B") == datetime.now().strftime("%B") ]
 
 
-@app.route('/calender_justprint')
-@login_required
-def calender_justprint():
-    pass
+#     freewill_ttl = sum([float(freewl.freewill) for freewl in offering if freewl.freewill is not None])
+#     tithes_ttl = sum([float(tths.tithes) for tths in offering if tths.tithes is not None])
+#     building_ttl = sum([float(blng.building) for blng in offering if blng.building is not None])
+#     outreach_ttl = sum([0, 0])  # Assuming outreach_ttl is always [0, 0]
+#     all_total = freewill_ttl + tithes_ttl + building_ttl + outreach_ttl
 
 
-@app.route('/calender_report',methods=["POST","GET"])
-@login_required
-def calender_report():
-    pass
+#     return offering, tr_data, off_months, freewill_ttl, tithes_ttl, building_ttl , outreach_ttl, all_total
+
+
+# @app.route('/offering_report',methods=["POST","GET"])
+# @login_required
+# def offering_printv():
+    
+#     offering, tr_data, off_months,  freewill_ttl, tithes_ttl, building_ttl, outreach_ttl, all_total = generate_report_data()
+
+#     print("Checks Months: ",off_months,tr_data)
+
+#     return render_template("report.html", offering=offering,tr_data=tr_data,off_months=off_months,
+#                            freewill_ttl=freewill_ttl,tithes_ttl=tithes_ttl,building_ttl =building_ttl,outreach_ttl=outreach_ttl,
+#                            all_total=all_total)
+
+
+# @app.route('/offering_justprint')
+# @login_required
+# def offering_justprint():
+
+#     offering, tr_data, off_months,  freewill_ttl, tithes_ttl, building_ttl, outreach_ttl, all_total = generate_report_data()
+
+#     return render_template("just_print_off.html", offering=offering,tr_data=tr_data,off_months=off_months,
+#                            freewill_ttl=freewill_ttl,tithes_ttl=tithes_ttl,building_ttl =building_ttl,outreach_ttl=outreach_ttl,
+#                            all_total=all_total)
+
+
+# @app.route('/print_pledges')
+# @login_required
+# def print_pledges():
+
+#     tr_data = ["Date","Name", "Pledge Amount", "Paid"]
+
+#     all_pledges = pledges.query.filter_by(chrch_id=current_user.chrch_id).all()
+#     pledge_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
+
+#     print("PLEDGE: ", pledge_pocket)
+
+#     total = sum([total.amount for total in all_pledges if total.open_pledge_id == pledge_pocket.id])
+
+#     return render_template("print_pledges.html",all_pledges=all_pledges,tr_data=tr_data,usr=User,total=total,pledge_pocket=pledge_pocket)
+
+
+# @app.route('/print_announcement')
+# @login_required
+# def print_announcement():
+#    announcement=None
+#    announce_item = request.args.get("item")
+
+#    all_announce = announcements.query.filter_by(chrch_id=current_user.chrch_id).all()
+
+#    if announce_item:
+#         announcement = announcements.query.filter_by(chrch_id=current_user.chrch_id,title=announce_item).first()
+#    else:
+#        announcement = announcements.query.filter_by(chrch_id=current_user.chrch_id).order_by(announcements.timestamp.desc()).first()
+
+#    return render_template("print_announce.html",announcement=announcement,usr=admin_user,all_announce=all_announce)
+
+
+# @app.route('/calender_report',methods=["POST","GET"])
+# @login_required
+# def calender_report():
+
+#     tr_data = ["Event","Date","End Date","Time","Days","Venue","Month"]
+    
+#     calender_evnts = calender.query.filter_by(chrch_id=current_user.chrch_id).all() 
+
+#     for event in calender_evnts:
+#         if event.end_date:
+#             event.duration_days = (event.end_date - event.start_date).days + 1
+#         else:
+#             event.duration_days = None  # or some default value if end_date is not available
+
+#     return  render_template("print_calender.html", calender_evnts = calender_evnts,tr_data=tr_data)
 
 
 @app.route('/church_account')
@@ -2305,34 +2443,6 @@ def church_services_func():
     return render_template("church_services.html",services=services)
 
 
-@app.route("/members_stats", methods=["POST","GET"])
-@login_required
-def members_stats():
-    
-    members_stats = User.query.filter_by(chrch_id=current_user.chrch_id).all()
-    males = User.query.filter_by(chrch_id=current_user.chrch_id,gender='Male').all()
-    females = User.query.filter_by(chrch_id=current_user.chrch_id,gender='Female').all()
-    own_bossess = User.query.filter_by(chrch_id=current_user.chrch_id,employ_status='Entreprenuer').all()
-    youth = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Youth').all()
-    fathers = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Fathers').all()
-    mothers = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Mothers').all()
-    children = User.query.filter_by(chrch_id=current_user.chrch_id,age_group='Children').all()
-    no_job = User.query.filter_by(chrch_id=current_user.chrch_id,employ_status='Un-employed').all()
-    single = User.query.filter_by(chrch_id=current_user.chrch_id,marital='Single').all()
-    single_engaged = User.query.filter_by(chrch_id=current_user.chrch_id,marital='Single (Engaged)').all()
-    married = User.query.filter_by(chrch_id=current_user.chrch_id,marital='Married').all()
-    employed = User.query.filter_by(chrch_id=current_user.chrch_id,employ_status='Working').all()
-    praise_team = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Praise Team").all()
-    ushers_team = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Ushering").all()
-    band = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Band").all()
-    cleaner = User.query.filter_by(chrch_id=current_user.chrch_id,church_activity="Cleaner").all()
-
-    return render_template("members_stats.html",members_stats=members_stats,males=males,
-                           females=females,own_bossess=own_bossess,praise_team=praise_team,ushers_team=ushers_team,band=band,
-                           no_job=no_job,employed=employed,youth=youth,fathers=fathers,mothers=mothers,children=children,
-                           single=single,single_engaged=single_engaged,married=married,cleaner=cleaner)
-
-
 @app.route('/search', methods=['GET'])
 def search_in_table():
 
@@ -2380,7 +2490,6 @@ def all_pledges():
     all_pledges = pledges.query.filter_by(chrch_id=current_user.chrch_id,open_pledge_id=pledges_pocket.id).all()
     
 
-    
     if pledges_pocket:
         left = pledges_pocket.end_date - datetime.now().date()
         days_left = left.days
@@ -2402,7 +2511,7 @@ def all_pledges():
 @login_required
 def pledges_pockets():
 
-    all_pockets = open_pledges.query.filter_by(chrch_id=current_user.chrch_id).all()
+    all_pockets = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).all()
     months = {evt.start_date.strftime("%B") for evt in all_pockets}
 
     return render_template("pledges_pockets.html",pledges_pockets=all_pockets,months=months,usr=User)

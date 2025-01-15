@@ -97,37 +97,37 @@
     content: '';
     display: block;
   }
-  dt::after {
+  .print-table dt::after {
     content: ':';
   }
   
-  table {
+  .print-table table {
     border-collapse: collapse;
     width: 100%;
   }
-  th {
+  .print-table th {
     border-bottom: .2mm solid #a9a;
-    color: #a9a;
+    color: rgb(56, 55, 56);
     font-size: 10pt;
     font-weight: 400;
     padding-bottom: .25cm;
     text-transform: uppercase;
   }
-  td {
+  .print-table td {
     padding-top: 7mm;
   }
-  td:last-of-type {
+  .print-table td:last-of-type {
     color: var(--main-color);
     font-weight: bold;
     text-align: right;
   }
-  th, td {
+  .print-table th,.print-table td {
     text-align: center;
   }
-  th:first-of-type, td:first-of-type {
+  .print-table th:first-of-type, .print-table td:first-of-type {
     text-align: left;
   }
-  th:last-of-type, td:last-of-type {
+  .print-table th:last-of-type,.print-table td:last-of-type {
     text-align: right;
   }
   footer {

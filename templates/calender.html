@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div style="background-color:;padding:20px" class="calender-cont">
-    <h1>Church Calender</h1><br><br>
-
+<div style="background-color:;padding:20px;position: relative;" class="calender-cont">
+    <h1>Calender</h1><br><br>
+    <div class="print-btn general-flex"><a href="/calender_report"><img style="height:75px" src="static/icons/print-icon.png" ></a></div>
     {% for month in months %}
     <span class="month-title">{{month}} 2025</span>
     <div class="line-sep"></div>

@@ -1862,6 +1862,37 @@ label span{
     background-color: transparent;
 }
 
+.big-line{
+    background-color: var(--main-color);
+    border-top: 4px solid var(--main-color);
+    height:4px;
+    width:80%;
+    margin:20px auto
+}
+
+.from-who{
+    font-weight:500
+}
+
+.center-announce{
+    background-color: #9b9a9a;
+    min-height: 800px;
+}
+
+.announce-cont{
+    background-color: #ffffff;
+    width:800px;
+    min-height: 900px;
+    padding: 15px;
+    border:6px solid var(--main-color)
+}
+
+.info-announce{
+    font-size:2em;
+    text-align: center;
+    font-weight: 700;
+}
+
 .cont-offering{
     display:none;
     min-width:350px !important;
@@ -2054,6 +2085,16 @@ label span{
     min-width:300px;
     min-height:500px;
     padding:20px 10px;
+}
+
+@media print{
+    @page {
+        margin: 30px; /* Remove default margins */
+        
+    }
+    .print-btn{
+        display: none;
+    }
 }
 
 .show-menu{

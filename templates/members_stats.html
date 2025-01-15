@@ -41,24 +41,23 @@
     <div style="" class="stats-cont general-flex">
         <a href="/local_members">
             <div style="box-shadow: 0 3px 7px 3px rgba(28, 88, 218, 0.2);" class="stats-card general-flex">
-                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/members-icon.png" /></div>
-                    <div class="value">{{members_stats | length}}</div>
-                    <div class="value-desc">Members</div>
-                    {% set members_stats_count = members_stats | length %}
-                    {% set percentage_members_stats = (members_stats_count / total_count * 100) if total_count != 0 else 0 %}
-                    <h4>{{percentage_members_stats | round(2)}}%</h4>
-                    
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/members-icon.png" /></div>
+                <div class="value">{{members_stats | length}}</div>
+                <div class="value-desc">Members</div>
+                {% set members_stats_count = members_stats | length %}
+                {% set percentage_members_stats = (members_stats_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_members_stats | round(2)}}%</h4>
             </div>
         </a>
 
         <a href="/search?value=Female">
             <div style="box-shadow: 0 3px 7px 3px rgba(218, 136, 28, 0.2);" class="stats-card general-flex">
-                    <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/females-icon.png" /></div>
-                    <div style="color:coral" class="value">{{females | length}}</div>
-                    <div style="color:coral" class="value-desc">Females</div>
-                    {% set females_count = females | length %}
-                    {% set percentage_females = (females_count / total_count * 100) if total_count != 0 else 0 %}
-                    <h4>{{percentage_females | round(2)}}%</h4>
+                <div class="circle-icon general-flex"><img style="height:75px" src="static/icons/females-icon.png" /></div>
+                <div style="color:coral" class="value">{{females | length}}</div>
+                <div style="color:coral" class="value-desc">Females</div>
+                {% set females_count = females | length %}
+                {% set percentage_females = (females_count / total_count * 100) if total_count != 0 else 0 %}
+                <h4>{{percentage_females | round(2)}}%</h4>
             </div>
         </a>
 

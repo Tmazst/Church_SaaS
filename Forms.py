@@ -139,6 +139,14 @@ class SermonNotesForm(FlaskForm):
     notes_file = FileField('Upload Notes (Only PDFs)', validators=[Optional()])
     submit = SubmitField('Submit')
 
+class meetingMinutesNotesForm(FlaskForm):
+
+    title = StringField('Title', validators=[DataRequired()])
+    summary = TextAreaField('About Meeting', validators=[Optional(),Length(min=0,max=200)])
+    minutes_file = FileField('Upload Minutes (Only PDFs)', validators=[DataRequired()])
+    nature = SelectField('Nature', validators=[DataRequired()],choices=[("Virtual", "Virtual"),("Live", "Live")])   
+    submit = SubmitField('Submit')
+
 
 class OfferingForm(FlaskForm):
 

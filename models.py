@@ -189,6 +189,21 @@ class sermons_notes(db.Model):
     edited_by = db.Column(db.String(50))
     timestamp = db.Column(db.DateTime)
 
+
+class meeting_minutes(db.Model):
+
+    id = db.Column(db.Integer,primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    usr_id=db.Column(db.Integer)
+    title = db.Column(db.String(50))
+    summary = db.Column(db.String(150))
+    minutes_file = db.Column(db.String(100))
+    committee = db.Column(db.String(100))
+    edited_by = db.Column(db.String(50))
+    nature = db.Column(db.String(30))
+    timestamp = db.Column(db.DateTime)
+
+
 class offerings(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)
