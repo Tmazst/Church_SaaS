@@ -1,0 +1,147 @@
+<!-- Sermon  -->
+
+
+<!-- MM  -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+</style>
+<div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<br><br><br>
+<div class="user-info">
+    <div style="" class="img-cont">
+        <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+    </div><br>
+    <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+    <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+    <div style="margin-bottom: 0;text-align: left;">{{church.country}}, {{church.address}}</div>
+</div><br>
+
+
+<div style="height:200hv !important;align-items:flex-start;border:none" class="container finish-sign">
+
+  <!-- <div style="" class="flex-general"> -->
+
+    <form style="background-color:;flex-direction:column;z-index:1000;" class="church-form" _lpchecked="1" action="" method="post" enctype="multipart/form-data">
+        <div class="group">
+            <h1 style="text-align: left;">Meeting Minutes</h1>
+        </div>
+        {{minutes_form.hidden_tag()}}
+
+        <!-- Title  -->
+        <div id="transaction_id" class="group">
+            {{ minutes_form.title.label }}<br>
+            {{ minutes_form.title(class="form-control finish-sign-fmcontrl",placeholder="Title") }}<br>
+            {% if minutes_form.title.errors %}
+            {% for error in minutes_form.title.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+        <!-- Nature  -->
+        <div id="transaction_id" class="group">
+            {{ minutes_form.nature.label }}<br>
+            {{ minutes_form.nature(class="form-control finish-sign-fmcontrl",placeholder="Live") }}<br>
+            {% if minutes_form.nature.errors %}
+            {% for error in minutes_form.nature.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div>
+
+        <!-- Information  -->
+        <div id="payment_platform" class="group">
+            {{ minutes_form.summary.label }}<br>
+            {{ minutes_form.summary(class="form-control finish-sign-fmcontrl text-area-h",placeholder="Summary") }}<br>
+            {% if minutes_form.summary.errors %}
+            {% for error in minutes_form.summary.errors %}<span class="span-error" >*{{error}}</span>{%endfor%}
+            {% endif %}
+        </div><br>
+
+        <!-- Notes File -->
+        <div id="transaction_id" style="background-color:;width:100%;max-width: 600px;" class="grou">
+            {{ minutes_form.minutes_file.label }}<br>
+            {{ minutes_form.minutes_file(class="finish-sign-fmcontrl,style='height:5px;background-color:red'") }}<br>
+        </div><br>
+
+
+        <div style="" class="group">
+                <div>{{ minutes_form.submit(class="btns") }}</div><br>
+                <!--<input class="btns" type="submit" value="Create Account" />-->
+                <!-- <div><a class="slinks-li" href="/login">Login</a></div> -->
+        </div>
+        <div style="" class="group">
+            <!-- <div><a class="slinks-li" href="/register">Forgot Password?</a></div> -->
+        </div>
+
+    </form>
+  <!-- </div> -->
+</div>
+
+
+<!-- <h1 style="text-align:center">Sorry, There are No Upcoming Events Open at the Moment!</h1>
+<h1 style="text-align:center">Check Again Later</h1>
+<br> -->
+
+
+<script>
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const paymentPlatformSelect = document.querySelector('select[name="payment_platform"]');
+    //     const popImageComp = document.getElementById('compulsury-pop');
+    //     const popImagDefault = document.getElementById('default-pop');
+
+    //     function toggleFileFields() {
+    //         console.log("Change Identified: ", paymentPlatformSelect.value);
+
+            // $.post("/user_announcements_form", { platform: paymentPlatformSelect.value }, function(response) {
+            //     // Optionally handle response if needed
+            // });
+
+
+            // Use the Fetch API
+            // fetch('/user_announcements_form', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({ platform: paymentPlatformSelect.value })
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     // Optionally handle response if needed
+            //     console.log(data);
+            //     console.log(data);
+            // })
+            // .catch(error => console.error('Error:', error));
+
+
+
+    //         if (paymentPlatformSelect.value === 'AGCC FNB Account') {
+    //             popImageComp.style.display = 'block'; // Show pop_image
+    //             popImageComp.required = 'true'
+    //         } else if (paymentPlatformSelect.value === '"My Regional Bank"') {
+    //             popImagDefault.style.display = 'block'; // Show pop_image_comp
+    //             popImageComp.required = 'false'
+    //         }else {
+    //             popImageComp.style.display = 'none'; // Hide pop_image_comp
+    //             popImagDefault.style.display = 'none'; // Hide pop_image_comp
+    //             popImageComp.required = 'false'
+    //         }
+    //     };
+
+    //     paymentPlatformSelect.addEventListener('change', toggleFileFields);
+    //     toggleFileFields(); // Run on initial load to set correct state
+    // });
+</script>
+{% endblock %}

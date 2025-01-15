@@ -1,0 +1,135 @@
+<!-- Minutes  -->
+
+
+<!-- minutes_obj  -->
+ <!-- Freewill  -->
+
+ {% extends "base.html" %}
+ {% block content %}
+ 
+ <style>
+     .form-fields{
+         display:flex;
+         flex-direction:column;
+     }
+     section{ background-image:url(static/images/bg_service.png) }
+     .off-num{
+         color:rgb(87, 87, 87)
+     }
+     .subs{width:100%;max-width: 600px;margin:10px auto;border:1px solid rgb(70, 69, 69);color:rgb(53, 53, 53);
+             font-weight:600;border-radius: 10px;}
+     .cap{position:absolute;left:9px}
+     /* .sub-topic{background-color: rgb(0, 60, 255) !important; } */
+ </style>
+ 
+ <div class="flash-messages" id="">
+     {% with messages = get_flashed_messages(with_categories=true) %}
+         {% if messages %}
+             {% for  category, message in messages %}
+                 <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+             {% endfor %}
+         {% endif %}
+     {% endwith %}
+ </div>
+ <br><br><br>
+ 
+ <div class="user-info">
+     <div style="" class="img-cont">
+         <div width="90%"><img class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+     </div><br>
+     <h4 style="margin-bottom: 0;text-align: left;">{{church.church_name}}</h4>
+     <div class="icons-cont"><img class="icons" src='static/icons/email-icon.png' /><small class="">{{church.church_email}}</small></div>
+     <div style="margin-bottom: 0;text-align: left;"> {{church.location}}, {{church.country}}</div>
+ </div><br>
+ 
+ {% if minutes_obj%}
+ <div class="">
+    <div class="registered-users-cont">
+     <h2>Minutes - {{minutes_obj[0].committee}}</h2>
+     
+
+     {%for year in years %}
+     
+         {% for month in months %}
+             <h3 class="subs" style="">{{month}} {{year}}</h3><br>
+             {%for minutes in minutes_obj%}
+             {%if minutes.timestamp.strftime("%B") == month %}
+             <div class="registered-user">
+                 <div onclick="showHideMinutes('{{minutes.id}}')" class="filter-subs general-flex months-off-tabs serm"  style="justify-content: flex-start;">
+                     <div style="position:relative" class="">
+                         <div style="font-weight: 600;" class=""><span class="off-num">{{loop.index}}</span> {{minutes.title}}</div>
+                         <div style="font-weight: 600;font-size:12px;color:rgb(115, 5, 189);width: max-content;" class="cap">{{minutes.timestamp.strftime("%B %d, %Y")}}</div>
+                     </div>
+                     <div style="flex-grow: 1;"></div>
+                     <img id="conta-handle-{{minutes.id}}" class="" style="height:25px;margin-left: 0px;" src="static/icons/content-handle-icon.png" />
+                 </div>
+                 <div id="minutes-cont-{{minutes.id}}" class="cont-offering">
+                     <div style="flex-direction: column;" class="card serm-card">
+                         <!-- for loop  -->
+                         
+                         <div class="general-flex" style="padding:15px; align-items: flex-start !important;flex-direction:column">
+                         <div class="month-title-off">{{minutes.title}}</div><br>
+                             <!-- <h5 class="btns-outlined greyscale-it"> Freewill</h5> -->
+                             
+                            
+                             <small class="labels">About Meeting - {{minutes.nature}}</small>
+                             <small>{{minutes.summary}}</small><br>
+ 
+                             <div class="field-lines"></div>
+ 
+                             <small class="labels">Notes</small>
+                             <div onclick="popupMinutes('{{minutes.id}}')" class="btns">Open</div>
+                             <small>View & Download Notes</small>
+ 
+                         </div>
+ 
+                     </div> 
+                 </div><br>
+ 
+             </div>
+             <!-- Pop-up -->
+            
+             <div id="pop_image_{{minutes.id}}" class="pop-cont">
+                 <div id="popup_{{minutes.id}}" class="pop-up">
+                     {% set pop_img = minutes.minutes_file %}
+                     {% set file_ext = pop_img.split('.')[-1] | lower %}
+                     <!---IMG VIEWER-->
+                     {% if file_ext  in ['jpg','jpeg','png', 'gif'] %}
+                         {% if pop_img %}
+                             <h4>{{pop_img}}</h4>
+                         {% endif %}
+                         <img  src="static/uploads/{{pop_img}}" />
+                     <!---PDF VIEWER-->
+                     {% elif file_ext  == 'pdf' %}
+                     <h4>{{pop_img}}</h4>
+                         <embed src="static/uploads/{{pop_img}}" type="application/pdf" width="100%" height="1000px" />
+                     <!---DOCX VIEWER-->
+                     {% elif file_ext  == 'docx' %}
+                         <iframe src="https://docs.google.com/gview?url={{ url_for('static', filename='uploads/pop_img') }}&embedded=true" width="100%" height="1000px" frameborder="0"></iframe>
+                     {% else %}
+                         <p>Unsupported file format.</p>
+                     {% endif %}
+                     <br>
+                     <div  style="align-self:flex-end;width:60%" ><input onclick="closePopup('{{minutes.id}}')" class="btns" type="button" value="Exit"></div>
+                 </div>
+             </div>
+
+             {% endif %}
+             {%endfor%}
+             {%endfor%}
+         {%endfor%}
+    </div>
+   
+ </div>
+ {% else %}
+ <br><br>
+ <h1>There are no minutes recorded yet, Check again later!</h1>
+ <br><br>
+ {%endif%}
+ 
+ 
+ 
+ <script>
+     
+ </script>
+ {% endblock %}

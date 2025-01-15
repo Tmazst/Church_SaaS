@@ -1,0 +1,69 @@
+ <!-- Printing  -->
+
+
+ {% extends "base.html" %}
+{% block content %}
+
+<div style="background-color:;padding:20px;position: relative;" class="calender-cont">
+    <h1>Printables</h1><br><br>
+    <div class="print-btn general-flex"><img style="height:75px" src="static/icons/print-icon.png" ></div>
+    <span class="month-title">Print</span>
+    <div class="line-sep"></div>
+    <div class="month general-flex">
+        
+            <!-- Members Stats  -->
+            <a href="/print_stats">
+                <div class="event-cont">
+                    <div class="event-title">Members Statistics</div>
+                    <div class="event-date"></div> 
+                    <div class="calender-img-bg"><img style="height:70px;opacity:0.5" src="static/icons/print-icon.png" /></div>
+                </div>
+            </a>
+
+            <!-- Offering Report  -->
+            <a href="/offering_report">
+                <div class="event-cont">
+                    <div class="event-title">Offering Report</div>
+                    <div class="event-date"></div> 
+                    <div class="calender-img-bg"><img style="height:70px;opacity:0.5" src="static/icons/print-icon.png" /></div>
+                </div>
+            </a>
+
+            <!-- Pledges  -->
+            <a href="/print_pledges">
+                <div class="event-cont">
+                    <div class="event-title">Pledges Report</div>
+                    <div class="event-date"></div> 
+                    <div class="calender-img-bg"><img style="height:70px;opacity:0.5" src="static/icons/print-icon.png" /></div>
+                </div>
+            </a>
+
+            <!-- Announcements  -->
+            <a href="/print_announcement">
+                <div class="event-cont">
+                    <div class="event-title">Print Announcements</div>
+                    <div class="event-date"></div> 
+                    <div class="calender-img-bg"><img style="height:70px;opacity:0.5" src="static/icons/print-icon.png" /></div>
+                </div>
+            </a>
+
+            <!-- Announcements  -->
+            <a href="/calender_report">
+                <div class="event-cont">
+                    <div class="event-title">Print Events Calender</div>
+                    <div class="event-date"></div> 
+                    <div class="calender-img-bg"><img style="height:70px;opacity:0.5" src="static/icons/print-icon.png" /></div>
+                </div>
+            </a>
+        
+    </div>
+    <small style="color:rgb(116, 116, 116);font-size: 10px;">Print or Save as PDF Document</small><br>
+
+
+</div>
+{% if current_user.role == "admin_user"%}
+<!-- <div style="width:100%;max-width: 1100px;margin:10px auto">
+<a href="/calender_form"><div class="btns-outlined">+ Add Event</div></a>
+</div> -->
+{%endif%}
+{% endblock %}

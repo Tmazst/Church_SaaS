@@ -1,0 +1,188 @@
+ <!-- Calender  -->
+
+ 
+<html>
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/weasy-css.css')}}" />
+      <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}" />
+      <title></title>
+      <meta name="description" content="Invoice demo sample">
+    </head>
+      <style>
+          .img-cont{
+              position:absolute;
+              top:30px;
+              left: 30px;
+          }
+          /* .report-container{
+                      width:none;
+                  } */
+          @media print {
+                  /* Custom styles for printing */
+                  body {
+                      font-size: 12pt;
+                      margin: 0;
+                      padding: 0;
+                      width: 100%;
+                      height: 100%;
+                      overflow: hidden;
+                  }
+                  .content {
+                      width: 100%;
+                      height: 100%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      background-color: brown;
+                  }
+                  .no-print {
+                      display: none;
+                  }
+                  
+              }
+      </style>
+    <body>
+      <br><br>
+      
+  
+  {%if calender_evnts %}
+     
+
+      <div id="hid-on-print" class="report-container print-table">
+          <h2>Year Calender</h2>
+          <h5></h5>
+          <div>
+              <div style="height:75px;width:75px;" class="img-cont">
+                  <div width="90%"><img style="height:75px !important" class="prf-image" src="static/images/{{church.image}}" alt=""/></div>
+              </div>
+              <aside>
+                  
+                  <address id="from">
+                      <b>{{church.church_name}}</b>
+                      {{church.location}}
+                      {{church.church_email}}
+                      TEL: {{church.church_contacts}}
+                  </address>
+<!--   
+                  <address id="to"><br>
+                      Mobile Money: {{church.church_contacts}}
+                      Accounts: 612124454 FNB / 25465687 Eswatini Bank
+                  </address> -->
+              </aside>
+          </div>
+          <div>
+              <dl id="informations">
+                  <dt>Date</dt>
+                  <dd>{{date.now().strftime("%B %d, %Y")}}</dd>
+              </dl>
+              <br>
+          </div>
+  
+          <div>
+              <table>
+  
+                  <thead>
+                      
+                      <tr>
+                          {%for ea_tr in tr_data%}
+                          <th>{{ea_tr}}</th>
+                          {%endfor%}
+                      </tr>
+                      
+                  </thead>
+  
+                  <tbody>
+                      {%for event in calender_evnts%}
+                      <tr>
+                          <td>{{event.title}}</td>
+                          <td>{{event.start_date.strftime("%d %b %y")}}</td>
+                          {%if event.end_date%}
+                            <td>{{event.end_date.strftime("%d %b %y")}}</td>
+                          {%else%}
+                            <td>{{event.start_date.strftime("%d %b %y")}}</td>
+                          {%endif%}
+                          {%if event.time%}
+                          <td>{{event.time}}</td>
+                          {%else%}
+                          <td>TBA</td>
+                          {%endif%}
+                          <td>{{event.duration_days}} Days</td>
+                          <td>{{event.venue}}</td>
+                          <td>{{event.start_date.strftime("%B")}}</td>
+                      </tr>
+                      {%endfor%}
+                      
+                  </tbody>
+  
+                  </table>
+              </div>
+              <br><br><br><br>
+                  <footer>
+                      <!-- <table id="total">
+                          <thead>
+                          <tr>
+                              
+                              <th>Signature</th>
+                              
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                              
+                              <td></td>
+                              
+                          </tr>
+                          </tbody>
+                      </table> -->
+                  </footer>
+         <!-- <div class="print-btn"><a href="/offering_justprint" _external="True"><img style="height:75px" src="static/icons/print-icon.png" ></a></div> -->
+         <div class="print-btn" onclick="window.print()"><img style="height:75px" src="static/icons/print-icon.png" ></div>
+      </div><br><br><br>
+      
+      <!-- <button class="no-print" onclick="window.print()">Print this page</button> -->
+  
+      {% else %}
+      <br><br>
+      <h1>We have nothing to print yet!</h1>
+      <br><br>
+      {%endif%}
+
+    <script>
+      // Function to handle print media query
+      function handlePrintMedia() {
+          const contentDiv = document.querySelector('.report-container');
+          const printBtn = document.querySelector('.print-btn');
+          const printQuery = window.matchMedia('print');
+
+          // Add event listener for print media query changes
+          printQuery.addListener((e) => {
+              if (e.matches) {
+                  // Print mode is active
+                  contentDiv.classList.remove('report-container');
+                  printBtn.classList.remove('print-btn');
+              } else {
+                  // Print mode is not active
+                  contentDiv.classList.add('report-container');
+                  printBtn.classList.remove('print-btn');
+              }
+          });
+
+          // Initial check
+          if (printQuery.matches) {
+              contentDiv.classList.remove('report-container');
+              printBtn.classList.remove('print-btn');
+          } else {
+              contentDiv.classList.add('report-container');
+              printBtn.classList.remove('print-btn');
+          }
+      }
+
+      // Call the function to handle print media query
+      handlePrintMedia();
+    </script>
+      </body>
+  </html>
+  
+  
+  
