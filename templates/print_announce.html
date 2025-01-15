@@ -104,10 +104,12 @@
                 </div>
                 {%if announcement.edited_by %}
                 {%set user = usr.query.get(announcement.edited_by)%}
-                <div class="from-who">By: {{user .name}}, 
-                    {{user.committee_local_pos}} - {{user.committee_local_group}}</div>{%else%}
-                <div class="from-who">By: {{user .name}}, 
-                    {{user.committee_local_pos}} - {{user.committee_local_group}}</div>{%endif%}
+                <div class="from-who">By: {{user.name}}, 
+                    {{user.committee_local_pos}} - {{user.committee_local_group}}</div>
+                {%else%}
+                <div class="from-who">By: {{user.name}}, 
+                    {{user.committee_local_pos}} - {{user.committee_local_group}}</div>
+                {%endif%}
                 
                 <div class="print-btn" onclick="window.print()"><img style="height:75px" src="static/icons/print-icon.png" ></div>
                 <!-- <div class="announce-icon" onclick="window.print()"><img style="height:75px" src="static/icons/announce-icon.png" ></div> -->
