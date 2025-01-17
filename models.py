@@ -90,13 +90,39 @@ class User(db.Model,UserMixin):
     gender = db.Column(db.String(30))
     pastor = db.Column(db.String(30))#Fix Duplicate ----------------
     church_activity = db.Column(db.String(30))
+    # Part3 
+   
     pledges_ids = relationship("pledges", backref='user', lazy=True)
+    other_details_id = relationship("other_details", backref='user', lazy=True)
     
-
     __mapper_args__={
         "polymorphic_identity":'user',
         'polymorphic_on':role
     }
+
+
+class other_details(db.Model):
+
+    id = db.Column(db.Integer,ForeignKey('user.id'),primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    opharned = db.Column(db.Boolean,default=None)
+    mother_alive=db.Column(db.Boolean,default=None)
+    father_alive=db.Column(db.Boolean,default=None)
+    widowed=db.Column(db.Boolean,default=None)
+    high_school=db.Column(db.Boolean,default=None)
+    primary=db.Column(db.Boolean,default=None)
+    children=db.Column(db.Integer)
+    college=db.Column(db.Boolean,default=None)
+    timestamp=db.Column(db.DateTime)
+
+
+class user_activity(db.Model):
+
+    id = db.Column(db.Integer,primary_key=True)
+    usr_id = db.Column(db.Integer)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    activity = db.Column(db.Integer)
+    timestamp=db.Column(db.DateTime)
 
 
 class church_services(db.Model):

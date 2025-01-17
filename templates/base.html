@@ -33,12 +33,13 @@
           <li><a class="btns-outlined links-user" href="/logout">Logout</a></li>
       {% endif %}
     </div>
-
+    {% if homepage %}
     <div>
       <div class="church-logo"><img style="height:inherit;border-radius: 15px;" src="{{ url_for('static', filename='images/camm_logo.png') }}" /></div>
       <h1 id="abbr-style" style="margin:10px auto;font-weight:800" >CAMM Sys+</h1>
       <h3 style="margin-top:0px;color:rgb(65, 66, 66)" >Church Admin & Membership Management Sys</h3>
     </div>
+    {%endif%}
 
     {% if current_user.is_authenticated and current_user.chrch_id %}
     <div class="navigation">
@@ -50,63 +51,70 @@
         </div>
 
         <!-- Top  Navigation Icons  -->
+         <br>
         <div class="icons-nav general-flex">
               <li class="icons-nav-item active">
-                <a class="nav-link" href="/local_members" >
+                <a class="nav-link tooltip" href="/local_members" >
                   <div class="note-cont">
                     <img  class="note-icons" src="static/icons/camm_new_mem.png"   />
                     <div style="height:15px;width:15px" class="new-num-bg general-flex"><span>{{user_no_base | length }}</span></div>
+                    <span class="tooltiptext">View Members</span>
                   </div>
                 </a>
               </li>
               <li class="icons-nav-item">
-                <a class="nav-link" href="/pledges_pockets" >
+                <a class="nav-link tooltip" href="/pledge_form" >
                   <div class="note-cont">
                     <img class="note-icons" src="static/icons/camm_pledges.png"   />
                     
                     <!-- <div class="new-num-bg general-flex"><span>1</span></div> -->
-                   
+                    <span class="tooltiptext">Pledge</span>
                   </div>
                 </a>
               </li>
               <li class="icons-nav-item">
-                <a class="nav-link" href="/calender" >
+                <a class="nav-link tooltip" href="/calender" >
                   <div class="note-cont">
                     <img class="note-icons" src="static/icons/camm_new_event.png"   />
                     {% if envts_nm > 0 %}
                     <div class="new-num-bg general-flex"><span>{{envts_nm}}</span></div>
                     {%endif%}
+                    <span class="tooltiptext">Year Calender</span>
                   </div>
                 </a>
               </li>
               <li class="icons-nav-item">
-                <a class="nav-link" href="/registered_users" >
+                <a class="nav-link tooltip" href="/registered_users" >
                   <div class="note-cont">
                     <img class="note-icons" src="static/icons/camm_new_reg.png"   />
                     {% if registered_nm > 0 %}
                     <div class="new-num-bg general-flex"><span>{{registered_nm}}</span></div>
                     {% endif %}
+                    <span class="tooltiptext">Online Registrations</span>
                   </div>
                 </a>
               </li>
               <li class="icons-nav-item">
-                <a class="nav-link" href="/announcements" >
+                <a class="nav-link tooltip" href="/announcements" >
                   <div class="note-cont">
                     <img class="note-icons" src="static/icons/new_announce.png"   />
                     {% if announce_nm > 0 %}
                     <div class="new-num-bg general-flex"><span>{{announce_nm}}</span></div>
                     {%endif%}
+                    <span class="tooltiptext">Announcements</span>
                   </div>
                 </a>
               </li>
               <li class="icons-nav-item">
-                <a class="nav-link" href="/church_services" >
+                <a class="nav-link tooltip" href="/church_services" >
                   <div class="note-cont">
                     <img class="note-icons" src="static/icons/camm_new_serv.png"   />
                     {% if services_nm > 0 %}
                     <div class="new-num-bg general-flex"><span>{{services_nm}}</span></div>
                     {%endif%}
+                    
                   </div>
+                  <span class="tooltiptext">Church Services</span>
                 </a>
               </li>
         </div>
@@ -138,7 +146,6 @@
                     <a class="nav-link" href="/user_account">My Account</a>
                   {% endif %}
                   </li>
-                  
                   <li class="other-nav-item">
                     <a class="nav-link" onclick="window.location='/local_members'" >Local Members</a>
                   </li>
@@ -211,7 +218,7 @@
                   </div>
                   <div id="nav-chld-3" class="pop-nav-cont">
                     <li id="" class="saas-nav-item-chld">
-                      <a class="nav-link" href="/announcements_form">Make Announcemment</a>
+                      <a class="nav-link" href="/announcements_form#userinfo">Make Announcemment</a>
                     </li>
                     <li id="" class="saas-nav-item-chld">
                       <a class="nav-link" href="/announcements">Announcemments</a>
@@ -329,8 +336,6 @@
       </div>
       <div onclick="closeSideNavFunc()" class="side-nav-background"></div>
     </div>
-
-
 
 </head>
 

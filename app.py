@@ -30,6 +30,8 @@ from print import print_bp
     
 # import logging
 
+open_questionnare = False
+
 
 #Change App
 app = Flask(__name__)
@@ -42,6 +44,7 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOADED"] = 'static/uploads'
 # app.config['JSON_AS_ASCII'] = False
+
 
 oauth = OAuth(app)
 db.init_app(app)
@@ -331,7 +334,7 @@ def generate_and_save_users(num_users=20, chrch_id_range=(1)):
 
 @app.route("/", methods=['POST','GET'])
 def home():
-
+    homepage = True
     with app.app_context():
        db.create_all()
 
@@ -373,7 +376,7 @@ def home():
         flash("For an enhanced interface experience, we encourage admin users to use media devices with wide screens i.e. PC or tablet.","success")
     
     
-    return render_template("index.html", event_details=event_details, nearest_event=nearest_event)
+    return render_template("index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
 
 
 @app.route('/church_registration',methods=["POST","GET"])
@@ -624,11 +627,10 @@ def members_stats():
                            single=single,single_engaged=single_engaged,married=married,cleaner=cleaner)
 
 
+
 @app.route('/print_wizard',methods=["POST","GET"])
 @login_required
 def print_wizard():
-
-    
 
 
     return render_template("print_wizard.html")
@@ -2283,6 +2285,26 @@ def get_table_columns(table):
     return columns
 
 
+def _activity(user):
+
+    _usr = user_activity.query.get(user.usr_id)
+
+    if not _usr:
+        actvty = user_activity(
+            usr_id = user.usr_id, chrch_id = user.chrch_id, activity=+1,timestamp=datetime.now()
+        )
+
+        db.session.add(actvty)
+        db.session.commit()
+    else:
+        _usr.activity=+1
+        # From 3rd session 
+        if _usr.activity % 2 == 1 and _usr.timestamp.strftime("%d %b %y") == datetime.now().strftime("%d %b %y"):
+            open_questionnare = True
+        _usr.timestamp=datetime.now()
+        db.session.commit()
+
+
 @app.route("/google_signup", methods=["POST","GET"])
 def google_signup():
 
@@ -2374,6 +2396,7 @@ def google_signin():
                 user = admin_user.query.get(user_login.id)
                 if not user.gender or not user.contacts or not user.address:
                     return redirect(url_for('admin_finish_signup'))
+            _activity(user_login)
         else:
             flash(f"Please Select Your Local Church", "success")
             login_user(user_login)
