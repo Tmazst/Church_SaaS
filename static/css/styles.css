@@ -991,6 +991,7 @@ h1,h2,h3,h4,h5{
 }
 
 
+
  
 .engraving-ideas::-webkit-scrollbar {
     margin-top:20px;
@@ -1985,14 +1986,40 @@ label span{
     list-style-type: none;
 }
 
+.nav-scroll{
+    height:450px;
+    overflow-x: scroll;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 212, 212,0.2);
+    border-radius: 10px;
+    height: 1px !important;
+ }
+
+ 
+ .nav-scroll::-webkit-scrollbar {
+    margin-top:20px;
+    width: 1px;
+    background: none;
+ }
+
+
+
+.nav-ico{
+    height:35px
+}
+
 .saas-nav-item{
-    font-size:16px;
+    font-size:14px;
     font-weight:600;
     color:white;
     list-style-type: none;
     white-space: nowrap;
     margin:10px auto;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 .saas-nav-item:hover{
