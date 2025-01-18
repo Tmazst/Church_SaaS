@@ -132,6 +132,7 @@
           <!-- <div class="close-btn"><div class="stroke"></div></div> -->
           <div class="general-flex"><img style="height:30px" src="static/icons/home.png" /><h3 style="color:white;text-align: left;">Menu</h3></div>
           <div style="display: flex;flex-wrap: wrap;height:100vh;position:relative">
+            {%if current_user.role == "church_user"%}
               <div class="sidenav-list">
                   <li class="other-nav-item">
                     <a class="nav-link" href="/">Home</a>
@@ -170,7 +171,8 @@
                   
               </div>
               <div style="flex-grow:1;"></div>
-              {% if current_user.role == 'admin_user'%}
+              
+              {% elif current_user.role == 'admin_user'%}
               <div class="nav-scroll">
                 <div style="align-self:;" id="float-nav" class="sidenav-list">
                   <div style="position: relative;">
