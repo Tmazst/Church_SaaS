@@ -1997,6 +1997,11 @@ label span{
     height: 1px !important;
  }
 
+ .evt-title{
+    margin-bottom:0;color:white;
+    width:100% !important;
+    font-size: 2.5rem;
+ }
  
  .nav-scroll::-webkit-scrollbar {
     margin-top:20px;
@@ -3357,6 +3362,7 @@ small{
     }
 
     #date-tl-mob{
+        display: none !important;
         margin-top:0;color:rgb(75, 74, 74);font-weight: 500;
         border-radius: 15px;background:var(--secondary-color);
         padding:6px 10px;

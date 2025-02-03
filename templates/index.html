@@ -28,6 +28,8 @@
 </div>
 <br><br>
 
+
+<!-- #Dashborad Icons  -->
 <div class="dashboard-icons gen-flex-wrap">
 {% if current_user.role == 'admin_user' %}
     <a class="nav-lin" href="/announcements_form">
@@ -197,7 +199,7 @@
     <div id="upcom-card" style="height:300px;box-shadow: none;" class="block-event">
 
         <div  class="block-left-pan gen-flex-col  other_events_l">
-            <div style="z-index:1000;" class="title-cont gen-flex-col"><h1 style="margin-bottom:0;color:white">{{nearest_event.title}}</h1>
+            <div style="z-index:1000;" class="title-cont gen-flex-col"><h1 class="evt-title">{{nearest_event.title}}</h1>
                 <h3 style="margin-top:0;color:white">{{nearest_event.start_date.strftime("%d")}}
                     {% if nearest_event.end_date %} - {{nearest_event.end_date.strftime("%d")}}{%endif%} {{nearest_event.start_date.strftime("%b %Y")}}</h3>
                 <!-- <div class="flex-grower" ></div> -->
@@ -242,7 +244,8 @@
         </div>
         <!-- absolute to parent -->
         <div  class="block-left-pan">
-            <div id="hide-title" style="z-index:1000;" class="title-cont gen-flex-col"><h1 style="margin-bottom:0;color:white">{{event_details.event_title}}</h1><h3 style="margin-top:0;color:white">
+            <div id="hide-title" style="z-index:1000;" class="title-cont gen-flex-col">
+                <h1 class="evt-title">{{event_details.event_title}}</h1><h3 style="margin-top:0;color:white">
                 {{event_details.start_date.strftime("%d")}} - {{event_details.end_date.strftime("%d %b %y")}}</h3>
                 <div class="flex-grower" ></div>
                 <a href="{{url_for('user_registration_form')}}" ><div style="margin-bottom: 15px;" class="btns">Register</div></a>
@@ -250,7 +253,8 @@
         </div>
         
         <div style="" class="block-right-pan gen-flex-col">
-            <div  style="z-index:1000;display: none;" class="title-cont gen-flex-col"><h1 style="margin-bottom:0;color:white">{{event_details.event_title}}</h1><h3 style="" id="date-tl-mob">
+            <div  style="z-index:1000;display: none;" class="title-cont gen-flex-col">
+                
                 {{event_details.start_date.strftime("%d")}} - {{event_details.end_date.strftime("%d %b %y")}}</h3>
             </div> 
             <div class="gen-flex-col event-details"><img src="static/icons/location-icon.png"/><h4>{{event_details.event_venue}}</h4></div><br>
