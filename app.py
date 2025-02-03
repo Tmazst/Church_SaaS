@@ -1,5 +1,5 @@
 
-from flask import Flask,render_template,url_for,redirect,request,flash,jsonify,session,send_file
+from flask import Flask,render_template,url_for,redirect,request,flash,jsonify,session,send_file,Response
 from flask_login import login_user, LoginManager,current_user,logout_user, login_required
 from urllib.parse import quote
 from Forms import *
@@ -24,6 +24,9 @@ import mysql.connector
 import random
 from faker import Faker
 from urllib.parse import quote
+import pandas as pd
+from openpyxl import load_workbook
+import tempfile
 
 # Register Print File Routes
 from print import print_bp
@@ -37,12 +40,15 @@ open_questionnare = False
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "sdsdjfe832j2rj_32j"
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///techxicons_db.db"
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://techtlnf_tmaz:!Tmazst41#@localhost/techtlnf_all_churches"
+if os.getenv("FLASK_DATABASE_URI"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://techtlnf_tmaz:!Tmazst41#@localhost/techtlnf_all_churches"
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle':280}
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOADED"] = 'static/uploads'
+app.config['REPORTS_FOLDER'] = 'static/financial_reports'
 # app.config['JSON_AS_ASCII'] = False
 
 
@@ -159,6 +165,7 @@ def compress_image(image_path, target_size_kb):
             #     img = img.convert('L')  # Convert to L if you want to keep it grayscale without alpha
             # Calculate quality based on the target size
             quality = 85  # Starting quality
+
             while True:
                 # Save to a temporary file to check the size
                 temp_file = image_path.replace(os.path.splitext(image_path)[1], "_temp.jpg")
@@ -180,7 +187,7 @@ def compress_image(image_path, target_size_kb):
             return None 
 
 
-def process_file(file):
+def process_file(file,usr):
     
     print("Check File: ",file)
     if isinstance(file, str):
@@ -210,6 +217,8 @@ def process_file(file):
 
 def process_pop_file(file,usr_id):
 
+
+    # If the file is a string 
     if isinstance(file, str):
         return file
     else:
@@ -229,6 +238,43 @@ def process_pop_file(file,usr_id):
 
         else:
             return f"Allowed are [.txt, .xls,.docx, .pdf, .png, .jpg, .jpeg, .gif] only"
+
+
+def process_reports(file,church):
+
+    folder = os.path.join(app.config['REPORTS_FOLDER'],church.church_name)
+
+    # Create the uploads folder if it doesn't exist
+    if not os.path.exists(app.config['REPORTS_FOLDER']):
+        os.makedirs(app.config['REPORTS_FOLDER'])
+
+    # Create uploads folder if it doesn't exist
+    if not os.path.exists(folder):
+        print("MAKE DIRS: ",type(folder))
+        os.makedirs(folder)
+
+    if isinstance(file, str):
+        return file
+    else:
+        filename = secure_filename(file.filename)
+
+        _file_name, _ext = os.path.splitext(filename)
+        gen_random = secrets.token_hex(8)
+        to_be_csv_save = gen_random + str(church.id)
+        new_file_name = to_be_csv_save  + _ext
+
+        # Save the uploaded file
+        file_path = os.path.join(folder, new_file_name)
+        file.save(file_path)
+
+        # df = pd.read_excel(file_path)
+        
+        # Save DataFrame to CSV
+        # csv_file_path = os.path.splitext(file_path)[0] + '.csv'
+        # print("CSV: ", csv_file_path)
+        # df.to_csv(csv_file_path, index=False)
+
+        return new_file_name
 
 
 def createall(db_):
@@ -2971,6 +3017,169 @@ def announcements_form_edit():
     return render_template("announcements_form_edit.html",announcements_form=announcements_form,announcement=announcement)
 
 
+@app.route("/financial_report_form", methods=["POST","GET"])
+@login_required
+def financial_report_form():
+
+    report_form = FinancialReportForm()
+    sikhatsi = None
+    
+    church = all_churches.query.get(current_user.chrch_id)
+
+    if request.method == "POST":
+        report = financial_reports(
+            chrch_id = current_user.chrch_id,usr_id=current_user.id,
+            title=report_form.title.data,info =report_form.info.data,
+            timestamp = datetime.now()
+        )
+        sikhatsi = report.timestamp
+        print("DEBUG TIMESTAMP 1: ",sikhatsi)
+        
+        if report_form.report_file.data:
+            file = process_reports(report_form.report_file.data,church)
+            print("File: ",file)
+            report.report_file = file
+            flash("✔ File Uploaded","success")
+
+        db.session.add(report)
+        db.session.commit()
+
+        # print("DEBUG TIMESTAMP 2: ",sikhatsi)
+        rp = financial_reports.query.filter_by(chrch_id=current_user.chrch_id).order_by(financial_reports.timestamp.desc()).first()
+        print("CHECK AGAIN REPORT : ",rp.id)
+
+        report_permit = fin_reports_permissions (
+            chrch_id = current_user.chrch_id,
+            usr_id=current_user.id,perm_all_church =report_form.perm_all_church.data,
+            perm_all_com =report_form.perm_all_com.data,perm_deacons=report_form.perm_deacons.data,
+            perm_elders=report_form.perm_elders.data,perm_youth_com =report_form.perm_youth_com.data,
+            perm_brother_com =report_form.perm_brother_com.data,perm_sister_com =report_form.perm_sister_com.data,
+            perm_fathers_com =report_form.perm_fathers_com.data,perm_women_com =report_form.perm_women_com.data,
+            timestamp = sikhatsi,
+        )
+
+        report_permit.financial_report_id= str(rp.id)
+        print("CHECK AGAIN REPORT 2: ",report_permit.fin_report_id)
+        db.session.add(report_permit)
+        db.session.commit()
+
+        flash("✔ Activity Performed Successfully","success")
+
+        
+    return render_template("financial_report_form.html", report_form=report_form)
+
+
+# @app.route("/financial_report", methods=["POST","GET"])
+# @login_required
+# def financial_report():
+
+#     file_path = None
+#     all_reports = financial_reports.query.filter_by(chrch_id=current_user.chrch_id).all()
+#     church = all_churches.query.get(current_user.chrch_id)
+
+#     file_name = request.args.get("tblid")
+
+#     if file_name:
+#         file_path = os.path.join(app.config['REPORTS_FOLDER'],church.church_name,file_name)
+#     else:
+#         report = financial_reports.query.filter_by(chrch_id=current_user.chrch_id,id=17).first()
+#         print("Check if we have this report: ",report.report_file)
+#         file_path = os.path.join(app.config['REPORTS_FOLDER'],church.church_name,"TechX_THT - Financial Projections.xlsx")
+
+#     print("The file_path: ", file_path)
+    
+#     if os.path.exists(file_path):
+#         # Read CSV file using pandas
+#         # df = pd.read_csv(file_path)
+
+#         df = pd.read_excel(file_path,sheet_name="BALANCE SHEET")
+#         df = df.fillna(" ")
+#         # Convert DataFrame to HTML table
+#         table_html = df.to_html(classes='dataframe', index=False)
+
+#         # excel_html = df.to_html(classes='dataframe', index=False)      
+        
+
+#     return render_template("finance_reports_ui.html",table=table_html,all_reports=all_reports,usr=User)
+
+
+#Using openpyxl
+@app.route("/financial_report", methods=["POST","GET"])
+@login_required
+def financial_report():
+
+    file_path = None
+    all_reports = financial_reports.query.filter_by(chrch_id=current_user.chrch_id).all()
+    church = all_churches.query.get(current_user.chrch_id)
+
+    file_name = request.args.get("tblid")
+
+    if file_name:
+        file_path = os.path.join(app.config['REPORTS_FOLDER'],church.church_name,file_name)
+    else:
+        report = financial_reports.query.filter_by(chrch_id=current_user.chrch_id,id=17).first()
+        print("Check if we have this report: ",report.report_file)
+        file_path = os.path.join(app.config['REPORTS_FOLDER'],church.church_name,"Small business cash flow forecast.xlsx")
+
+    print("The file_path: ", file_path)
+
+    if request.method == 'POST':
+        # Save the Excel file temporarily
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx")
+        temp_file.write(request.data)
+        temp_file.close()
+        
+        # Use OpenPyXL to process the file
+        workbook = load_workbook(temp_file.name, data_only=True)  # Use data_only=True to get calculated values
+        sheet = workbook.active  # Get the active sheet
+
+        # Begin generating HTML table
+        html_table = '<table border="1" style="border-collapse: collapse; width: 100%;">'
+
+        for row in sheet.iter_rows():
+            html_table += '<tr>'
+            for cell in row:
+                styles = 'padding: 5px;'  # Base styles
+
+                # Font styles
+                if cell.font:
+                    if cell.font.bold:
+                        styles += 'font-weight: bold;'
+                    if cell.font.italic:
+                        styles += 'font-style: italic;'
+                    if cell.font.color and cell.font.color.rgb:
+                        styles += f'color: #333;' #{cell.font.color.rgb}
+
+                # Background color
+                if cell.fill and cell.fill.start_color.index != '00000000':  # Check if cell background color exists
+                    background_color = cell.fill.start_color.rgb or 'FFFFFF'
+                    styles += f'background-color: #{background_color};'
+
+                # Text alignment
+                if cell.alignment:
+                    if cell.alignment.horizontal:
+                        styles += f'text-align: {cell.alignment.horizontal};'
+
+                # Cell value handling
+                value = cell.value if cell.value is not None else ""  # Handle empty cells
+                html_table += f'<td style="{styles}">{value}</td>'
+
+            html_table += '</tr>'
+        html_table += '</table>'
+
+        # Remove the temporary file
+        os.unlink(temp_file.name)
+
+        # Send the HTML table to the browser
+        return Response(html_table, mimetype='text/html')
+
+    return render_template("finance_reports_ui.html",table=html_table,all_reports=all_reports,usr=User)
+
+@app.route("/test_jscript", methods=["POST","GET"])
+@login_required
+def test_jscript():
+
+    return render_template("test_javasc.html")
 
 
 # Press the green button in the gutter to run the script.

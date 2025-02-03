@@ -121,6 +121,24 @@ class AllChurchesForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class FinancialReportForm(FlaskForm):
+
+    title = StringField('Title', validators=[DataRequired()])
+    info = TextAreaField('About Report', validators=[Optional(),Length(min=0,max=200)])
+    report_file = FileField('Upload Report (Only Excel Files Allowed)', validators=[Optional()])
+    perm_all_church =BooleanField("All Church Members")
+    perm_all_com =BooleanField("All Committees")
+    perm_deacons =BooleanField("Deacons")
+    perm_elders =BooleanField("Elders")
+    perm_youth_com =BooleanField("Youth Committee")
+    perm_brother_com =BooleanField("Brothers Committee")
+    perm_sister_com =BooleanField("Sisters Committee")
+    perm_fathers_com =BooleanField("Fathers Committee")
+    perm_women_com =BooleanField("Women Committee")
+
+    submit = SubmitField('Submit')
+
+
 class AnnouncementsForm(FlaskForm):
 
     title = StringField('Title', validators=[DataRequired()])
@@ -136,14 +154,14 @@ class SermonNotesForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     speaker = StringField('Speaker', validators=[DataRequired()])
     info = TextAreaField('Sermon Summary', validators=[Optional(),Length(min=0,max=200)])
-    notes_file = FileField('Upload Notes (Only PDFs)', validators=[Optional()])
+    notes_file = FileField('Upload Notes (Only PDFs Allowed)', validators=[Optional()])
     submit = SubmitField('Submit')
 
 class meetingMinutesNotesForm(FlaskForm):
 
     title = StringField('Title', validators=[DataRequired()])
     summary = TextAreaField('About Meeting', validators=[Optional(),Length(min=0,max=200)])
-    minutes_file = FileField('Upload Minutes (Only PDFs)', validators=[DataRequired()])
+    minutes_file = FileField('Upload Minutes (Only PDFs Allowed)', validators=[DataRequired()])
     nature = SelectField('Nature', validators=[DataRequired()],choices=[("Virtual", "Virtual"),("Live", "Live")])   
     submit = SubmitField('Submit')
 

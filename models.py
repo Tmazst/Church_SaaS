@@ -203,6 +203,40 @@ class announcements(db.Model):
     timestamp = db.Column(db.DateTime)
 
 
+class financial_reports(db.Model):
+
+    __tablename__ = "financial_reports"
+
+    id = db.Column(db.Integer,primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    usr_id=db.Column(db.Integer)
+    title = db.Column(db.String(50))
+    info = db.Column(db.String(255))
+    report_file = db.Column(db.String(50),nullable=False)
+    edited_by = db.Column(db.String(50))
+    url = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime)
+
+
+class fin_reports_permissions(db.Model):
+
+    id = db.Column(db.Integer,primary_key=True)
+    chrch_id = db.Column(db.Integer, ForeignKey('all_churches.id'))
+    usr_id=db.Column(db.Integer)
+    fin_report_id = (db.Integer)
+    financial_report_id = db.Column(db.String(50))
+    perm_all_church =db.Column(db.Boolean, default=False)
+    perm_all_com =db.Column(db.Boolean, default=False)
+    perm_deacons =db.Column(db.Boolean, default=False)
+    perm_elders =db.Column(db.Boolean, default=False)
+    perm_youth_com =db.Column(db.Boolean, default=False)
+    perm_brother_com =db.Column(db.Boolean, default=False)
+    perm_sister_com =db.Column(db.Boolean, default=False)
+    perm_fathers_com =db.Column(db.Boolean, default=False)
+    perm_women_com =db.Column(db.Boolean, default=False)
+    timestamp = db.Column(db.DateTime)
+
+
 class sermons_notes(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)

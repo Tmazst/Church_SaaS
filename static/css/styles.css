@@ -2000,11 +2000,13 @@ label span{
  
  .nav-scroll::-webkit-scrollbar {
     margin-top:20px;
-    width: 1px;
+    width: 0px;
     background: none;
  }
 
-
+.perm_class .group{
+    border-bottom:1px solid #aaa;
+}
 
 .nav-ico{
     height:35px
