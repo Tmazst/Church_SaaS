@@ -240,7 +240,7 @@
         <div id="left-pan-phone" class="block-left-pan">
             <h1 class="event-title-mob evt-title" style="margin-bottom:0;color:rgb(255, 255, 255)">{{event_details.event_title}} <br>
                 <span style="font-size:medium;font-weight:500 ;"></span></h1>
-            <img class="event-img-bg" src="static/images/fea-sample.jpg" /> 
+            <!-- <img class="event-img-bg" src="static/images/fea-sample.jpg" />  -->
         </div>
         <!-- absolute to parent -->
         <div  class="block-left-pan">
@@ -255,7 +255,7 @@
         <div style="" class="block-right-pan gen-flex-col">
             <div  style="z-index:1000;display: none;" class="title-cont gen-flex-col">
                 
-                {{event_details.start_date.strftime("%d")}} - {{event_details.end_date.strftime("%d %b %y")}}</h3>
+                <h4>{{event_details.start_date.strftime("%d")}} - {{event_details.end_date.strftime("%d %b %y")}}</h4>
             </div> 
             <div class="gen-flex-col event-details"><img src="static/icons/location-icon.png"/><h4>{{event_details.event_venue}}</h4></div><br>
             <div class="gen-flex-col event-details"><img src="static/icons/registration-icon.png"/><h4>Registrations</h4>
