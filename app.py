@@ -1658,7 +1658,7 @@ def livedemo():
 #Verification Pending
 @app.route("/login", methods=["POST","GET"])
 def login():
-
+    homepage = True
     login = Login()
 
     if login.validate_on_submit():
@@ -1708,7 +1708,7 @@ def login():
         else:
             print("No Errors found", login.email.data, login.password.data)
 
-    return render_template("login.html",login=login)
+    return render_template("login.html",login=login,homepage=homepage)
 
 
 @app.route("/admin_signup", methods=["POST","GET"])

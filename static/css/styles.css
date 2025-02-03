@@ -1991,6 +1991,7 @@ label span{
     overflow-x: scroll;
 }
 
+
 .nav-scroll::-webkit-scrollbar-thumb {
     background-color: rgba(212, 212, 212,0.2);
     border-radius: 10px;
@@ -3275,11 +3276,12 @@ small{
 
     /* .sel-img{height:300px !important} */
 
-    .selling-tag{font-weight: 400;}
+    .selling-tag{font-weight: 400;font-size: 14px;color:coral}
 
     .prices{
         justify-content: center;
     }
+    
     .stats-cont{
         justify-content: center;
         flex-direction: column;
