@@ -1,7 +1,117 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/weasy-css.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <title>CAMM Sys+</title>
+    <link rel="icon" type="image/png" href="static/icons/cammsys_logo_icon.png">
 
+</head>
 
-{% endblock %}
+<body>
+
+{%block content%}
+<div class="banner-ad-cont">
+    <div class="app-logo-cont gen-flex-col">
+        <img style="height:150px" src="static\icons\cammsys_logo_icon.png" />
+        <h1>CAMM SYS+</h1>
+        <h4 style="color:rgb(245, 244, 244) !important">Church Administration & Members Management System</h4>
+    </div><br>
+    <div class="general-flex">
+        <a href="/livedemo"> <div style="width:120px;font-weight:500" class="btns"> See Demo</div></a>
+        <a href="/contact_form"><div class="btns-outlined"> Find out More</div></a>
+    </div>
+    
+</div>
+<div class="bg-img">
+ 
+</div>
+<div  class="ad-with-img">
+    <div style="width:100%; max-width: 1100px;margin:0 auto;justify-content: flex-start;padding-top: 20px; " class="gen-flex-wrap">
+        <div class="features-card gen-flex-col">
+            <img src="static/icons/announce-nav.png" />
+            <h3>Easy Announcements</h3>
+            <ul>
+                <div class="serv-bullets">&bull; Send Updates via Whatsapp & Email</div>
+                <div>&bull;  Manage history of updates & re-send promptly</div>
+                <div>&bull; Keep Members updates 24/7</div>
+            </ul>
+        </div>
+        <div class="features-card gen-flex-col">
+            <img src="static/icons/financials-nav.png" />
+            <h3>Financial Reporting</h3>
+            <ul>
+                <div class="serv-bullets">&bull; Manage & Report timely Financial Records</div>
+                <div>&bull;  Embrace Financial Transparency to church members</div>
+                <div>&bull; Keep your safe & secure for future uses</div>
+            </ul>
+        </div>
+        <div class="features-card gen-flex-col">
+            <img src="static/icons/print-nav.png" />
+            <h3>Printing Options</h3>
+            <ul>
+                <div class="serv-bullets">&bull; Print and Keeps all documents in Files</div>
+                <div>&bull;  Keep documents both in software & hard copies for convience purposes</div>
+                <div>&bull; Print all members forms everytime there is a need</div>
+            </ul>
+        </div>
+        <div class="features-card gen-flex-col">
+            <img src="static/icons/members-nav.png" />
+            <h3>Members Online Registration</h3>
+            <ul>
+                <li class="serv-bullets">&bull; Embrace digital recording tools to prevent data loss.</li>
+                <li>&bull; Manage member records and process & analyze data efficiently.</li>
+                <li>&bull; Access member statistics anytime and anywhere.</li>
+            </ul>
+        </div>
+        <div class="features-card gen-flex-col">
+            <img src="static/icons/meeting-nav.png" />
+            <h3>Meeting Managers</h3>
+            <ul>
+                <li class="serv-bullets">&bull; Manage committee meeting minutes.</li>
+                <li>&bull; Keep minutes safe and secure for coherence purposes.</li>
+                <li>&bull; Ensure safety and security for future use.</li>
+            </ul>
+        </div>
+        <div class="features-card gen-flex-col">
+            <img src="static/icons/services-nav.png" />
+            <h3>Church Services</h3>
+            <ul>
+                <li class="serv-bullets">&bull; Retain both old and new members with updated church service times.</li>
+                <li>&bull; Your members need timely updates on service changes.</li>
+                <li>&bull; Print and post service times on the church notice board for integrity purposes.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<h1 style="margin: 0 auto;">Explore CAMM Sys+</h1>
+<div style="background: white;padding-top: 15px;"  class="ad-with-img gen-flex-col"><br>
+    <h3>A user-friendly and intuitive interface designed specifically for church administrators</h3>
+    <img class="menu-img" src="static/images/menu.jpg" />
+    
+    <h3>Our platform enables church members to effortlessly follow and engage in church activities</h3>
+    <div style="width:100%; max-width: 1100px;margin:0 auto;justify-content: center;padding-top: 20px; " class="gen-flex-wrap">
+        <img class="phone-img" src="static/images/calender.jpg" />
+        <img class="phone-img" src="static/images/mem.jpg" />
+        <img class="phone-img" src="static/images/committee.jpg" />
+        <img class="phone-img" src="static/images/pledges_form.jpg" />
+    </div>
+</div>
+<h1 style="margin: 0 auto;">Explore Live Demo</h1>
+<div style="background: white;padding-top: 15px;"  class="ad-with-img gen-flex-col"><br>
+    <h2>We craft custome-made Church Apps that are specifically tailored for your church administration needs</h2>
+    <img class="menu-img" src="static/images/ad_pics.png" />
+    <div class="general-flex">
+        <a href="/livedemo"> <div style="width:120px;font-weight:500" class="btns"> See Demo</div></a>
+        <a href="/contact_form"><div class="btns-outlined"> Let's Connect</div></a>
+    </div>
+    <br><br>
+</div>
+
+{%endblock%}

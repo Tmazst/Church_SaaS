@@ -422,12 +422,12 @@ def home():
         flash("For an enhanced interface experience, we encourage admin users to use media devices with wide screens i.e. PC or tablet.","success")
     
     
-    return render_template("index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
+    return render_template("old_index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
 
 @app.route("/")
 def new_index():
 
-    return render_template("new_index.html")
+    return render_template("index.html")
 
 @app.route('/church_registration',methods=["POST","GET"])
 @login_required
