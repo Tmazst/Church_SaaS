@@ -378,7 +378,7 @@ def generate_and_save_users(num_users=20, chrch_id_range=(1)):
     return jsonify({"Created Users":"Did"})
 
 
-@app.route("/", methods=['POST','GET'])
+@app.route("/old", methods=['POST','GET'])
 def home():
     homepage = True
     with app.app_context():
@@ -424,6 +424,10 @@ def home():
     
     return render_template("index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
 
+@app.route("/")
+def new_index():
+
+    return render_template("new_index.html")
 
 @app.route('/church_registration',methods=["POST","GET"])
 @login_required
@@ -849,7 +853,7 @@ def share_whatsapp(img_share):
     image_url = url_for('static', filename=image_path, _external=True)  # Full URL to the image
     
     # WhatsApp message with the image URL
-    message = f"Check out this image from FEA: {image_url}"
+    message = f"Check out this image from CAMM Sys+: {image_url}"
     whatsapp_link = f"https://wa.me/?text={quote(message)}"
     
     return render_template('share_image.html', whatsapp_link=whatsapp_link, image_url=image_url)

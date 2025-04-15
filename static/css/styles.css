@@ -936,11 +936,13 @@ overflow:scroll;
     background:none;
     text-decoration:none;
     width: max-content;
+    transition: all 0.2s ease-in;
 }
 
 .btns-outlined:hover{
     cursor: pointer;
     opacity: 0.7;
+
 }
 
 .btns-scolor{
@@ -1381,6 +1383,82 @@ form{
     
    }
 
+.ad-with-img{
+    
+    background-color: var(--main-color);
+    min-height: 450px;
+    width:100%;
+}
+
+.btns-outlined:hover{
+    background-color: coral;
+    color:white;
+    border:none
+}
+
+.banner-ad-cont{
+    width:100%;
+    background: none;
+    /* background-image: linear-gradient(to right,coral 10%,rgba(0,0,0,0)); */
+    min-height:700px;
+    box-shadow:2px 2px 10px 2px rgba(0, 0, 0, 0.20);
+    padding-top: 15px;
+}
+
+.menu-img{
+    height: 700px;
+}
+
+.phone-img{
+    height:400px
+}
+
+.bg-img{
+    width:100%;
+    background: linear-gradient(0deg,rgba(255,255,255,1) 10%,rgb(143, 143, 143) 100%);
+    background-image: url("../images/congregation-lifting-up-hands.jpg");
+    background-size: cover;
+    /* background-image: linear-gradient(to right,coral 10%,rgba(0,0,0,0)); */
+    min-height:800px;
+    box-shadow:2px 2px 10px 2px rgba(0, 0, 0, 0.20);
+    position:fixed;
+    top:0;
+    left:0;
+    z-index: -1;
+    padding-top: 15px;
+}
+
+.banner-ad-cont label{
+    font-weight:500;
+} 
+
+.features-card img{
+    height:70px;
+    
+}
+
+.menu-img{
+
+}
+
+.features-card h3{
+    color:white
+}
+
+.features-card{
+    max-width:350px;
+    width:100%;
+    color:white 
+}
+
+/* box-shadow: h-offset v-offset blur-radius spread-radius color inset; */
+
+.app-logo-cont{
+    margin: 0 auto;
+    height: inherit;
+    width:100%;
+}
+
 .pop-nav-cont{
     /* background-color: white; */
     display: none;
@@ -1470,6 +1548,13 @@ form{
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    gap:10px;
+}
+
+.gen-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap:10px;
 }
 
@@ -3257,7 +3342,20 @@ small{
 
 
 
-@media all and (max-width: 575px){
+@media all and (max-width: 700px){
+
+    h2{
+        font-size:20px !important
+    }
+
+    h1{
+        font-size:23px !important
+    }
+
+    .menu-img{
+        width:100%;
+        height:auto
+    }
 
     .note-icons{
         height:27px;

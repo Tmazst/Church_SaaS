@@ -565,6 +565,7 @@ function sideNavFunc(event){
 
     };
 
+    
 function closeSideNavFunc(){
     // var popScrnLogo = document.getElementById("updates");
     // popScrnLogo.classList.toggle("show-popup");
