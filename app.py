@@ -378,54 +378,54 @@ def generate_and_save_users(num_users=20, chrch_id_range=(1)):
     return jsonify({"Created Users":"Did"})
 
 
-@app.route("/old", methods=['POST','GET'])
-def home():
-    homepage = True
-    with app.app_context():
-       db.create_all()
+# @app.route("/old", methods=['POST','GET'])
+# def home():
+#     homepage = True
+#     with app.app_context():
+#        db.create_all()
 
-    event_details=None
-    nearest_event =None
+#     event_details=None
+#     nearest_event =None
 
-    if current_user.is_authenticated:
-        if open_event.query.filter_by(event_closed=False).first():
-            event_details = open_event.query.filter_by(event_closed=False).first()
+#     if current_user.is_authenticated:
+#         if open_event.query.filter_by(event_closed=False).first():
+#             event_details = open_event.query.filter_by(event_closed=False).first()
 
-        cal_events = calender.query.all()
+#         cal_events = calender.query.all()
 
-        # Assuming cal_events is a list of event objects
-        # Ensure cal_events is not empty
-        if not cal_events:
-            print("No events available.")
-        else:
-            # Calculate the differences in days
-            dates_diff = [(event.start_date - datetime.now().date()).days for event in cal_events] #Output e.g. [1,23,4,3,5] days
+#         # Assuming cal_events is a list of event objects
+#         # Ensure cal_events is not empty
+#         if not cal_events:
+#             print("No events available.")
+#         else:
+#             # Calculate the differences in days
+#             dates_diff = [(event.start_date - datetime.now().date()).days for event in cal_events] #Output e.g. [1,23,4,3,5] days
 
-            # Filter out past events (i.e., negative days left)
-            future_events = [(i, diff) for i, diff in enumerate(dates_diff) if diff >= 0] #Output e.g. [(0,1),(1,23),(2,4),(3,3),(4,5)] index,days
+#             # Filter out past events (i.e., negative days left)
+#             future_events = [(i, diff) for i, diff in enumerate(dates_diff) if diff >= 0] #Output e.g. [(0,1),(1,23),(2,4),(3,3),(4,5)] index,days
 
-            if not future_events:
-                print("No upcoming events.")
-            else:
-                # Find the minimum difference and its index
-                min_index, min_days = min(future_events, key=lambda x: x[1])
+#             if not future_events:
+#                 print("No upcoming events.")
+#             else:
+#                 # Find the minimum difference and its index
+#                 min_index, min_days = min(future_events, key=lambda x: x[1])
 
-                # Retrieve the corresponding event
-                nearest_event = cal_events[min_index]
+#                 # Retrieve the corresponding event
+#                 nearest_event = cal_events[min_index]
 
-                # Print the nearest event and days left
-                print(f"The nearest event is {nearest_event} and it starts in {min_days} days.")
-    else:
-        return redirect(url_for("login"))
+#                 # Print the nearest event and days left
+#                 print(f"The nearest event is {nearest_event} and it starts in {min_days} days.")
+#     else:
+#         return redirect(url_for("login"))
     
-    if current_user.is_authenticated and current_user.role == 'admin_user':
-        flash("For an enhanced interface experience, we encourage admin users to use media devices with wide screens i.e. PC or tablet.","success")
+#     if current_user.is_authenticated and current_user.role == 'admin_user':
+#         flash("For an enhanced interface experience, we encourage admin users to use media devices with wide screens i.e. PC or tablet.","success")
     
     
-    return render_template("old_index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
+#     return render_template("old_index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
 
 @app.route("/")
-def new_index():
+def home():
 
     return render_template("index.html")
 
