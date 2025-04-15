@@ -39,7 +39,6 @@ open_questionnare = False
 #Change App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "sdsdjfe832j2rj_32j"
-# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///techxicons_db.db"
 if os.getenv("FLASK_DATABASE_URI"):
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:tmazst41@localhost/all_churches"
 else:
