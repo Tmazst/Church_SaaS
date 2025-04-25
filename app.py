@@ -393,7 +393,7 @@ def home():
 
 def registered_counter(church_id):
     # Get the count of registered users
-    registered_users = church_user.query.filter_by(id=church_id).count()
+    registered_users = church_user.query.filter_by(chrch_id=church_id).count()
     
     return registered_users
 
