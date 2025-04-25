@@ -1,0 +1,138 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    body{
+    box-sizing:border-box;
+    font-family:Montserrat !important;
+    animation:fade-anim 0.5s ease-in;
+    /* background: linear-gradient(#c90000, rgba(255, 255, 255, 0.5)) !important; */
+    background-image: url(../../static/images/congregation-lifting-up-hands.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    }
+
+
+    .form-fields{
+        display:flex;
+        flex-direction:column;
+    }
+    .login-cont{
+        background-color: rgba(206, 8, 8,0.5) !important;
+        padding:15px
+    }
+    .form-control{
+        border: 1px solid #ccc;
+    }
+    .form-control:focus{
+        border-color: #3f1d1d;
+    }
+    section{ background-image:url(static/images/bg_service.png) }
+    .logo {
+        height: 150px;
+        margin-top: 20px;
+    }
+    .form-control-new{
+        background-color: #f8f9fa;
+        padding: 10px;
+        margin-bottom: 0.8rem;
+        /* border:1px solid #bebebe; */
+        border-radius:10px;
+        width:100%;
+        margin:auto;
+    }
+    .cont{
+        background-color: rgba(206, 8, 8,0.8) !important;
+        border-radius: 15px;
+        padding: 15px;
+        width:100%
+    }
+    .flash-messages{
+        display: none;
+    }
+    body{
+        width:100% !important
+    }
+   
+
+    .group{
+        width:100%;
+    }
+    form{
+        width:80% !important;
+    }
+    @media (max-width: 700px) {
+    .login-cont {
+        border-radius: 20px;
+        width: auto !important;
+    }
+} 
+</style>
+<div class="bg-overlay"></div>
+<div class="gen-flex-col " style="background-color:;   max-width: 900px; margin: 0 auto; padding: 15px;position: relative;;">
+   
+    <div class="flash-messages" id="">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for  category, message in messages %}
+                <div class="flash-messages alert-{{category}}"> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
+    <img src="{{url_for('static', filename='images/fea_icon2.png')}}" alt="Logo" class="logo" />
+    <div class="container gen-flex-col">
+    
+    <div class="cont flex-general">
+        <small>Youth Registration Form - Madonsa FEA</small>
+            <div class="flex-general" style="flex-direction: column;align-items: flex-start;">
+                <div class="flex-general" style="flex-direction: column;align-items: flex-start;">
+                    <h2 class="form-welcome" style="">Membership Form<br><span style="font-size:medium;color:rgb(102, 102, 102);"></span></h2>
+                </div><br>
+            </div>
+
+            <form onsubmit="event.preventDefault(); registerUser();" method="post">
+                
+                <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+                <div class="group">
+                    <input class="form-control-new" type="text" id="name" placeholder="Name & Surname" required>
+                </div>
+                <div class="group">
+                    <input class="form-control-new" type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="group">
+                    <input class="form-control-new" type="text" id="contact" placeholder="Contacts" required>
+                </div>
+                <div class="group">
+                    <button style="background: #3d3d3d;"  class="btns" type="submit ">Submit</button>
+                </div>
+
+            </form>
+        </div><br>
+        <div id="bottom-info" class="general-flex">
+            <a style="color:#3f1d1d" href="/local_members_madonsa?id={{ser.dumps({'data':2})}}"> <label class="">
+                {{registered_counter}} Registered Members
+            </label></a> |
+            <label class="">
+                2024 - 2025 Registration
+            </label>
+        </div>    
+            
+    </div>
+</div>
+<script >
+    window.onload = function () {
+      // Push a new state to create a history trap
+      history.pushState(null, null, location.href);
+
+      // Now, if the user presses Back, we catch it and redirect
+      window.addEventListener('popstate', function (event) {
+        history.pushState(null, document.title, location.href);
+      });
+  };
+</script>  
+<script src="static/js_script.js" ></script>
+<script src="static/request_js.js"></script>
+{% endblock %}

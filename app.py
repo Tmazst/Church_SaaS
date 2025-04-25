@@ -27,6 +27,7 @@ from urllib.parse import quote
 import pandas as pd
 from openpyxl import load_workbook
 import tempfile
+from flask_wtf.csrf import generate_csrf
 
 # Register Print File Routes
 from print import print_bp
@@ -290,7 +291,7 @@ def inject_ser():
     # global ser
     church = None
     event = open_event.query.filter_by(event_closed=False).first()
-    user_no_base=None
+    user_no_base=0
 
     #Pledges
     days_left = 0
@@ -311,7 +312,7 @@ def inject_ser():
         if latest_subcription:
             subscr_package = latest_subcription
 
-        user_no_base=User.query.filter_by(chrch_id=current_user.chrch_id).all()
+        user_no_base=len(User.query.filter_by(chrch_id=current_user.chrch_id).all())
         church = all_churches.query.get(current_user.chrch_id)
         pledges_pocket = open_pledges.query.filter_by(chrch_id=current_user.chrch_id,open=True).first()
         pledges_nm = len(pledges.query.filter_by(chrch_id=current_user.chrch_id).all())
@@ -377,56 +378,119 @@ def generate_and_save_users(num_users=20, chrch_id_range=(1)):
     return jsonify({"Created Users":"Did"})
 
 
-# @app.route("/old", methods=['POST','GET'])
-# def home():
-#     homepage = True
-#     with app.app_context():
-#        db.create_all()
+@app.route("/preview")
+def preview():
 
-#     event_details=None
-#     nearest_event =None
-
-#     if current_user.is_authenticated:
-#         if open_event.query.filter_by(event_closed=False).first():
-#             event_details = open_event.query.filter_by(event_closed=False).first()
-
-#         cal_events = calender.query.all()
-
-#         # Assuming cal_events is a list of event objects
-#         # Ensure cal_events is not empty
-#         if not cal_events:
-#             print("No events available.")
-#         else:
-#             # Calculate the differences in days
-#             dates_diff = [(event.start_date - datetime.now().date()).days for event in cal_events] #Output e.g. [1,23,4,3,5] days
-
-#             # Filter out past events (i.e., negative days left)
-#             future_events = [(i, diff) for i, diff in enumerate(dates_diff) if diff >= 0] #Output e.g. [(0,1),(1,23),(2,4),(3,3),(4,5)] index,days
-
-#             if not future_events:
-#                 print("No upcoming events.")
-#             else:
-#                 # Find the minimum difference and its index
-#                 min_index, min_days = min(future_events, key=lambda x: x[1])
-
-#                 # Retrieve the corresponding event
-#                 nearest_event = cal_events[min_index]
-
-#                 # Print the nearest event and days left
-#                 print(f"The nearest event is {nearest_event} and it starts in {min_days} days.")
-#     else:
-#         return redirect(url_for("login"))
-    
-#     if current_user.is_authenticated and current_user.role == 'admin_user':
-#         flash("For an enhanced interface experience, we encourage admin users to use media devices with wide screens i.e. PC or tablet.","success")
-    
-    
-#     return render_template("old_index.html", event_details=event_details, nearest_event=nearest_event,homepage=homepage)
+    return render_template("preview.html")
 
 @app.route("/")
 def home():
 
+    if not current_user.is_authenticated:
+        return redirect(url_for("preview"))
+
     return render_template("index.html")
+
+def registered_counter(church_id):
+    # Get the count of registered users
+    registered_users = church_user.query.filter_by(id=church_id).count()
+    
+    return registered_users
+
+@app.route("/registration_portal", methods=["POST","GET"])
+def registration_portal():
+
+    registered_counter_value = registered_counter(2)
+    
+    return render_template("camm_reg_portal.html", registered_counter=registered_counter_value)
+
+# User Information
+@app.route("/local_members_madonsa", methods=["POST", "GET"])
+# @login_required
+def local_members_madonsa(church_id=None):
+
+    local = None
+    loc_pastor = None
+    chrch_id = None
+    
+    serialized_church_id = request.args.get('id')
+    if serialized_church_id:
+        chrch_id = ser.loads(serialized_church_id)["data"]
+    else:   
+        chrch_id = current_user.chrch_id
+
+    if not chrch_id:
+        flash("Your Account has not been Mapped with any church account yet!")
+        log_out()
+        return redirect(url_for("home"))
+    print("Deg CHURCH ID: ",chrch_id )
+    local_members = church_user.query.filter_by(chrch_id=chrch_id).all()
+    loc_church = all_churches.query.get(chrch_id)
+
+    return render_template('local_members_madonsa.html',loc_church=loc_church,local_members=local_members,
+                           local=local,needed=None,loc_pastor=loc_pastor)
+
+
+@app.route("/register_portal", methods=["POST","GET"])
+def register_page():
+
+    csrf_token = generate_csrf()
+    registered_counter_value = registered_counter(2)
+    print("Serialized ID: ", request.args.get("id"))
+
+    if not session.get("chrch_id_token"):
+        serialized_id = request.args.get("id")
+        session["chrch_id_token"] = serialized_id
+        print("Serialized ID: ", serialized_id, "Session: ", session["chrch_id_token"])
+        
+        # Decode the serialized ID using the secret key
+    
+    if request.method == 'POST':
+        data = request.get_json()
+        print("Data: ",data)
+
+        if not data:
+            return jsonify({"error": "Missing JSON data"}), 400
+        
+        chrch_id_tkn = session.get("chrch_id_token")
+
+        if not chrch_id_tkn:
+            return jsonify({"error": "Missing church ID"}), 400
+        
+        name = data.get("name")
+        email = data.get("email")
+        contact = data.get("contact")
+        chrch_id = ser.loads(chrch_id_tkn).get('data')
+
+        # if not all([name, email, password, confirm_password, church_name]):
+        #     return jsonify({"error": "Missing required fields"}), 400
+
+        # if password != confirm_password:
+        #     return jsonify({"error": "Passwords do not match"}), 400
+
+        church = all_churches.query.filter_by(id=2).first()
+        if not church:
+            return jsonify({"error": "Church not found"}), 404
+
+        hashd_pwd = encry_pw.generate_password_hash(contact).decode('utf-8')
+        user1 = church_user(
+            name=name,
+            email=email,
+            password=hashd_pwd,
+            confirm_password=hashd_pwd,
+            contacts = contact,
+            chrch_id=chrch_id,
+            image="default.jpg",
+            timestamp=datetime.now()
+        )
+
+        db.session.add(user1)
+        db.session.commit()
+
+        return jsonify({"message": "Account created successfully"}), 201
+
+    return render_template("portal_signup.html", csrf_token=csrf_token,registered_counter=registered_counter_value)
+
 
 @app.route('/church_registration',methods=["POST","GET"])
 @login_required
@@ -637,7 +701,6 @@ def minutes():
         dt = datetime.now().date()
 
     return render_template("minutes.html",minutes_obj=minutes_obj,months=months,years=years)
-
 
 
 def stats():
@@ -1289,19 +1352,26 @@ def already_registered():
 
 # User Information
 @app.route("/local_members", methods=["POST", "GET"])
-@login_required
-def local_members():
+# @login_required
+def local_members(church_id=None):
 
     local = None
     loc_pastor = None
+    chrch_id = None
+    
+    serialized_church_id = request.args.get('id')
+    if serialized_church_id:
+        chrch_id = ser.loads(serialized_church_id)["data"]
+    else:   
+        chrch_id = current_user.chrch_id
 
-    if not current_user.chrch_id:
+    if not chrch_id:
         flash("Your Account has not been Mapped with any church account yet!")
         log_out()
         return redirect(url_for("home"))
-
-    local_members = User.query.filter_by(chrch_id=current_user.chrch_id).all()
-    loc_church = all_churches.query.get(current_user.chrch_id)
+    print("Deg CHURCH ID: ",chrch_id )
+    local_members = church_user.query.filter_by(chrch_id=chrch_id).all()
+    loc_church = all_churches.query.get(chrch_id)
 
     return render_template('local_members.html',loc_church=loc_church,local_members=local_members,
                            local=local,needed=None,loc_pastor=loc_pastor)

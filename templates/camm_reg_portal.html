@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/weasy-css.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>{{title}}</title>
+    <link rel="icon" type="image/png" href="static/icons/cammsys_logo_icon.png">
+
+    
+</head>
+<style>
+    body{
+        box-sizing:border-box;
+        font-family:Montserrat !important;
+        animation:fade-anim 0.5s ease-in;
+        /* background: linear-gradient(#c90000, rgba(255, 255, 255, 0.5)) !important; */
+        background-image: url(../../static/images/congregation-lifting-up-hands.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+        }
+    
+    .logo {
+        height: 150px;
+        margin-top: 20px;
+    }
+    h1, h2, h3 {
+        color: #ce0202;
+    }
+    .container-fluid {
+        
+        width:100%;
+        max-width: 900px;
+        height:100vh;
+        margin: 0 auto;
+    }
+    .col-12 label {
+        color: #1d1d1d;
+        font-size: 0.5em;
+    }
+    .text-center{
+        width:100%;
+    }
+
+    @media (max-width: 768px) {
+        .text-center{
+            width:60%;
+        }
+        label {
+        color: #1d1d1d;
+        font-size: 1.1em;
+    }
+    #bottom-info label{
+        white-space: nowrap;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    }
+</style>
+
+<body>
+    <div class="bg-overlay"></div>
+    <div class="container-fluid gen-flex-col">
+
+        
+        <img src="{{url_for('static', filename='images/fea_icon2.png')}}" alt="Logo" class="logo" />
+         
+
+        <h2 style="margin-bottom: 0;">Free Evangelical Assemblies</h2>
+        <h2 style="color:rgb(46, 46, 46);margin-top: 0;">Madonsa Youth</h2>
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>Registration Portal</h2>
+                <label>Please Follow the link Below to Register</label>
+            </div>
+        </div><br>
+
+        <a href="/register_portal?id={{ser.dumps({'data':2})}}" class="btns btn-primary" style="background-color: #ce0202; border: none;">Register Here</a>
+        <br>
+        <div id="bottom-info" class="general-flex">
+            <a style="color:#3f1d1d" href="/local_members_madonsa?id={{ser.dumps({'data':2})}}"> <label class="">
+                {{registered_counter}} Registered Members
+            </label></a> |
+            <label class="">
+                2024 - 2025 Registration
+            </label>
+        </div>   
+        <script >
+              window.onload = function () {
+                // Push a new state to create a history trap
+                history.pushState(null, null, location.href);
+
+                // Now, if the user presses Back, we catch it and redirect
+                window.addEventListener('popstate', function (event) {
+                    history.pushState(null, document.title, location.href);
+                });
+            };
+        </script> 
+
+    <script src="static/js_script.js" ></script>
+    <script src="static/request_js.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
