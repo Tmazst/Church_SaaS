@@ -49,7 +49,7 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOADED"] = 'static/uploads'
 app.config['REPORTS_FOLDER'] = 'static/financial_reports'
-# app.config['JSON_AS_ASCII'] = False
+
 
 
 oauth = OAuth(app)
